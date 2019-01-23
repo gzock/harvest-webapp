@@ -1,18 +1,32 @@
 <!-- <app-header></app-header> -->
 
 <mat-sidenav-container class="sidenav-container">
+
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
     <mat-toolbar>harvest</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="">HOME</a>
-      <a mat-list-item routerLink="projects">PROJECT</a>
-      <a mat-list-item routerLink="work">WORK</a>
-      <a mat-list-item routerLink="generation">GENERATE</a>
+      <a mat-list-item routerLink="">
+        <i class="material-icons md-dark">home</i> 
+        HOME
+      </a>
+      <a mat-list-item routerLink="projects">
+        <i class="material-icons md-dark">list_alt</i> 
+        PROJECT
+      </a>
+      <a mat-list-item routerLink="work">
+        <i class="material-icons md-dark">photo_camera</i> 
+        WORK
+      </a>
+      <a mat-list-item routerLink="generation">
+        <i class="material-icons md-dark">photo_album</i> 
+        GENERATE
+      </a>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <button
@@ -30,4 +44,5 @@
         <router-outlet></router-outlet>
       </section>
   </mat-sidenav-content>
+
 </mat-sidenav-container>

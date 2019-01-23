@@ -1,0 +1,13 @@
+<p>
+  projects works!
+</p>
+
+<mat-accordion>
+
+  <mat-expansion-panel *ngFor="let project of projects">
+    <mat-expansion-panel-header>
+      "{{ project.name }}"
+    </mat-expansion-panel-header>
+      "{{ project.content }}"
+  </mat-expansion-panel>
+</mat-accordion>

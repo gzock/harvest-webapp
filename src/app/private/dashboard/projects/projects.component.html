@@ -1,13 +1,86 @@
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="フィルタ">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [(value)]="option1" placeholder="ステータス">
+      <mat-option value="option1">すべて</mat-option>
+      <mat-option value="option2">未完了</mat-option>
+      <mat-option value="option3">完了</mat-option>
+      <mat-option value="option3">アーカイブ</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary">新規作成</button>
+  <button mat-raised-button color="">参加</button>
+  
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> 
+        {{element.symbol}}
+        <mat-icon class="material-icons md-dark">settings</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+
 <mat-tab-group>
-  <mat-tab label="一覧">
+  <mat-tab label="全て">
+
   </mat-tab>
 
-  <mat-tab label="設定">
+  <mat-tab label="未完了">
+  </mat-tab>
+
+  <mat-tab label="進行中">
+  </mat-tab>
+
+  <mat-tab label="完了">
+  </mat-tab>
+
+  <mat-tab label="アーカイブ">
+  </mat-tab>
+
+  <mat-tab label="完了">
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>1
+      <input matInput placeholder="プロジェクト名" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="start" placeholder="開始予定日">
+      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="end" placeholder="終了予定日">
+      <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+
   </mat-tab>
 
   <mat-tab label="メンバー管理">

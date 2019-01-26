@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatNativeDateModule, MatInputModule, MAT_DATE_LOCALE } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -34,7 +36,13 @@ import { WorkComponent } from './work/work.component';
     MatSelectModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  ]
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatTableModule
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
+  ],
 })
 export class DashboardModule { }

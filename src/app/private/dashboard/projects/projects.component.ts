@@ -22,4 +22,14 @@ export class ProjectsComponent implements OnInit {
     }
   ];
 
+  public users = [
+    {
+      name: "hoge",
+      organization: "株式会社ミライト"
+    },
+    {
+      name: "foo",
+      organization: "株式会社ミライト"
+    }
+  ];
 }

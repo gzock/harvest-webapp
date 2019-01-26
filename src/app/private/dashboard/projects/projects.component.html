@@ -1,23 +1,71 @@
 <mat-tab-group>
-  <mat-tab label="すべて">
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let project of projects">
-        <mat-expansion-panel-header>
-          "{{ project.name }}"
-        </mat-expansion-panel-header>
-          "{{ project.content }}"
-      </mat-expansion-panel>
-    </mat-accordion>
+  <mat-tab label="一覧">
   </mat-tab>
 
-  <mat-tab label="未完了のみ">
-    <h1>Some more tab content</h1>
-    <p>...</p>
+  <mat-tab label="設定">
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>1
   </mat-tab>
 
-  <mat-tab label="完了のみ">
-    <h1>Some more tab content</h1>
-    <p>...</p>
+  <mat-tab label="メンバー管理">
+    <mat-card>
+      プロジェクトコード: xxxx-yyyy-zzzz
+      <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
+    </mat-card>
+    <mat-divider [vertical]="true"></mat-divider>
+
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>参加中のメンバー</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let user of users">
+            <mat-expansion-panel-header>
+
+              ユーザー名:"{{ user.name }}"
+              <mat-form-field>
+                <mat-select [(value)]="selected" placeholder="権限">
+                  <mat-option>
+                    <mat-option>None</mat-option>
+                    <mat-option value="option1">オーナー</mat-option>
+                    <mat-option value="option2">ワーカー</mat-option>
+                    <mat-option value="option3">ゲスト</mat-option>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </mat-expansion-panel-header>
+              組織:"{{ user.organization }}"
+              <button mat-raised-button color="warn">強制離脱</button>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>参加希望メンバー</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let user of users">
+            <mat-expansion-panel-header>
+              ユーザー名:"{{ user.name }}"
+            </mat-expansion-panel-header>
+              組織:"{{ user.organization }}"
+              <button mat-raised-button color="primary">許可</button>
+              <button mat-raised-button color="warn">拒否</button>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+
   </mat-tab>
 </mat-tab-group>
 

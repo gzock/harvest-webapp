@@ -37,8 +37,22 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>harvest-webapp</span>
+
+      <mat-form-field>
+        <mat-select [(value)]="selected" placeholder="プロジェクトを選択">
+          <mat-option>None</mat-option>
+          <mat-option value="option1">案件1</mat-option>
+          <mat-option value="option2">案件2</mat-option>
+          <mat-option value="option3">案件3</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <span class="spacer"></span>
+      <mat-icon class="material-icons md-dark">payment</mat-icon>
+      <mat-icon class="material-icons md-dark">notifications</mat-icon>
+      <mat-icon class="material-icons md-dark">account_circle</mat-icon>
     </mat-toolbar>
+
     <!-- Add Content Here -->
       <section class="main-container">
         <router-outlet></router-outlet>

@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
+import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
 
 export interface PeriodicElement {
   name: string;
   position: number;
-  weight: number;
-  symbol: string;
+  start: string;
+  deadline: string;
+  complete: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'project_1', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'project_2', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'project_3', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'project_4', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'project_5', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'project_6', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'project_7', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'project_8', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'project_9', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'project_10', weight: 20.1797, symbol: 'Ne'},
+  {position: 1, name: 'project_1', start: "2018/10/01", deadline: '2018/12/31', complete: "2018/12/24"},
+  {position: 1, name: 'project_2', start: "2018/11/01", deadline: '2018/11/31', complete: "2018/12/24"},
+  {position: 1, name: 'project_3', start: "2018/02/01", deadline: '2018/03/31', complete: "2018/12/24"},
+  {position: 1, name: 'project_4', start: "2018/05/01", deadline: '2018/12/31', complete: "2018/12/24"},
+  {position: 1, name: 'project_5', start: "2018/06/01", deadline: '2018/12/31', complete: "2018/12/24"},
+  {position: 1, name: 'project_6', start: "2019/01/01", deadline: '2018/12/31', complete: "2018/12/24"},
 ];
 
 @Component({
@@ -28,12 +28,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ProjectsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
   }
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'start', 'deadline', 'complete'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -50,14 +52,19 @@ export class ProjectsComponent implements OnInit {
     }
   ];
 
-  public users = [
-    {
-      name: "hoge",
-      organization: "株式会社ミライト"
-    },
-    {
-      name: "foo",
-      organization: "株式会社ミライト"
-    }
-  ];
+
+  openCreateProjectDialog() {
+    const dialogRef = this.dialog.open(CreateProjectComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openSettingProjectDialog() {
+    const dialogRef = this.dialog.open(SettingProjectComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }

@@ -9,19 +9,27 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SidenavComponent } from './../../shared/components/sidenav/sidenav.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
+import { CreateProjectComponent } from './../../shared/components/create-project/create-project.component';
+import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     SidenavComponent,
     ProjectsComponent,
-    WorkComponent
+    WorkComponent,
+    CreateProjectComponent,
+    SettingProjectComponent
   ],
   imports: [
     CommonModule,
@@ -39,10 +47,19 @@ import { WorkComponent } from './work/work.component';
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatRadioModule,
+    MatDialogModule,
+    NgbModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
   ],
+  exports: [
+  ],
+  entryComponents: [
+    CreateProjectComponent,
+    SettingProjectComponent
+  ]
 })
 export class DashboardModule { }

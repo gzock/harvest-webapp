@@ -1,4 +1,4 @@
-$topnav-background-color: #222;
+$topnav-background-color: honeydew;
 :host {
     display: block;
 }
@@ -15,7 +15,8 @@ $topnav-background-color: #222;
     overflow: auto;
     background: $topnav-background-color;
     text-align: center;
-    color: #fff;
+    color: darkgreen;
+    font-weight: bold;
     padding: 3em;
     .col-lg-4{
         padding :0;
@@ -31,12 +32,12 @@ $topnav-background-color: #222;
         background: 0 0;
         border: none;
         box-shadow: none;
-        border-bottom: 2px solid rgba(255,255,255,.5);
-        color: #FFF;
+        border-bottom: 2px solid darkgreen;
+        color: darkgreen;
         border-radius: 0;
     }
     .input-underline:focus {
-        border-bottom: 2px solid #fff;
+        border-bottom: 2px solid darkgreen;
         box-shadow: none;
     }
     .rounded-btn{
@@ -81,7 +82,7 @@ $topnav-background-color: #222;
 
     .heading {
       font-size: 6rem;
-      font-weight: 300px;
+      font-weight: bold;
       line-height: 1.1;
       width: 100%;
       //height: 96px;
@@ -92,23 +93,24 @@ $topnav-background-color: #222;
         padding: 8px 0;
         margin-bottom: 0rem;
         input::-webkit-input-placeholder {
-        color: rgba(255,255,255,0.6) !important;
+        color: olivedrab !important;
         }
 
         input:-moz-placeholder { /* Firefox 18- */
-        color: rgba(255,255,255,0.6) !important;
+        color: olivedrab !important;
         }
 
         input::-moz-placeholder {  /* Firefox 19+ */
-        color: rgba(255,255,255,0.6) !important;
+        color: olivedrab !important;
         }
 
         input:-ms-input-placeholder {
-        color: rgba(255,255,255,0.6) !important;
+        color: olivedrab !important;
         }
     }
     .form-content {
         padding: 10px 0;
+        color: olivedrab;
     }
     .user-avatar {
         -webkit-border-radius: 50%;

@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,6 +22,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
 import { CreateProjectComponent } from './../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
+import { TargetActionsComponent } from './../../shared/components/target-actions/target-actions.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { SettingProjectComponent } from './../../shared/components/setting-proje
     ProjectsComponent,
     WorkComponent,
     CreateProjectComponent,
-    SettingProjectComponent
+    SettingProjectComponent,
+    TargetActionsComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +53,7 @@ import { SettingProjectComponent } from './../../shared/components/setting-proje
     MatTableModule,
     MatRadioModule,
     MatDialogModule,
+    MatBottomSheetModule,
     NgbModule
   ],
   providers: [
@@ -59,7 +63,8 @@ import { SettingProjectComponent } from './../../shared/components/setting-proje
   ],
   entryComponents: [
     CreateProjectComponent,
-    SettingProjectComponent
+    SettingProjectComponent,
+    TargetActionsComponent
   ]
 })
 export class DashboardModule { }

@@ -8,6 +8,10 @@ import { MatDialog } from '@angular/material';
 })
 export class CreateProjectComponent implements OnInit {
 
+  public new_project = {
+    "name": ""
+  }
+
   constructor() { }
 
   ngOnInit() {

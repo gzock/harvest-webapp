@@ -2,7 +2,7 @@
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput placeholder="プロジェクト名" required>
+      <input matInput placeholder="プロジェクト名" [(ngModel)]="new_project.name" required>
     </mat-form-field>
   </div>
 
@@ -25,5 +25,5 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>キャンセル</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>保存</button>
+  <button mat-button [mat-dialog-close]="new_project" cdkFocusInitial>作成</button>
 </mat-dialog-actions>

@@ -4,6 +4,9 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
 
 import { TargetActionsComponent } from './../../../shared/components/target-actions/target-actions.component';
 
+import { PlacesService } from './../../../shared/services/places/places.service';
+import { TargetsService } from './../../../shared/services/targets/targets.service';
+
 export interface PlaceElement {
   name: string;
   action: number;

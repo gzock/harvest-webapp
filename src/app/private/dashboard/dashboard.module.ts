@@ -24,6 +24,10 @@ import { CreateProjectComponent } from './../../shared/components/create-project
 import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
 import { TargetActionsComponent } from './../../shared/components/target-actions/target-actions.component';
 
+import { ProjectsService } from './../../shared/services/projects/projects.service';
+import { PlacesService } from './../../shared/services/places/places.service';
+import { TargetsService } from './../../shared/services/targets/targets.service';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -58,6 +62,9 @@ import { TargetActionsComponent } from './../../shared/components/target-actions
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
+    ProjectsService,
+    PlacesService,
+    TargetsService
   ],
   exports: [
   ],

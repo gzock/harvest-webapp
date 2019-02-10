@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from "@angular/forms";
 
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatNativeDateModule, MatInputModule, MAT_DATE_LOCALE } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -40,6 +42,8 @@ import { TargetsService } from './../../shared/services/targets/targets.service'
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
+    FormsModule,
     DashboardRoutingModule,
     MatToolbarModule,
     MatButtonModule,

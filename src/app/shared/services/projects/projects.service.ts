@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
 
+import { Project } from "./../../../private/dashboard/projects/project";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,12 +16,18 @@ export class ProjectsService {
 
   //private userId: string = localStorage.getItem("_id");
   private userId: string;
+  public project: Project;
   //public requestSubject = new Subject<NwConfRequest>();
 
   constructor(private http: HttpClient) { }
 
   public setUserId(userId) {
     this.userId = userId;
+  }
+
+  public select(project) {
+    this.project = project;
+    console.log("current project: " + JSON.stringify(this.project));
   }
 
   public list(): Observable<any> {
@@ -30,8 +38,9 @@ export class ProjectsService {
     return this.http.get(this.projectUrl + "/" + projectId);
   }
 
-  public create(name): Observable<any> {
-    return this.http.post(this.projectUrl, { "name": name });
+  public create(project): Observable<any> {
+    //return this.http.post(this.projectUrl, { "name": name });
+    return this.http.post(this.projectUrl, project);
   }
 
   public update(projectId, name): Observable<any> {

@@ -1,25 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
+import { filter, map, tap, catchError } from "rxjs/operators";
+
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  start: string;
-  deadline: string;
-  complete: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'project_1', start: "2018/10/01", deadline: '2018/12/31', complete: "2018/12/24"},
-  {position: 1, name: 'project_2', start: "2018/11/01", deadline: '2018/11/31', complete: "2018/12/24"},
-  {position: 1, name: 'project_3', start: "2018/02/01", deadline: '2018/03/31', complete: "2018/12/24"},
-  {position: 1, name: 'project_4', start: "2018/05/01", deadline: '2018/12/31', complete: "2018/12/24"},
-  {position: 1, name: 'project_5', start: "2018/06/01", deadline: '2018/12/31', complete: "2018/12/24"},
-  {position: 1, name: 'project_6', start: "2019/01/01", deadline: '2018/12/31', complete: "2018/12/24"},
-];
+import { Project } from './project';
+import { ProjectsService } from './../../../shared/services/projects/projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -27,37 +16,76 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+  public projects: Project[];
+  public dataSource: MatTableDataSource<Project>;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public projectsService: ProjectsService
   ) { }
 
   ngOnInit() {
+    this.getProjects();
   }
 
-  displayedColumns: string[] = ['position', 'name', 'start', 'deadline', 'complete'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['project_id', 'name', 'created_at', 'updated_at'];
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public projects = [
-    {
-      name: "hoge",
-      content: "fuga"
-    },
-    {
-      name: "foo",
-      content: "bar"
-    }
-  ];
+  public onSelectProject(project) {
+    this.projectsService.select(project);
+  }
 
+  public getProjects() {
+    this.projectsService.list()
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           //this.showAlert("Successfully", "success", 3000);
+           console.log(response);
+           this.projects = response;
+           this.dataSource = new MatTableDataSource(this.projects);
+         },
+         err => {
+           console.log("error: " + err);
+           //this.showAlert("Error: " + err.message, "danger", 10000);
+           //if (err.status == 401) {
+           //  localStorage.removeItem('isLoggedin');
+           //  this.router.navigate(["/login"]);
+           //}
+           //else if (err.status == 400) {
+           //  this.errMsg = "Error: " + err.error.message;
+           //}
+         }
+      );
+  }
+
+  public onCreateProject(project) {
+    this.projectsService.create(project)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           console.log(response);
+           this.getProjects();
+         },
+         err => {
+           console.log("error: " + err);
+         }
+      );
+    
+  }
 
   openCreateProjectDialog() {
     const dialogRef = this.dialog.open(CreateProjectComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log("Dialog result: " + JSON.stringify(result));
+      this.onCreateProject(result);
     });
   }
   openSettingProjectDialog() {

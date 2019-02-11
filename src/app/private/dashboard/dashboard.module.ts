@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -62,6 +63,7 @@ import { TargetsService } from './../../shared/services/targets/targets.service'
     MatRadioModule,
     MatDialogModule,
     MatBottomSheetModule,
+    MatDividerModule,
     NgbModule
   ],
   providers: [

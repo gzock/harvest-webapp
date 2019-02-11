@@ -6,7 +6,7 @@
     
     <div class="col-12 text-center">
       <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary">add</mat-icon>
+        <mat-icon class="material-icons md-dark" color="primary" (click)="onAddActionFlg = true">add</mat-icon>
       </button>
       <button mat-raised-button class="mat-elevation-z6">
         <mat-icon class="material-icons md-dark" color="primary">edit</mat-icon>
@@ -21,6 +21,29 @@
         <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
       </button>
     </div>
+
+    <mat-divider></mat-divider>
+    
+    <div class="col-12 row" *ngIf="onAddActionFlg">
+      <div class="col-3">
+        <mat-form-field class="add-action-type">
+          <mat-select placeholder="タイプ">
+            <mat-option value="option">場所</mat-option>
+            <mat-option value="option">撮影対象</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-9">
+        <mat-form-field class="add-action-name">
+          <input matInput placeholder="名称">
+        </mat-form-field>
+      </div>
+    </div>
+
+
+
+
+
   </div>
 </div>
 

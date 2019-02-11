@@ -85,7 +85,9 @@ export class ProjectsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log("Dialog result: " + JSON.stringify(result));
-      this.onCreateProject(result);
+      if(result) {
+        this.onCreateProject(result);
+      }
     });
   }
   openSettingProjectDialog() {

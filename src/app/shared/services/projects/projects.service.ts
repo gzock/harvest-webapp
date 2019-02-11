@@ -30,6 +30,10 @@ export class ProjectsService {
     console.log("current project: " + JSON.stringify(this.project));
   }
 
+  public getCurrentProject() {
+    return this.project;
+  }
+
   public list(): Observable<any> {
     return this.http.get(this.projectUrl);
   }

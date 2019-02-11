@@ -1,42 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
+import { filter, map, tap, catchError } from "rxjs/operators";
+
 import { MatTableDataSource } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
 
 import { TargetActionsComponent } from './../../../shared/components/target-actions/target-actions.component';
 
+import { Project } from './../projects/project';
+import { Place } from './place';
+import { Target } from './target';
 import { PlacesService } from './../../../shared/services/places/places.service';
 import { TargetsService } from './../../../shared/services/targets/targets.service';
-
-export interface PlaceElement {
-  name: string;
-  action: number;
-  before: number;
-  after: number;
-}
-
-export interface TargetElement {
-  name: string;
-  before: number;
-  after: number;
-}
-
-const PLACE_ELEMENT_DATA: PlaceElement[] = [
-  {name: '拠点1', before: 10, after: 0, action: 0},
-  {name: '拠点2', before: 20, after: 0, action: 0},
-  {name: '部屋1', before: 30, after: 0, action: 0},
-  {name: '部屋2', before: 40, after: 0, action: 0},
-  {name: '1F', before: 50, after: 0, action: 0},
-  {name: '2F', before: 60, after: 0, action: 0},
-];
-
-const TARGET_ELEMENT_DATA: TargetElement[] = [
-  {name: 'AP_1', before: 1, after: 1},
-  {name: 'AP_2', before: 2, after: 1},
-  {name: 'RT_1', before: 2, after: 1},
-  {name: 'RT_2', before: 1, after: 0},
-  {name: 'FW_1', before: 2, after: 0},
-  {name: 'FW_2', before: 4, after: 0},
-];
+import { ProjectsService } from './../../../shared/services/projects/projects.service';
 
 @Component({
   selector: 'app-work',
@@ -45,20 +21,103 @@ const TARGET_ELEMENT_DATA: TargetElement[] = [
 })
 export class WorkComponent implements OnInit {
 
+  public currentProject: Project;
+  public currentPlace: Place;
+  public places: Place[];
+  public targets: Target[];
+
+  public placeDataSource: MatTableDataSource<Place>;
+  public targetDataSource:MatTableDataSource<Target>;
+
   constructor(
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    public placesService: PlacesService,
+    public targetsService: TargetsService,
+    public projectsService: ProjectsService
   ) { }
 
   ngOnInit() {
+    this.currentProject = this.projectsService.getCurrentProject();
+    if(this.currentProject) {
+      this.placesService.setProjectId(this.currentProject.project_id);
+      this.targetsService.setProjectId(this.currentProject.project_id);
+
+      let place = {
+        project_id: this.currentProject.project_id,
+        place_id: this.currentProject.project_id,
+        name: this.currentProject.name,
+        parent_place_id: this.currentProject.project_id,
+        hierarchy: "",
+        photos: {
+          required: 0,
+          results: {
+            before: 0,
+            after: 0
+          }
+        },
+        created_at: "",
+        updated_at: ""
+      }
+      this.placesService.select(place);
+      this.placesService.placeHistory.push(place);
+      this.getPlaces(this.currentProject.project_id);
+      this.targetsService.setPlaceId(place.place_id);
+    }
   }
 
   openBottomSheet(): void {
-    this.bottomSheet.open(TargetActionsComponent);
+    const actionRef = this.bottomSheet.open(TargetActionsComponent);
+    actionRef.afterDismissed().subscribe(result => {
+      console.log("ActionModal result: " + JSON.stringify(result));
+      this.getPlaces(this.placesService.getCurrentPlace().place_id);
+    });
   }
 
-  displayedPlaceColumns: string[] = ['name', 'before', 'after', 'action'];
-  placeDataSource = new MatTableDataSource(PLACE_ELEMENT_DATA);
-
+  displayedPlaceColumns: string[] = ['name', 'photos.required', 'photos.results.before', 'photos.results.after'];
   displayedTargetColumns: string[] = ['name', 'before', 'after'];
-  targetDataSource = new MatTableDataSource(TARGET_ELEMENT_DATA);
+
+  public getPlaces(placeId) {
+    this.placesService.list(placeId)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           console.log(response);
+           this.places = response.places;
+           this.placeDataSource = new MatTableDataSource(this.places);
+           this.targets = response.targets;
+           this.targetDataSource = new MatTableDataSource(this.targets);
+           
+           this.currentProject = this.projectsService.getCurrentProject();
+           this.placesService.setProjectId(this.currentProject.project_id);
+         },
+         err => {
+           console.log("error: " + err);
+           //this.showAlert("Error: " + err.message, "danger", 10000);
+           //if (err.status == 401) {
+           //  localStorage.removeItem('isLoggedin');
+           //  this.router.navigate(["/login"]);
+           //}
+           //else if (err.status == 400) {
+           //  this.errMsg = "Error: " + err.error.message;
+           //}
+         }
+      );
+  }
+
+  public forwardPlace(place) {
+    this.placesService.select(place);
+    this.placesService.placeHistory.push(place);
+    this.getPlaces(place.place_id);
+    this.targetsService.setPlaceId(place.place_id);
+  }
+
+  public backwardPlace() {
+    this.placesService.placeHistory.pop();
+    let place = this.placesService.placeHistory[this.placesService.placeHistory.length - 1]
+    this.placesService.select(place);
+    this.getPlaces(place.place_id);
+    this.targetsService.setPlaceId(place.place_id);
+  }
 }

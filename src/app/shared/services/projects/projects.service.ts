@@ -17,6 +17,8 @@ export class ProjectsService {
   //private userId: string = localStorage.getItem("_id");
   private userId: string;
   public project: Project;
+  public currentProject: Project;
+  public joinedProjects: Project[];
   //public requestSubject = new Subject<NwConfRequest>();
 
   constructor(private http: HttpClient) { }
@@ -26,15 +28,16 @@ export class ProjectsService {
   }
 
   public select(project) {
-    this.project = project;
-    console.log("current project: " + JSON.stringify(this.project));
+    this.currentProject = project;
+    console.log("current project: " + JSON.stringify(this.currentProject));
   }
 
   public getCurrentProject() {
-    return this.project;
+    return this.currentProject;
   }
 
   public list(): Observable<any> {
+    // 可能なら返す前にresponseを自動的にjoinedProjectsに入れてしまいたい
     return this.http.get(this.projectUrl);
   }
 
@@ -54,6 +57,7 @@ export class ProjectsService {
   public delete(projectId): Observable<any> {
     return this.http.delete(this.projectUrl + "/" + projectId);
   }
+
 
 
 

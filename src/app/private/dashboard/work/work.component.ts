@@ -120,4 +120,15 @@ export class WorkComponent implements OnInit {
     this.getPlaces(place.place_id);
     this.targetsService.setPlaceId(place.place_id);
   }
+
+  public goHome() {
+    this.placesService.placeHistory = [this.placesService.placeHistory[0]];
+    let place = this.placesService.placeHistory[0];
+    this.placesService.select(place);
+    this.getPlaces(place.place_id);
+    this.targetsService.setPlaceId(place.place_id);
+  }
+  public refresh() {
+    this.getPlaces(this.placesService.getCurrentPlace().place_id);
+  }
 }

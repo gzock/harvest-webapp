@@ -47,6 +47,7 @@ export class ProjectsComponent implements OnInit {
            //this.showAlert("Successfully", "success", 3000);
            console.log(response);
            this.projects = response;
+           this.projectsService.joinedProjects = response;
            this.dataSource = new MatTableDataSource(this.projects);
          },
          err => {

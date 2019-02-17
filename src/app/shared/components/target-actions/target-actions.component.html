@@ -57,23 +57,26 @@
           </ng-template>
       
           <div class="col-12 row shot">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <mat-form-field class="add-action-type">
-                <mat-select placeholder="タイプ" [(ngModel)]="new.type">
-                  <mat-option value="place">施工前</mat-option>
-                  <mat-option value="target">施工後</mat-option>
+                <mat-select placeholder="タイプ" [(ngModel)]="photo.type" required>
+                  <mat-option value="before">施工前</mat-option>
+                  <mat-option value="after">施工後</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-12 col-md-6">
-              <!--
-              <button mat-raised-button class="btn-block mat-elevation-z6" (click)="onShotCamera()">
-                <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" (change)="onFileSelected($event)">
-              </button>
-              -->
+            <div class="col-6 col-md-4">
               <input type="file" id="camera-input" capture="camera" accept="image/*" (change)="onFileSelected($event)"/>
-              <label for="camera-input" class="btn-block mat-raised-button mat-basic shot-action-submit">撮影</label>
-              <!--<button type="button" (click)="onUpload()">Upload File</button>-->
+              <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
+                <mat-icon class="material-icons md-dark align-middle" color="primary">photo_camera</mat-icon>
+                撮影
+              </label>
+            </div>
+            <div class="col-6 col-md-4">
+              <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onShotCamera()" [disabled]="!takenPhoto">
+                <mat-icon class="material-icons md-dark align-middle" color="primary">cloud_upload</mat-icon>
+                アップロード
+              </button>
             </div>
             <div class="col-12 text-center photo-canvas">
               <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" (compressed)="onCompressedPhoto($event)"></app-photo-canvas>

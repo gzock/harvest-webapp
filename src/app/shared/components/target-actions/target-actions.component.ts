@@ -39,6 +39,11 @@ export class TargetActionsComponent implements OnInit {
     "type": "",
   }
 
+  public photo = {
+    "name": "",
+    "type": "before",
+  }
+
   constructor(
     private bottomSheetRef: MatBottomSheetRef<TargetActionsComponent>,
     public placesService: PlacesService,

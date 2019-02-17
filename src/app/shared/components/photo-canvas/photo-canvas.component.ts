@@ -13,7 +13,7 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
 
   private image = new Image();
   private canvas: any;
-  private compressRatio: float;
+  //private compressRatio: float;
 
   constructor() { }
 

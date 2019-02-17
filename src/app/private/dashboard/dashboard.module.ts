@@ -31,6 +31,7 @@ import { PhotoCanvasComponent } from './../../shared/components/photo-canvas/pho
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { PlacesService } from './../../shared/services/places/places.service';
 import { TargetsService } from './../../shared/services/targets/targets.service';
+import { PhotosService } from './../../shared/services/photos/photos.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { TargetsService } from './../../shared/services/targets/targets.service'
     {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
     ProjectsService,
     PlacesService,
-    TargetsService
+    TargetsService,
+    PhotosService
   ],
   exports: [
   ],

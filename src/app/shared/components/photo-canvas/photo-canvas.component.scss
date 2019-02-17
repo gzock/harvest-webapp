@@ -2,3 +2,9 @@ canvas {
   width: 100%;
   height: 100%;
 }
+
+canvas .compressCanvas{
+  display: none;
+  width: 0%;
+  height: 0%;
+}

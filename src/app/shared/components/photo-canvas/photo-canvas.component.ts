@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, DoCheck, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, Input, Output, EventEmitter, DoCheck, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-photo-canvas',
@@ -7,29 +7,43 @@ import { AfterViewInit, Component, Input, DoCheck, ViewChild, ChangeDetectorRef 
 })
 export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
   @Input() photoSrc: string;
-  public image = new Image();
-  public canvas: any;
+  @Input() compressWidth: number;
+  @Input() compressHeight: number;
+  @Output() compressed = new EventEmitter();
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) { }
+  private image = new Image();
+  private canvas: any;
+  private compressRatio: float;
+
+  constructor() { }
 
   context: CanvasRenderingContext2D;
 
-  @ViewChild('myCanvas') myCanvas;
+  @ViewChild('viewCanvas') viewCanvas;
 
   ngAfterViewInit() {
-    this.canvas= this.myCanvas.nativeElement;
+    this.canvas = this.viewCanvas.nativeElement;
     this.context = this.canvas.getContext('2d');
 
+    //this.compressCanvas = this.compressCanvas.nativeElement;
+    //this.compressCtx = this.compressCanvas.getContext('2d');
+
+    // 元画像の横と縦でどちらが大きいか？
+    // 圧縮予定の横と縦でどちらが大きいか？
+    // 大きいほ
+    //if(this.compressWidth > this.compressHeight) {
+    //  this.compressRatio = this.compressWidth / this.compressHeight;
+    //} else {
+    //  this.compressRatio = this.compressHeight / this.compresswidth;
+    //}
+
     this.image.onload = () => {
-      let w = this.myCanvas.nativeElement.offsetWidth;
+      let w = this.viewCanvas.nativeElement.offsetWidth;
       let ratio = w / this.image.width;
       let h = this.image.height * ratio;
-      //h = this.myCanvas.nativeElement.offsetHeight * ratio;
 
-      const height = this.myCanvas.nativeElement.offsetHeight;
-      const width = this.myCanvas.nativeElement.offsetWidth;
+      const height = this.viewCanvas.nativeElement.offsetHeight;
+      const width = this.viewCanvas.nativeElement.offsetWidth;
       console.log(width);
       console.log(height);
       console.log(ratio);
@@ -37,26 +51,25 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
       this.canvas.width = w;
       this.canvas.height = h;
       this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, w, h);
+      // 本来は指定された解像度に圧縮してそれをエミット
+      this.compressed.emit(this.canvas.toDataURL("image/jpeg",0.85));
       console.log(w);
       console.log(h);
-      //this.context = this.rectColor;
-      this.changeDetectorRef.detectChanges();
     }
     this.image.src = this.photoSrc;
   }
 
   ngDoCheck() {
     this.image.onload = () => {
-      let w = this.myCanvas.nativeElement.offsetWidth;
+      let w = this.viewCanvas.nativeElement.offsetWidth;
       let ratio = w / this.image.width;
       let h = this.image.height * ratio;
-      //h = this.myCanvas.nativeElement.offsetHeight;
 
       this.canvas.width = w;
       this.canvas.height = h;
       this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, w, h);
-      //this.context = this.rectColor;
-      this.changeDetectorRef.detectChanges();
+      // 本来は指定された解像度に圧縮してそれをエミット
+      this.compressed.emit(this.canvas.toDataURL("image/jpeg",0.85));
     }
   }
 }

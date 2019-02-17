@@ -4,48 +4,92 @@
       <h4> 選択対象: {{ currentPlace.name }} </h4>
     </div>
     
-    <div class="col-12 text-center">
-      <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary" (click)="onAddActionFlg = true">add</mat-icon>
-      </button>
-      <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary">edit</mat-icon>
-      </button>
-      <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary">clear</mat-icon>
-      </button>
-      <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary">photo_camera</mat-icon>
-      </button>
-      <button mat-raised-button class="mat-elevation-z6">
-        <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
-      </button>
-    </div>
+      <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-raised-button class="mat-elevation-z6">
+              <mat-icon class="material-icons md-dark" color="primary">add</mat-icon>
+            </button>
+          </ng-template>
+          <div class="col-12 row add">
+            <div class="col-6 col-md-3">
+              <mat-form-field class="add-action-type">
+                <mat-select placeholder="タイプ" [(ngModel)]="new.type">
+                  <mat-option value="place">場所</mat-option>
+                  <mat-option value="target">撮影対象</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-6 col-md-6">
+              <mat-form-field class="add-action-name">
+                <input matInput placeholder="名称" [(ngModel)]="new.name">
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-3">
+              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, currentPlace.place_id)">
+                作成
+              </button>
+            </div>
+          </div>
+        </mat-tab>
+      
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-raised-button class="mat-elevation-z6">
+              <mat-icon class="material-icons md-dark" color="primary">edit</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+      
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-raised-button class="mat-elevation-z6">
+              <mat-icon class="material-icons md-dark" color="primary">clear</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+      
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-raised-button class="mat-elevation-z6">
+              <mat-icon class="material-icons md-dark" color="primary">photo_camera</mat-icon>
+            </button>
+          </ng-template>
+      
+          <div class="col-12 row shot">
+            <div class="col-12 col-md-6">
+              <mat-form-field class="add-action-type">
+                <mat-select placeholder="タイプ" [(ngModel)]="new.type">
+                  <mat-option value="place">施工前</mat-option>
+                  <mat-option value="target">施工後</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6">
+              <!--
+              <button mat-raised-button class="btn-block mat-elevation-z6" (click)="onShotCamera()">
+                <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" (change)="onFileSelected($event)">
+              </button>
+              -->
+              <input type="file" id="camera-input" capture="camera" accept="image/*" (change)="onFileSelected($event)"/>
+              <label for="camera-input" class="btn-block mat-raised-button mat-basic shot-action-submit">撮影</label>
+              <!--<button type="button" (click)="onUpload()">Upload File</button>-->
+            </div>
+            <div class="col-12 text-center photo-canvas">
+              <app-photo-canvas *ngIf="takenPhoto" photoSrc="{{ takenPhoto }}"></app-photo-canvas>
+            </div>
+          </div>
+        </mat-tab>
 
-    <mat-divider></mat-divider>
-    
-    <div class="col-12 row" *ngIf="onAddActionFlg">
-      <div class="col-12 col-md-3">
-        <mat-form-field class="add-action-type">
-          <mat-select placeholder="タイプ" [(ngModel)]="new.type">
-            <mat-option value="place">場所</mat-option>
-            <mat-option value="target">撮影対象</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-md-6">
-        <mat-form-field class="add-action-name">
-          <input matInput placeholder="名称" [(ngModel)]="new.name">
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-md-3">
-        <button mat-raised-button class="btn-block mat-elevation-z6" (click)="onCreate(new.type, new.name, currentPlace.place_id)">
-          作成
-        </button>
-      </div>
-    </div>
-
-
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-raised-button class="mat-elevation-z6">
+              <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
+            </button>
+          </ng-template>
+          Content 1
+        </mat-tab>
+      </mat-tab-group>
 
   </div>
 </div>

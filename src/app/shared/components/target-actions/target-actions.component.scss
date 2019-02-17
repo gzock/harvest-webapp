@@ -11,3 +11,36 @@ button {
 .add-action-name {
   width: 100%;
 }
+
+.add-action-submit {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.shot-action-submit {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.shot {
+  margin: 0px;
+}
+
+.shot input {
+  display:none;
+}
+
+.photo-canvas {
+  height: 100%;
+}
+
+:host /deep/ .mat-tab-label {
+  padding: 0 0px;
+  min-width: 10vw;
+}
+
+mat-tab-group {
+  margin: auto;
+  padding: 0px !important;
+}
+

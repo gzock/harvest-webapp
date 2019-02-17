@@ -26,6 +26,7 @@ import { WorkComponent } from './work/work.component';
 import { CreateProjectComponent } from './../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
 import { TargetActionsComponent } from './../../shared/components/target-actions/target-actions.component';
+import { PhotoCanvasComponent } from './../../shared/components/photo-canvas/photo-canvas.component';
 
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { PlacesService } from './../../shared/services/places/places.service';
@@ -39,7 +40,8 @@ import { TargetsService } from './../../shared/services/targets/targets.service'
     WorkComponent,
     CreateProjectComponent,
     SettingProjectComponent,
-    TargetActionsComponent
+    TargetActionsComponent,
+    PhotoCanvasComponent
   ],
   imports: [
     CommonModule,

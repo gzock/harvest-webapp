@@ -20,3 +20,8 @@ table {
 .mat-header-cell {
   text-align: center;
 }
+
+/deep/ .mat-bottom-sheet-container {
+  max-height: 95vh !important;
+}
+

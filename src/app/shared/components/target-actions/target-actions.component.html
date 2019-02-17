@@ -76,7 +76,7 @@
               <!--<button type="button" (click)="onUpload()">Upload File</button>-->
             </div>
             <div class="col-12 text-center photo-canvas">
-              <app-photo-canvas *ngIf="takenPhoto" photoSrc="{{ takenPhoto }}"></app-photo-canvas>
+              <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" (compressed)="onCompressedPhoto($event)"></app-photo-canvas>
             </div>
           </div>
         </mat-tab>

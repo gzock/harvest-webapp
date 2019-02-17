@@ -122,6 +122,10 @@ export class TargetActionsComponent implements OnInit {
     console.log(this.selectedFile); // You can use FormData upload to backend server
   }
 
+  onCompressedPhoto(photo) {
+    console.log("compressed: " + photo);
+  }
+
 
 
   finish(event: MouseEvent): void {

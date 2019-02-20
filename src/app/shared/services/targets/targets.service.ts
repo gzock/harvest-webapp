@@ -16,7 +16,7 @@ export class TargetsService {
   private targetUrl = environment.base_url;  // URL to web api
 
   private place: Place;
-  private target: Target;
+  private currentTarget: Target;
 
   //private userId: string = localStorage.getItem("_id");
   private userId: string;
@@ -41,8 +41,12 @@ export class TargetsService {
   }
 
   public select(target) {
-    this.target = target;
-    console.log("current target: " + JSON.stringify(this.target));
+    this.currentTarget = target;
+    console.log("current target: " + JSON.stringify(this.currentTarget));
+  }
+
+  public getCurrentTarget() {
+    return this.currentTarget;
   }
 
   public show(targetId): Observable<any> {

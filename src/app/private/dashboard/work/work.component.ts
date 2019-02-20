@@ -13,6 +13,7 @@ import { Target } from './target';
 import { PlacesService } from './../../../shared/services/places/places.service';
 import { TargetsService } from './../../../shared/services/targets/targets.service';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
+import { PhotosService } from './../../../shared/services/photos/photos.service';
 
 @Component({
   selector: 'app-work',
@@ -33,7 +34,8 @@ export class WorkComponent implements OnInit {
     private bottomSheet: MatBottomSheet,
     public placesService: PlacesService,
     public targetsService: TargetsService,
-    public projectsService: ProjectsService
+    public projectsService: ProjectsService,
+    public photosService: PhotosService,
   ) { }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class WorkComponent implements OnInit {
     if(this.currentProject) {
       this.placesService.setProjectId(this.currentProject.project_id);
       this.targetsService.setProjectId(this.currentProject.project_id);
+      this.photosService.setProjectId(this.currentProject.project_id);
 
       let place = {
         project_id: this.currentProject.project_id,
@@ -65,7 +68,8 @@ export class WorkComponent implements OnInit {
     }
   }
 
-  openBottomSheet(): void {
+  openBottomSheet(selected): void {
+    this.targetsService.select(selected);
     const actionRef = this.bottomSheet.open(TargetActionsComponent);
     actionRef.afterDismissed().subscribe(result => {
       console.log("ActionModal result: " + JSON.stringify(result));

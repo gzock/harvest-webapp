@@ -12,13 +12,14 @@ import { Target } from './../../../private/dashboard/work/target';
 import { PlacesService } from './../../services/places/places.service';
 import { TargetsService } from './../../services/targets/targets.service';
 import { ProjectsService } from './../../services/projects/projects.service';
+import { PhotosService } from './../../services/photos/photos.service';
 
-export interface PlaceElement {
-  name: string;
-  action: number;
-  before: number;
-  after: number;
-}
+//export interface PlaceElement {
+//  name: string;
+//  action: number;
+//  before: number;
+//  after: number;
+//}
 
 @Component({
   selector: 'app-target-actions',
@@ -33,6 +34,7 @@ export class TargetActionsComponent implements OnInit {
   //TODO: 要リファクタリング
   public selectedFile:any;
   public takenPhoto:any;
+  public compressedPhoto:any;
 
   public new = {
     "name": "",
@@ -49,6 +51,7 @@ export class TargetActionsComponent implements OnInit {
     public placesService: PlacesService,
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
+    public photosService: PhotosService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
@@ -93,9 +96,6 @@ export class TargetActionsComponent implements OnInit {
     }
   }
 
-  public onShotCamera() {
-    
-  }
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
     let fileReader = new FileReader();
@@ -124,14 +124,28 @@ export class TargetActionsComponent implements OnInit {
   }
 
   onUpload() {
-    console.log(this.selectedFile); // You can use FormData upload to backend server
+    console.log(this.compressedPhoto);
+    let targetId = this.targetsService.getCurrentTarget().target_id;
+    let data = this.compressedPhoto.split(",")[1];
+    this.photosService.create(targetId, this.photo.type, data)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           console.log(response);
+           //this.bottomSheetRef.dismiss();
+         },
+         err => {
+           console.log("error: " + err);
+         }
+      );
   }
 
   onCompressedPhoto(photo) {
     console.log("compressed: " + photo);
+    this.compressedPhoto = photo;
   }
-
-
 
   finish(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();

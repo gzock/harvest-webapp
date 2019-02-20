@@ -51,14 +51,11 @@ export class PhotosService {
     return this.http.get(this.photoUrl + this.placeId + "/photos/" + photoId);
   }
 
-  public create(name, placeId = ""): Observable<any> {
-    if(placeId === this.projectId) placeId = ""
-    if(placeId) {
-      return this.http.post(this.photoUrl + "/" + placeId + "/photos", { "name": name,  });
-    } else {
-      let photoUrl = environment.base_url + "/projects/" + this.projectId + "/photos";
-      return this.http.post(photoUrl, { "name": name });
-    }
+  public create(targetId, type, photoData): Observable<any> {
+    let photoUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId + "/photos";
+    console.log(photoUrl);
+    console.log(photoData);
+    return this.http.post(photoUrl, { "type": type, "data": photoData });
   }
 
   public delete(photoId): Observable<any> {

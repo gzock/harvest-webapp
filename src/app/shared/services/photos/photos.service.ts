@@ -47,8 +47,9 @@ export class PhotosService {
     }
   }
 
-  public show(photoId): Observable<any> {
-    return this.http.get(this.photoUrl + this.placeId + "/photos/" + photoId);
+  public show(targetId, photoId): Observable<any> {
+    let photoUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId + "/photos";
+    return this.http.get(photoUrl + "/" + photoId);
   }
 
   public create(targetId, type, photoData): Observable<any> {

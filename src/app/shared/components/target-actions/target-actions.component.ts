@@ -14,13 +14,6 @@ import { TargetsService } from './../../services/targets/targets.service';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { PhotosService } from './../../services/photos/photos.service';
 
-//export interface PlaceElement {
-//  name: string;
-//  action: number;
-//  before: number;
-//  after: number;
-//}
-
 @Component({
   selector: 'app-target-actions',
   templateUrl: './target-actions.component.html',
@@ -35,10 +28,11 @@ export class TargetActionsComponent implements OnInit {
   public selectedFile:any;
   public takenPhoto:any;
   public compressedPhoto:any;
+  public neededPhoto :any;
 
   public new = {
     "name": "",
-    "type": "",
+    "type": "place",
   }
 
   public photo = {
@@ -133,8 +127,7 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
-           console.log(response);
-           //this.bottomSheetRef.dismiss();
+           this.bottomSheetRef.dismiss();
          },
          err => {
            console.log("error: " + err);
@@ -145,6 +138,25 @@ export class TargetActionsComponent implements OnInit {
   onCompressedPhoto(photo) {
     console.log("compressed: " + photo);
     this.compressedPhoto = photo;
+  }
+
+  onGetPhoto(type) {
+    let target = this.targetsService.getCurrentTarget();
+    let targetId = target["target_id"];
+    let photoId = target["photos"][type][0];
+    this.photosService.show(targetId, photoId)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           this.neededPhoto = "data:image/jpeg;base64," + response;
+           console.log(this.neededPhoto);
+         },
+         err => {
+           console.log("error: " + err);
+         }
+      )
   }
 
   finish(event: MouseEvent): void {

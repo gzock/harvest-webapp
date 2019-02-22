@@ -5,4 +5,12 @@ export interface Target {
   name: string;
   created_at: string;
   updated_at: string;
+  photos: {
+    adopt: {
+      before: string;
+      after: string;
+    }
+    before: [string];
+    after: [string];
+  }
 }

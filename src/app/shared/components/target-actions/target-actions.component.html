@@ -86,11 +86,17 @@
 
         <mat-tab>
           <ng-template mat-tab-label>
-            <button mat-raised-button class="mat-elevation-z6">
+            <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto('before')">
               <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
             </button>
           </ng-template>
-          Content 1
+
+          <div class="col-12 row shot">
+            <div class="col-12 text-center photo-canvas">
+              <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto"></app-photo-canvas>
+            </div>
+          </div>
+
         </mat-tab>
       </mat-tab-group>
 

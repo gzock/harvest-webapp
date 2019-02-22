@@ -70,7 +70,8 @@ export class WorkComponent implements OnInit {
 
   openBottomSheet(selected): void {
     this.targetsService.select(selected);
-    const actionRef = this.bottomSheet.open(TargetActionsComponent);
+    console.log(selected);
+    const actionRef = this.bottomSheet.open(TargetActionsComponent, {data: selected});
     actionRef.afterDismissed().subscribe(result => {
       console.log("ActionModal result: " + JSON.stringify(result));
       this.getPlaces(this.placesService.getCurrentPlace().place_id);

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
+import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 
 import { PhotoCanvasComponent } from './../photo-canvas/photo-canvas.component';
 import { Project } from './../../../private/dashboard/projects/project';
@@ -22,7 +22,12 @@ import { PhotosService } from './../../services/photos/photos.service';
 export class TargetActionsComponent implements OnInit {
 
   private currentProject: Project;
-  private currentPlace: Place;
+  private selectedPlace: Place;
+  private selectedTarget: Target;
+  public selectedPhotoType: string = "before";
+  public photoIndex: number = 0;
+  public isTarget:boolean = false;
+  public isPlace: boolean = false;
 
   //TODO: 要リファクタリング
   public selectedFile:any;
@@ -42,6 +47,7 @@ export class TargetActionsComponent implements OnInit {
 
   constructor(
     private bottomSheetRef: MatBottomSheetRef<TargetActionsComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     public placesService: PlacesService,
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
@@ -50,11 +56,14 @@ export class TargetActionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentPlace = this.placesService.getCurrentPlace();
-    //if(this.currentPlace) {
-    //  this. = this.projectsService.getCurrentProject();
-    //  this.currentPlace = 
-    //}
+    if("target_id" in this.data) {
+      this.selectedTarget = this.data;
+      this.isTarget = true;
+
+    } else {
+      this.selectedPlace = this.data;
+      this.isPlace = true;
+    }
   }
 
   public onCreate(type, name, placeId = "") {
@@ -100,21 +109,6 @@ export class TargetActionsComponent implements OnInit {
     }
 
     fileReader.readAsDataURL(this.selectedFile);
-
-    //let genDataUrl = Observable.create(observer => {
-    //  fileReader.onloadend = () => {
-    //    observer.next(fileReader.result);
-    //    observer.complete();
-    //  };
-    //});
-
-    //genDataUrl.subscribe((img) => {
-    //  //this.takenPhoto = fileReader.result;
-    //  this.takenPhoto = img;
-    //  console.log(img);
-    //  this.changeDetectorRef.detectChanges();
-    //});
-
   }
 
   onUpload() {
@@ -140,23 +134,40 @@ export class TargetActionsComponent implements OnInit {
     this.compressedPhoto = photo;
   }
 
-  onGetPhoto(type) {
-    let target = this.targetsService.getCurrentTarget();
-    let targetId = target["target_id"];
-    let photoId = target["photos"][type][0];
-    this.photosService.show(targetId, photoId)
-      .pipe(
-         catchError(error => throwError(error))
-      )
-      .subscribe(
-         response => {
-           this.neededPhoto = "data:image/jpeg;base64," + response;
-           console.log(this.neededPhoto);
-         },
-         err => {
-           console.log("error: " + err);
-         }
-      )
+  onGetPhoto(type, number) {
+    if(this.isTarget) {
+      let targetId = this.selectedTarget["target_id"];
+      let photoId = this.selectedTarget["photos"][type][number];
+      this.photosService.show(targetId, photoId)
+        .pipe(
+           catchError(error => throwError(error))
+        )
+        .subscribe(
+           response => {
+             this.neededPhoto = "data:image/jpeg;base64," + response;
+             console.log(this.neededPhoto);
+           },
+           err => {
+             console.log("error: " + err);
+           }
+        )
+    }
+  }
+
+  public onGetBackPhoto() {
+    this.onGetPhoto(this.selectedPhotoType, this.photoIndex--);
+  }
+
+  public onGetNextPhoto() {
+    this.onGetPhoto(this.selectedPhotoType, this.photoIndex++);
+  }
+
+  public isPhotoIndexMax() {
+    return this.photoIndex == 5 || Object.keys(this.selectedTarget['photos'][this.selectedPhotoType]).length - 1 == this.photoIndex;
+  }
+
+  public isPhotoIndexMin() {
+    return this.photoIndex == 0;
   }
 
   finish(event: MouseEvent): void {

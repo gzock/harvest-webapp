@@ -84,9 +84,9 @@
           </div>
         </mat-tab>
 
-        <mat-tab>
+        <mat-tab *ngIf="isTarget && (selectedTarget.photos.before.length || selectedTarget.photos.after.length)">
           <ng-template mat-tab-label>
-            <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto('before')">
+            <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto('before', 0)">
               <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
             </button>
           </ng-template>
@@ -95,6 +95,38 @@
             <div class="col-12 text-center photo-canvas">
               <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto"></app-photo-canvas>
             </div>
+
+            <div class="col-2">
+              <button mat-raised-button class="mat-elevation-z6" 
+                  (click)="onGetBackPhoto()" 
+                  [disabled]="isPhotoIndexMin()">
+                <mat-icon class="material-icons md-dark" color="primary">chevron_left</mat-icon>
+              </button>
+            </div>
+            <div class="col-4">
+              <button mat-stroked-button color="primary" 
+                  matBadge="{{ selectedTarget.photos.before.length }}" matBadgePosition="before" matBadgeColor="accent" 
+                  [disabled]="!selectedTarget.photos.before.length && selectedPhotoType != 'before'"
+                  class="btn-block mat-elevation-z6" (click)="selectedPhotoType = 'before'">
+                施工前
+              </button>
+            </div>
+            <div class="col-4">
+              <button mat-stroked-button color="primary" 
+                  matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
+                  [disabled]="!selectedTarget.photos.after.length"
+                  class="btn-block mat-elevation-z6" (click)="selectedPhotoType = 'after'">
+                施工後
+              </button>
+            </div>
+            <div class="col-2">
+              <button mat-raised-button class="mat-elevation-z6" 
+                  (click)="onGetNextPhoto()" 
+                  [disabled]="isPhotoIndexMax()">
+                <mat-icon class="material-icons md-dark" color="primary">chevron_right</mat-icon>
+              </button>
+            </div>
+
           </div>
 
         </mat-tab>

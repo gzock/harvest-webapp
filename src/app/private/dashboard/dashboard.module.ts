@@ -15,6 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -67,6 +68,7 @@ import { PhotosService } from './../../shared/services/photos/photos.service';
     MatDialogModule,
     MatBottomSheetModule,
     MatDividerModule,
+    MatBadgeModule,
     NgbModule
   ],
   providers: [

@@ -61,6 +61,7 @@ export class WorkComponent implements OnInit {
         updated_at: ""
       }
       this.placesService.select(place);
+      this.placesService.placeHistory = [];
       this.placesService.placeHistory.push(place);
       this.getPlaces(this.currentProject.project_id);
       this.targetsService.setPlaceId(place.place_id);

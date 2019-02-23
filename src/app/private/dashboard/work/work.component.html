@@ -36,13 +36,15 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> 場所 </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element" (click)="openBottomSheet(element)"> 
+          {{element.name}}
+        </td>
       </ng-container>
     
       <!-- Symbol Column -->
       <ng-container matColumnDef="photos.required">
         <th mat-header-cell *matHeaderCellDef> 施工前 進捗率 </th>
-        <td mat-cell *matCellDef="let element"> 
+        <td mat-cell *matCellDef="let element" (click)="openBottomSheet(element)">
           {{ (element.photos.results.before / element.photos.required) * 100 }} %
         </td>
       </ng-container>
@@ -50,7 +52,7 @@
       <!-- Symbol Column -->
       <ng-container matColumnDef="photos.results.before">
         <th mat-header-cell *matHeaderCellDef> 施工後 進捗率 </th>
-        <td mat-cell *matCellDef="let element"> 
+        <td mat-cell *matCellDef="let element" (click)="openBottomSheet(element)">
           {{ (element.photos.results.after / element.photos.required) * 100 }} %
         </td>
       </ng-container>

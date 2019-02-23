@@ -81,7 +81,7 @@
       <ng-container matColumnDef="before">
         <th mat-header-cell *matHeaderCellDef> 施工前 写真数 </th>
         <td mat-cell *matCellDef="let element" (click)="openBottomSheet(element)"> 
-          {{element.before}}
+          {{element.photos.before.length}}
         </td>
       </ng-container>
 
@@ -89,7 +89,7 @@
       <ng-container matColumnDef="after">
         <th mat-header-cell *matHeaderCellDef> 施工後 写真数 </th>
         <td mat-cell *matCellDef="let element" (click)="openBottomSheet(element)"> 
-          {{element.after}}
+          {{element.photos.after.length}}
         </td>
       </ng-container>
 

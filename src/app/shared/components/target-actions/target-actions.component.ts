@@ -134,10 +134,16 @@ export class TargetActionsComponent implements OnInit {
     this.compressedPhoto = photo;
   }
 
-  onGetPhoto(type, number) {
+  onGetPhoto(type, index) {
+    console.log(type);
+    console.log(index);
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];
-      let photoId = this.selectedTarget["photos"][type][number];
+      if(index > this.selectedTarget["photos"][type].length - 1) {
+        index = this.selectedTarget["photos"][type].length - 1;
+        this.photoIndex = index;
+      }
+      let photoId = this.selectedTarget["photos"][type][index];
       this.photosService.show(targetId, photoId)
         .pipe(
            catchError(error => throwError(error))

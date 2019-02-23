@@ -107,7 +107,8 @@
               <button mat-stroked-button color="primary" 
                   matBadge="{{ selectedTarget.photos.before.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.before.length && selectedPhotoType != 'before'"
-                  class="btn-block mat-elevation-z6" (click)="selectedPhotoType = 'before'">
+                  class="btn-block" (click)="selectedPhotoType = 'before'; onGetPhoto(selectedPhotoType, photoIndex)"
+                  [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'>
                 施工前
               </button>
             </div>
@@ -115,7 +116,8 @@
               <button mat-stroked-button color="primary" 
                   matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.after.length"
-                  class="btn-block mat-elevation-z6" (click)="selectedPhotoType = 'after'">
+                  class="btn-block" (click)="selectedPhotoType = 'after'; onGetPhoto(selectedPhotoType, photoIndex)"
+                  [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 施工後
               </button>
             </div>

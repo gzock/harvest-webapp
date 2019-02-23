@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 text-center" *ngIf="currentPlace">
-      <h4> 選択対象: {{ currentPlace.name }} </h4>
+    <div class="col-12 text-center" *ngIf="selectedPlace">
+      <h4> 選択対象: {{ selectedPlace.name }} </h4>
     </div>
     
       <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
@@ -26,7 +26,7 @@
               </mat-form-field>
             </div>
             <div class="col-12 col-md-3">
-              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, currentPlace.place_id)">
+              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, selectedPlace.place_id)">
                 作成
               </button>
             </div>
@@ -49,7 +49,7 @@
           </ng-template>
         </mat-tab>
       
-        <mat-tab>
+        <mat-tab *ngIf="isTarget">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="primary">photo_camera</mat-icon>

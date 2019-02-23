@@ -23,7 +23,6 @@ import { PhotosService } from './../../../shared/services/photos/photos.service'
 export class WorkComponent implements OnInit {
 
   public currentProject: Project;
-  public currentPlace: Place;
   public places: Place[];
   public targets: Target[];
 

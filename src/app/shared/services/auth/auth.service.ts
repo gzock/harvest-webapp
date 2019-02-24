@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map, tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject, from } from "rxjs";
+import { map, mergeMap, tap, catchError } from "rxjs/operators";
 
 import Amplify, { Auth } from 'aws-amplify';
 
-import { environment } from './../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  public loggedIn: BehaviorSubject<boolean>;
 
   constructor(
     private router: Router
@@ -25,17 +24,17 @@ export class AuthService {
 
   /** サインアップ */
   public signUp(email, password): Observable<any> {
-    return fromPromise(Auth.signUp(email, password));
+    return from(Auth.signUp(email, password));
   }
 
   /** 検証 */
   public confirmSignUp(email, code): Observable<any> {
-    return fromPromise(Auth.confirmSignUp(email, code));
+    return from(Auth.confirmSignUp(email, code));
   }
 
   /** ログイン */
   public signIn(email, password): Observable<any> {
-    return fromPromise(Auth.signIn(email, password))
+    return from(Auth.signIn(email, password))
       .pipe(
         tap(() => this.loggedIn.next(true))
       );
@@ -43,7 +42,7 @@ export class AuthService {
 
   /** ログイン状態の取得 */
   public isAuthenticated(): Observable<boolean> {
-    return fromPromise(Auth.currentAuthenticatedUser())
+    return from(Auth.currentAuthenticatedUser())
       .pipe(
         map(result => {
           this.loggedIn.next(true);
@@ -58,7 +57,7 @@ export class AuthService {
 
   /** ログアウト */
   public signOut() {
-    fromPromise(Auth.signOut())
+    from(Auth.signOut())
       .subscribe(
         result => {
           this.loggedIn.next(false);

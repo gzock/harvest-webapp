@@ -9,14 +9,14 @@
               <form role="form">
                   <div class="form-content">
                       <div class="form-group">
-                          <input type="text" [(ngModel)]="username" name="username" class="form-control input-underline input-lg" id="username" placeholder="ユーザー名">
+                          <input type="text" [(ngModel)]="email" name="email" class="form-control input-underline input-lg" id="email" placeholder="メールアドレス">
                       </div>
 
                       <div class="form-group">
                           <input type="password" [(ngModel)]="password" name="password" class="form-control input-underline input-lg" id="password" placeholder="パスワード">
                       </div>
                   </div>
-                  <a class="btn btn-outline-success" [routerLink]="['/dashboard']"> ログイン </a>
+                  <a class="btn btn-outline-success" (click)="onLoggedIn(email, password)"> ログイン </a>
                   <!-- <a class="btn btn-outline-danger" (click)="onLoggedin()"> Login </a> -->
               </form>
               <div *ngIf="errormsg">

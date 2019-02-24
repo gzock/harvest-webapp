@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
-    onSubmitLogin(email: string, password: string) {
+    onLoggedIn(email: string, password: string) {
       this.authService.signIn(email, password)
         .subscribe(
           result => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard/projects']);
           },
           error => {
             console.log(error);

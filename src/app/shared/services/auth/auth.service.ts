@@ -36,7 +36,17 @@ export class AuthService {
   public signIn(email, password): Observable<any> {
     return from(Auth.signIn(email, password))
       .pipe(
-        tap(() => this.loggedIn.next(true))
+        tap(user => {
+          console.log(user);
+          if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+            let requiredAttrs = {"preferred_username": "Guest"}; //TODO: signupで入れておく必要がある
+            from(Auth.completeNewPassword(user, password, requiredAttrs))
+              .pipe(tap(() => this.loggedIn.next(true)));
+
+          } else {
+            this.loggedIn.next(true);
+          }
+        })
       );
   }
 

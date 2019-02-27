@@ -14,6 +14,9 @@ import { environment } from '../../../../environments/environment';
 export class AuthService {
 
   public loggedIn: BehaviorSubject<boolean>;
+  public token: string;
+  public username: string;
+  public email: string;
 
   constructor(
     private router: Router
@@ -41,9 +44,16 @@ export class AuthService {
           if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
             let requiredAttrs = {"preferred_username": "Guest"}; //TODO: signupで入れておく必要がある
             from(Auth.completeNewPassword(user, password, requiredAttrs))
-              .pipe(tap(() => this.loggedIn.next(true)));
+              .pipe(
+                tap(_user => { 
+                    this.saveUserData(_user.signInUserSession);
+                    this.loggedIn.next(true);
+                  }
+                )
+              );
 
           } else {
+            this.saveUserData(user.signInUserSession);
             this.loggedIn.next(true);
           }
         })
@@ -65,6 +75,35 @@ export class AuthService {
       );
   }
 
+  /** ログインユーザ情報の取得 */
+  public getData(): Observable<any> {
+    return from(Auth.currentAuthenticatedUser());
+  }
+ 
+  /** idtokenを取得 */
+  public getToken(): string {
+    return localStorage.getItem('token');
+    //console.log(Auth.currentSession());
+    //let session = Auth.currentSession();
+    //console.log(session['__zone_symbol__value']['idToken']);
+    //console.log(session['__zone_symbol__value']['idToken']['jwtToken']);
+    //return Auth.currentSession()['__zone_symbol__value']['idToken']['jwtToken'];
+
+    return
+    //return from(Auth.currentSession());
+    //  .pipe(
+    //    tap(result => {
+    //      console.log(result);
+    //      //this.loggedIn.next(true);
+    //      return result['__zone_symbol__value']['idToken']['jwtToken'];
+    //    }),
+    //    catchError(error => {
+    //      this.loggedIn.next(false);
+    //      return of(false);
+    //    })
+    //  );
+  }
+
   /** ログアウト */
   public signOut() {
     from(Auth.signOut())
@@ -75,6 +114,16 @@ export class AuthService {
         },
         error => console.log(error)
       );
+  }
+
+  private saveUserData(userData) {
+    let token = userData.idToken.jwtToken;
+    let username = userData.idToken.payload.preferred_username;
+    let email = userData.idToken.payload.email;
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
+    localStorage.setItem('email', email);
   }
 
 }

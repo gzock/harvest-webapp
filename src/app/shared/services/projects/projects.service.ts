@@ -30,10 +30,12 @@ export class ProjectsService {
   public select(project) {
     this.currentProject = project;
     console.log("current project: " + JSON.stringify(this.currentProject));
+
+    localStorage.setItem('selectedProject', JSON.stringify(project));
   }
 
   public getCurrentProject() {
-    return this.currentProject;
+    return this.currentProject || JSON.parse(localStorage.getItem('selectedProject'));
   }
 
   public list(): Observable<any> {

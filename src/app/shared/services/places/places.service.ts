@@ -63,7 +63,7 @@ export class PlacesService {
     }
   }
 
-  public update(placeId, name): Observable<any> {
+  public update_name(placeId, name): Observable<any> {
     return this.http.put(this.placeUrl + "/" + placeId, { "name": name });
   }
 

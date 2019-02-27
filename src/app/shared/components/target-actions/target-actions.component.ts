@@ -99,6 +99,34 @@ export class TargetActionsComponent implements OnInit {
     }
   }
 
+  public onUpdateName(name) {
+    let service: any;
+    let id: string; 
+
+    if(this.isPlace) {
+      service = this.placesService;
+      id = this.selectedPlace.place_id;
+
+    } else if(this.isTarget) {
+      service = this.targetsService;
+      id = this.selectedTarget.target_id;
+    }
+    console.log(service);
+    service.update_name(id, name)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           console.log(response);
+           this.bottomSheetRef.dismiss();
+         },
+         err => {
+           console.log("error: " + err);
+         }
+      );
+  }
+
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
     let fileReader = new FileReader();

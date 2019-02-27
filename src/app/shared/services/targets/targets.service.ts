@@ -63,8 +63,9 @@ export class TargetsService {
     }
   }
 
-  public update(targetId, name): Observable<any> {
-    return this.http.put(this.targetUrl + this.placeId + "/targets/" + targetId, { "name": name });
+  public update_name(targetId, name): Observable<any> {
+    let targetUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId;
+    return this.http.put(targetUrl, { "name": name });
   }
 
   public delete(targetId): Observable<any> {

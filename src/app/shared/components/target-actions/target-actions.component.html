@@ -39,6 +39,18 @@
               <mat-icon class="material-icons md-dark" color="primary">edit</mat-icon>
             </button>
           </ng-template>
+          <div class="col-12 row add">
+            <div class="col-9 col-md-6">
+              <mat-form-field class="update-action-name">
+                <input matInput [(ngModel)]="new.name">
+              </mat-form-field>
+            </div>
+            <div class="col-3 col-md-3">
+              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onUpdateName(new.name)">
+                編集
+              </button>
+            </div>
+          </div>
         </mat-tab>
       
         <mat-tab>

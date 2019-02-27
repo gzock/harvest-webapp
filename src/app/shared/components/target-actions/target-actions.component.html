@@ -96,14 +96,7 @@
               <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto"></app-photo-canvas>
             </div>
 
-            <div class="col-2">
-              <button mat-raised-button class="mat-elevation-z6" 
-                  (click)="onGetBackPhoto()" 
-                  [disabled]="isPhotoIndexMin()">
-                <mat-icon class="material-icons md-dark" color="primary">chevron_left</mat-icon>
-              </button>
-            </div>
-            <div class="col-4">
+            <div class="col-6">
               <button mat-stroked-button color="primary" 
                   matBadge="{{ selectedTarget.photos.before.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.before.length && selectedPhotoType != 'before'"
@@ -112,13 +105,40 @@
                 施工前
               </button>
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <button mat-stroked-button color="primary" 
                   matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.after.length"
                   class="btn-block" (click)="selectedPhotoType = 'after'; onGetPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 施工後
+              </button>
+            </div>
+
+            <div class="col-2">
+              <button mat-raised-button class="mat-elevation-z6" 
+                  (click)="onGetBackPhoto()" 
+                  [disabled]="isPhotoIndexMin()">
+                <mat-icon class="material-icons md-dark" color="primary">chevron_left</mat-icon>
+              </button>
+            </div>
+            <div class="col-4">
+              <button mat-raised-button color="primary" 
+                  class="btn-block" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
+                  [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'
+                  *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] !== selectedTarget["photos"]["adopt"][selectedPhotoType]'>
+                この写真を採用
+              </button>
+              <label class="btn btn-block btn-success" 
+                  *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] === selectedTarget["photos"]["adopt"][selectedPhotoType]'>
+                この写真が採用されています
+              </label>
+            </div>
+            <div class="col-4">
+              <button mat-raised-button color="warn" 
+                  class="btn-block" (click)="selectedPhotoType = 'after'; onDeletePhoto(selectedPhotoType, photoIndex)"
+                  [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
+                この写真を削除
               </button>
             </div>
             <div class="col-2">

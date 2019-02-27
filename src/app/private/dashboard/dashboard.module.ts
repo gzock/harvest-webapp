@@ -35,6 +35,9 @@ import { PlacesService } from './../../shared/services/places/places.service';
 import { TargetsService } from './../../shared/services/targets/targets.service';
 import { PhotosService } from './../../shared/services/photos/photos.service';
 
+import { AuthService } from './../../shared/services/auth/auth.service';
+import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -78,7 +81,12 @@ import { PhotosService } from './../../shared/services/photos/photos.service';
     ProjectsService,
     PlacesService,
     TargetsService,
-    PhotosService
+    PhotosService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   exports: [
   ],

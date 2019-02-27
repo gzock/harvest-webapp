@@ -59,12 +59,14 @@ export class PhotosService {
     return this.http.post(photoUrl, { "type": type, "data": photoData });
   }
 
-  public delete(photoId): Observable<any> {
-    return this.http.delete(this.photoUrl + this.placeId + "/photos/" + photoId);
+  public delete(targetId, photoId): Observable<any> {
+    let photoUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId + "/photos";
+    return this.http.delete(photoUrl + "/" + photoId);
   }
 
-  public adopt(photoId) {
-    return this.http.post(this.photoUrl + this.placeId + "/photos/" + photoId, {});
+  public adopt(targetId, type, photoId) {
+    let photoUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId + "/photos";
+    return this.http.put(photoUrl + "/" + photoId, { "type": type });
   }
 
 }

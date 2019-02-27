@@ -160,6 +160,44 @@ export class TargetActionsComponent implements OnInit {
     }
   }
 
+  public onAdoptPhoto(type, index) {
+    if(this.isTarget) {
+      let targetId = this.selectedTarget["target_id"];
+      let photoId = this.selectedTarget["photos"][type][index];
+      this.photosService.adopt(targetId, type, photoId)
+        .pipe(
+           catchError(error => throwError(error))
+        )
+        .subscribe(
+           response => {
+             console.log(response);
+           },
+           err => {
+             console.log("error: " + err);
+           }
+        )
+    }
+  }
+
+  public onDeletePhoto(type, index) {
+    if(this.isTarget) {
+      let targetId = this.selectedTarget["target_id"];
+      let photoId = this.selectedTarget["photos"][type][index];
+      this.photosService.delete(targetId, photoId)
+        .pipe(
+           catchError(error => throwError(error))
+        )
+        .subscribe(
+           response => {
+             console.log(response);
+           },
+           err => {
+             console.log("error: " + err);
+           }
+        )
+    }
+  }
+
   public onGetBackPhoto() {
     this.onGetPhoto(this.selectedPhotoType, this.photoIndex--);
   }

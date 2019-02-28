@@ -17,6 +17,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -37,6 +38,8 @@ import { PhotosService } from './../../shared/services/photos/photos.service';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
+import { AlertService } from './../../shared/services/alert/alert.service';
+
 
 @NgModule({
   declarations: [
@@ -74,6 +77,7 @@ import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
     MatDividerModule,
     MatBadgeModule,
     MatChipsModule,
+    MatSnackBarModule,
     NgbModule
   ],
   providers: [
@@ -82,6 +86,7 @@ import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
     PlacesService,
     TargetsService,
     PhotosService,
+    AlertService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

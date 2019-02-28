@@ -14,6 +14,7 @@ import { PlacesService } from './../../../shared/services/places/places.service'
 import { TargetsService } from './../../../shared/services/targets/targets.service';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { PhotosService } from './../../../shared/services/photos/photos.service';
+import { AlertService } from './../../../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-work',
@@ -35,6 +36,7 @@ export class WorkComponent implements OnInit {
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
     public photosService: PhotosService,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
@@ -99,6 +101,7 @@ export class WorkComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
+           this.openErrorAlert("場所の取得");
            //this.showAlert("Error: " + err.message, "danger", 10000);
            //if (err.status == 401) {
            //  localStorage.removeItem('isLoggedin');
@@ -136,4 +139,9 @@ export class WorkComponent implements OnInit {
   public refresh() {
     this.getPlaces(this.placesService.getCurrentPlace().place_id);
   }
+
+  private openErrorAlert(msg) {
+    this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
+  }
+
 }

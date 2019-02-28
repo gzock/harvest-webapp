@@ -13,6 +13,7 @@ import { PlacesService } from './../../services/places/places.service';
 import { TargetsService } from './../../services/targets/targets.service';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { PhotosService } from './../../services/photos/photos.service';
+import { AlertService } from './../../services/alert/alert.service';
 
 @Component({
   selector: 'app-target-actions',
@@ -52,7 +53,8 @@ export class TargetActionsComponent implements OnInit {
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
     public photosService: PhotosService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private alert: AlertService
   ) { }
 
   ngOnInit() {
@@ -79,6 +81,7 @@ export class TargetActionsComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
+            this.openErrorAlert("場所の追加")
            }
         );
 
@@ -94,6 +97,7 @@ export class TargetActionsComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
+            this.openErrorAlert("撮影対象の追加")
            }
         );
     }
@@ -123,6 +127,7 @@ export class TargetActionsComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
+           this.openErrorAlert("名前の変更")
          }
       );
   }
@@ -153,6 +158,7 @@ export class TargetActionsComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
+           this.openErrorAlert("写真のアップロード")
          }
       );
   }
@@ -183,6 +189,7 @@ export class TargetActionsComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
+             this.openErrorAlert("写真の取得")
            }
         )
     }
@@ -202,6 +209,7 @@ export class TargetActionsComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
+             this.openErrorAlert("写真の採用")
            }
         )
     }
@@ -245,6 +253,10 @@ export class TargetActionsComponent implements OnInit {
   finish(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
+  }
+
+  private openErrorAlert(msg) {
+    this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
 }

@@ -9,6 +9,7 @@ import { SettingProjectComponent } from './../../../shared/components/setting-pr
 
 import { Project } from './project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
+import { AlertService } from './../../../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-projects',
@@ -21,7 +22,8 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public projectsService: ProjectsService
+    public projectsService: ProjectsService,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
@@ -52,14 +54,7 @@ export class ProjectsComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
-           //this.showAlert("Error: " + err.message, "danger", 10000);
-           //if (err.status == 401) {
-           //  localStorage.removeItem('isLoggedin');
-           //  this.router.navigate(["/login"]);
-           //}
-           //else if (err.status == 400) {
-           //  this.errMsg = "Error: " + err.error.message;
-           //}
+           this.openErrorAlert("プロジェクト一覧の取得");
          }
       );
   }
@@ -76,6 +71,7 @@ export class ProjectsComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
+           this.openErrorAlert("プロジェクトの作成");
          }
       );
     
@@ -98,4 +94,9 @@ export class ProjectsComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  private openErrorAlert(msg) {
+    this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
+  }
+
 }

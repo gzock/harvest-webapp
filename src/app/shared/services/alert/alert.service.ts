@@ -10,7 +10,7 @@ export class AlertService {
     private snackBar: MatSnackBar
   ) { }
 
-  private openSnackBar(message: string, action: string, duration: number, cls: [string]) {
+  private openSnackBar(message: string, action: string, duration: number, cls: string[]) {
     this.snackBar.open(message, action, {
       duration: duration,
       panelClass: cls

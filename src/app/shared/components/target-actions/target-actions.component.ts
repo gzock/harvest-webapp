@@ -23,8 +23,8 @@ import { AlertService } from './../../services/alert/alert.service';
 export class TargetActionsComponent implements OnInit {
 
   private currentProject: Project;
-  private selectedPlace: Place;
-  private selectedTarget: Target;
+  public selectedPlace: Place;
+  public selectedTarget: Target;
   public selectedPhotoType: string = "before";
   public photoIndex: number = 0;
   public isTarget:boolean = false;

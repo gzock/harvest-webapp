@@ -19,6 +19,7 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
 export class ProjectsComponent implements OnInit {
   public projects: Project[];
   public dataSource: MatTableDataSource<Project>;
+  public filterStatus: string;
 
   constructor(
     public dialog: MatDialog,

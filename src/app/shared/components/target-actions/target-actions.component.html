@@ -80,13 +80,13 @@
             <div class="col-6 col-md-4">
               <input type="file" id="camera-input" capture="camera" accept="image/*" (change)="onFileSelected($event)"/>
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
-                <mat-icon class="material-icons md-dark align-middle" color="accent">photo_camera</mat-icon>
+                <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
                 撮影
               </label>
             </div>
             <div class="col-6 col-md-4">
               <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!takenPhoto">
-                <mat-icon class="material-icons md-dark align-middle" color="accent">cloud_upload</mat-icon>
+                <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
                 アップロード
               </button>
             </div>
@@ -126,6 +126,8 @@
                 施工後
               </button>
             </div>
+
+            <hr />
 
             <div class="col-2">
               <button mat-raised-button class="mat-elevation-z6" 

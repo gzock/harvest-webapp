@@ -46,14 +46,14 @@ export class AuthService {
             from(Auth.completeNewPassword(user, password, requiredAttrs))
               .pipe(
                 tap(_user => { 
-                    this.saveUserData(_user.signInUserSession);
+                    //this.saveUserData(_user.signInUserSession);
                     this.loggedIn.next(true);
                   }
                 )
               );
 
           } else {
-            this.saveUserData(user.signInUserSession);
+            //this.saveUserData(user.signInUserSession);
             this.loggedIn.next(true);
           }
         })
@@ -81,27 +81,10 @@ export class AuthService {
   }
  
   /** idtokenを取得 */
-  public getToken(): string {
-    return localStorage.getItem('token');
-    //console.log(Auth.currentSession());
-    //let session = Auth.currentSession();
-    //console.log(session['__zone_symbol__value']['idToken']);
-    //console.log(session['__zone_symbol__value']['idToken']['jwtToken']);
-    //return Auth.currentSession()['__zone_symbol__value']['idToken']['jwtToken'];
+  public getToken(): Observable<any> {
+    //return localStorage.getItem('token');
 
-    return
-    //return from(Auth.currentSession());
-    //  .pipe(
-    //    tap(result => {
-    //      console.log(result);
-    //      //this.loggedIn.next(true);
-    //      return result['__zone_symbol__value']['idToken']['jwtToken'];
-    //    }),
-    //    catchError(error => {
-    //      this.loggedIn.next(false);
-    //      return of(false);
-    //    })
-    //  );
+    return from(Auth.currentSession());
   }
 
   /** ログアウト */

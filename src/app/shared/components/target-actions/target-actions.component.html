@@ -8,7 +8,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
-              <mat-icon class="material-icons md-dark" color="primary">add</mat-icon>
+              <mat-icon class="material-icons md-dark" color="accent">add</mat-icon>
             </button>
           </ng-template>
           <div class="col-12 row add">
@@ -36,7 +36,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
-              <mat-icon class="material-icons md-dark" color="primary">edit</mat-icon>
+              <mat-icon class="material-icons md-dark" color="accent">edit</mat-icon>
             </button>
           </ng-template>
           <div class="col-12 row add">
@@ -56,7 +56,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
-              <mat-icon class="material-icons md-dark" color="primary">clear</mat-icon>
+              <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
             </button>
           </ng-template>
         </mat-tab>
@@ -64,13 +64,13 @@
         <mat-tab *ngIf="isTarget">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
-              <mat-icon class="material-icons md-dark" color="primary">photo_camera</mat-icon>
+              <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
             </button>
           </ng-template>
       
           <div class="col-12 row shot">
             <div class="col-12 col-md-4">
-              <mat-form-field class="add-action-type">
+              <mat-form-field class="shot-action-type">
                 <mat-select placeholder="タイプ" [(ngModel)]="photo.type" required>
                   <mat-option value="before">施工前</mat-option>
                   <mat-option value="after">施工後</mat-option>
@@ -80,13 +80,13 @@
             <div class="col-6 col-md-4">
               <input type="file" id="camera-input" capture="camera" accept="image/*" (change)="onFileSelected($event)"/>
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
-                <mat-icon class="material-icons md-dark align-middle" color="primary">photo_camera</mat-icon>
+                <mat-icon class="material-icons md-dark align-middle" color="accent">photo_camera</mat-icon>
                 撮影
               </label>
             </div>
             <div class="col-6 col-md-4">
               <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!takenPhoto">
-                <mat-icon class="material-icons md-dark align-middle" color="primary">cloud_upload</mat-icon>
+                <mat-icon class="material-icons md-dark align-middle" color="accent">cloud_upload</mat-icon>
                 アップロード
               </button>
             </div>
@@ -99,7 +99,7 @@
         <mat-tab *ngIf="isTarget && (selectedTarget.photos.before.length || selectedTarget.photos.after.length)">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto('before', 0)">
-              <mat-icon class="material-icons md-dark" color="primary">photo_library</mat-icon>
+              <mat-icon class="material-icons md-dark" color="accent">photo_library</mat-icon>
             </button>
           </ng-template>
 
@@ -109,7 +109,7 @@
             </div>
 
             <div class="col-6">
-              <button mat-stroked-button color="primary" 
+              <button mat-stroked-button color="accent" 
                   matBadge="{{ selectedTarget.photos.before.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.before.length && selectedPhotoType != 'before'"
                   class="btn-block" (click)="selectedPhotoType = 'before'; onGetPhoto(selectedPhotoType, photoIndex)"
@@ -118,7 +118,7 @@
               </button>
             </div>
             <div class="col-6">
-              <button mat-stroked-button color="primary" 
+              <button mat-stroked-button color="accent" 
                   matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
                   [disabled]="!selectedTarget.photos.after.length"
                   class="btn-block" (click)="selectedPhotoType = 'after'; onGetPhoto(selectedPhotoType, photoIndex)"
@@ -131,11 +131,11 @@
               <button mat-raised-button class="mat-elevation-z6" 
                   (click)="onGetBackPhoto()" 
                   [disabled]="isPhotoIndexMin()">
-                <mat-icon class="material-icons md-dark" color="primary">chevron_left</mat-icon>
+                <mat-icon class="material-icons md-dark" color="accent">chevron_left</mat-icon>
               </button>
             </div>
             <div class="col-4">
-              <button mat-raised-button color="primary" 
+              <button mat-raised-button color="accent" 
                   class="btn-block" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'
                   *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] !== selectedTarget["photos"]["adopt"][selectedPhotoType]'>
@@ -157,7 +157,7 @@
               <button mat-raised-button class="mat-elevation-z6" 
                   (click)="onGetNextPhoto()" 
                   [disabled]="isPhotoIndexMax()">
-                <mat-icon class="material-icons md-dark" color="primary">chevron_right</mat-icon>
+                <mat-icon class="material-icons md-dark" color="accent">chevron_right</mat-icon>
               </button>
             </div>
 

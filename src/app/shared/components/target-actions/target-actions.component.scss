@@ -17,13 +17,19 @@ button {
   margin-bottom: 10px;
 }
 
+.shot-action-type {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  width: 128px;
+}
+
 .shot-action-submit {
-  margin-top: 10px;
+  margin-top: 18px;
   margin-bottom: 10px;
 }
 
 .shot-action-upload {
-  margin-top: 10px;
+  margin-top: 18px;
   margin-bottom: 10px;
 }
 
@@ -33,10 +39,6 @@ button {
 
 .shot input {
   display:none;
-}
-
-.shot button, label {
-  margin: 18px;
 }
 
 .photo-canvas {

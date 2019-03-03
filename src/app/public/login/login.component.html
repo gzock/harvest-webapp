@@ -2,10 +2,9 @@
 <div class="login-page">
 
     <div class="row">
-        <div class="col-md-12 center">
+        <div class="col-md-12 login-contents mat-elevation-z24">
             <h1 class="heading">harvest</h1>
 
-            <div class="col-sm-4 offset-sm-4 col-md-2 offset-md-5">
               <form role="form">
                   <div class="form-content">
                       <div class="form-group">
@@ -16,19 +15,18 @@
                           <input type="password" [(ngModel)]="password" name="password" class="form-control input-underline input-lg" id="password" placeholder="パスワード">
                       </div>
                   </div>
-                  <a class="btn btn-outline-success" (click)="onLoggedIn(email, password)"> ログイン </a>
+                  <button class="btn btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
                   <!-- <a class="btn btn-outline-danger" (click)="onLoggedin()"> Login </a> -->
               </form>
               <div *ngIf="errormsg">
                 <p class="text-danger">{{ errormsg }}</p>
               </div>
-            </div>
 
         </div>
     </div>
     <div class="mastfoot">
       <div class="inner">
-        <p>development by yjfx infra team.</p>
+        <p>Copyright © 2019 MARUSA TECH All Rights Reserved.</p>
       </div>
     </div>
 

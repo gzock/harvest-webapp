@@ -18,6 +18,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -78,6 +79,7 @@ import { AlertService } from './../../shared/services/alert/alert.service';
     MatBadgeModule,
     MatChipsModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     NgbModule
   ],
   providers: [

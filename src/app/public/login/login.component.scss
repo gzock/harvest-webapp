@@ -12,23 +12,53 @@ $topnav-background-color: honeydew;
 @media screen and (max-width:768px) { 
   .login-contents {
     text-align: center;
-    max-width: 70vw;
+    max-width: 50vw;
     max-height: 60vh;
     background: #F5F5F5;
     margin: auto;
+  }
+  .font-control {
+    font-size: 2vw;
+  }
+  .submit-btn {
+    margin-bottom: 5px;
+    font-size: 2vw;
   }
 }
 
 @media screen and (min-width:769px) {
   .login-contents {
     text-align: center;
-    max-width: 50vw;
+    max-width: 30vw;
     max-height: 50vh;
     background: #F5F5F5;
     margin: auto;
   }
+  .font-control {
+    font-size: 2vw;
+  }
+  .submit-btn {
+    margin-bottom: 5px;
+    font-size: 2vw;
+  }
 }
   
+@media screen and (min-width:1000px) {
+  .login-contents {
+    text-align: center;
+    max-width: 25vw;
+    max-height: 40vh;
+    background: #F5F5F5;
+    margin: auto;
+  }
+  .font-control {
+    font-size: 1vw;
+  }
+  .submit-btn {
+    margin-bottom: 5px;
+    font-size: 1vw;
+  }
+}
 
 .login-page {
     position: absolute;
@@ -41,7 +71,7 @@ $topnav-background-color: honeydew;
     text-align: center;
     color: darkgreen;
     font-weight: bold;
-    padding: 3em;
+    padding: 2em;
     .col-lg-4{
         padding :0;
     }
@@ -105,17 +135,17 @@ $topnav-background-color: honeydew;
     }
 
     .heading {
-      font-size: 10vw;
+      font-size: 6vw;
       font-weight: bold;
       line-height: 1.1;
       width: 100%;
-      margin: 10px 0px;
+      margin: 5px 0px;
       //height: 96px;
     }
   
 
     .form-group {
-        padding: 8px 0;
+        padding: 3px 0;
         margin-bottom: 0rem;
         input::-webkit-input-placeholder {
         color: olivedrab !important;
@@ -134,7 +164,7 @@ $topnav-background-color: honeydew;
         }
     }
     .form-content {
-        padding: 10px 0;
+        padding: 3px 0;
         color: olivedrab;
     }
     .user-avatar {
@@ -147,9 +177,6 @@ $topnav-background-color: honeydew;
       position: fixed;
       bottom: 0;
       right: 5%;
-      font-size: 1.5vw;
+      font-size: 0.8vw;
     }
-.submit-btn {
-  margin-bottom: 12px;
-}
 }

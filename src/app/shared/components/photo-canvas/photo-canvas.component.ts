@@ -22,6 +22,7 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
   @ViewChild('viewCanvas') viewCanvas;
 
   ngAfterViewInit() {
+    console.log("detected ngAfterViewInit()");
     this.canvas = this.viewCanvas.nativeElement;
     this.context = this.canvas.getContext('2d');
 
@@ -60,6 +61,8 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
   }
 
   ngDoCheck() {
+    console.log("detected ngDoCheck");
+    this.image.src = this.photoSrc;
     this.image.onload = () => {
       let w = this.viewCanvas.nativeElement.offsetWidth;
       let ratio = w / this.image.width;

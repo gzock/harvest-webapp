@@ -171,6 +171,7 @@ export class TargetActionsComponent implements OnInit {
   onGetPhoto(type, index) {
     console.log(type);
     console.log(index);
+    this.neededPhoto = null;
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];
       if(index > this.selectedTarget["photos"][type].length - 1) {
@@ -186,6 +187,7 @@ export class TargetActionsComponent implements OnInit {
            response => {
              this.neededPhoto = "data:image/jpeg;base64," + response;
              console.log(this.neededPhoto);
+             this.changeDetectorRef.detectChanges();
            },
            err => {
              console.log("error: " + err);
@@ -235,11 +237,11 @@ export class TargetActionsComponent implements OnInit {
   }
 
   public onGetBackPhoto() {
-    this.onGetPhoto(this.selectedPhotoType, this.photoIndex--);
+    this.onGetPhoto(this.selectedPhotoType, --this.photoIndex);
   }
 
   public onGetNextPhoto() {
-    this.onGetPhoto(this.selectedPhotoType, this.photoIndex++);
+    this.onGetPhoto(this.selectedPhotoType, ++this.photoIndex);
   }
 
   public isPhotoIndexMax() {

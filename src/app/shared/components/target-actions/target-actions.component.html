@@ -138,22 +138,23 @@
               </button>
             </div>
             <div class="col-4">
-              <button mat-raised-button color="accent" 
-                  class="btn-block" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
+              <button mat-raised-button
+                  class="btn-success mat-elevation-z6" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'
                   *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] !== selectedTarget["photos"]["adopt"][selectedPhotoType]'>
-                この写真を採用
+                <mat-icon class="material-icons" color="accent">star_border</mat-icon>
               </button>
-              <label class="btn btn-block btn-success" 
+              <button mat-raised-button
+                  class="btn-default" 
                   *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] === selectedTarget["photos"]["adopt"][selectedPhotoType]'>
-                この写真が採用されています
-              </label>
+                <mat-icon class="material-icons md-dark" color="accent">star</mat-icon>
+              </button>
             </div>
             <div class="col-4">
-              <button mat-raised-button color="warn" 
-                  class="btn-block" (click)="selectedPhotoType = 'after'; onDeletePhoto(selectedPhotoType, photoIndex)"
+              <button mat-raised-button 
+                  class="btn-default mat-elevation-z6" (click)="selectedPhotoType = 'after'; onDeletePhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
-                この写真を削除
+                <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
               </button>
             </div>
             <div class="col-2">

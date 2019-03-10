@@ -3,6 +3,15 @@ canvas {
   height: 100%;
 }
 
+.viewCanvas {
+  //display: none;
+}
+
+img {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
 canvas .compressCanvas{
   display: none;
   width: 0%;

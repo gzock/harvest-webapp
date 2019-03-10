@@ -52,6 +52,8 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
       this.canvas.width = w;
       this.canvas.height = h;
       this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, w, h);
+      //this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, 1280, 720);
+
       // 本来は指定された解像度に圧縮してそれをエミット
       this.compressed.emit(this.canvas.toDataURL("image/jpeg",0.85));
       console.log(w);
@@ -71,6 +73,10 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
       this.canvas.width = w;
       this.canvas.height = h;
       this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, w, h);
+      console.log(this.image.width);
+      console.log(this.image.height);
+      //this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, 1280, 720);
+
       // 本来は指定された解像度に圧縮してそれをエミット
       this.compressed.emit(this.canvas.toDataURL("image/jpeg",0.85));
     }

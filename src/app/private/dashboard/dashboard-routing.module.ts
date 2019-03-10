@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
+import { GenerateComponent } from './generate/generate.component';
 
 const routes: Routes = [
     {
@@ -11,7 +12,8 @@ const routes: Routes = [
         children: [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'projects', component: ProjectsComponent },
-            { path: 'work', component: WorkComponent }
+            { path: 'work', component: WorkComponent },
+            { path: 'generate', component: GenerateComponent }
         ]
     }
 ];

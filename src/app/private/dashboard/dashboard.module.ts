@@ -41,6 +41,8 @@ import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
 import { AlertService } from './../../shared/services/alert/alert.service';
 
+import { GenerateComponent } from './generate/generate.component';
+import { GenerateService } from './../../shared/services/generate/generate.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { AlertService } from './../../shared/services/alert/alert.service';
     CreateProjectComponent,
     SettingProjectComponent,
     TargetActionsComponent,
-    PhotoCanvasComponent
+    PhotoCanvasComponent,
+    GenerateComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +92,7 @@ import { AlertService } from './../../shared/services/alert/alert.service';
     TargetsService,
     PhotosService,
     AlertService,
+    GenerateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

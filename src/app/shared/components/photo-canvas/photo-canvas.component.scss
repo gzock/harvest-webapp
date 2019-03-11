@@ -5,6 +5,8 @@ canvas {
 
 .viewCanvas {
   //display: none;
+  position: absolute;
+  visibility: hidden;
 }
 
 img {

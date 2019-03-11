@@ -33,7 +33,7 @@ export class GenerateComponent implements OnInit {
       .subscribe(
          response => {
            console.log(response);
-           this.downloadUrl = response;
+           this.downloadUrl = response.toString();
            //this.places = response.places;
            //this.placeDataSource = new MatTableDataSource(this.places);
            //this.targets = response.targets;

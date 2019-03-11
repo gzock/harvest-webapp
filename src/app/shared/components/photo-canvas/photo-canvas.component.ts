@@ -5,7 +5,7 @@ import { AfterViewInit, Component, Input, Output, EventEmitter, DoCheck, ViewChi
   templateUrl: './photo-canvas.component.html',
   styleUrls: ['./photo-canvas.component.scss']
 })
-export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
+export class PhotoCanvasComponent implements AfterViewInit {
   @Input() photoSrc: string;
   @Input() compressWidth: number;
   @Input() compressHeight: number;
@@ -13,6 +13,10 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
 
   private image: any;
   private canvas: any;
+  private ratio: number;
+  private maxWidth:number = 1280;
+  private maxHeight:number = 720;
+
 
   constructor() { }
 
@@ -29,30 +33,29 @@ export class PhotoCanvasComponent implements AfterViewInit, DoCheck {
     this.image = this.photoView.nativeElement;
 
     this.image.onload = () => {
-      let ratio: float;
-      
-      const maxWidth = 1280;
-      const maxHeight = 720;
-
       let width = this.image.naturalWidth;
       let height = this.image.naturalHeight;
       
       if(width >= height) {
-        if(width > maxWidth) {
-          ratio = width / maxWidth;
+        if(width > this.maxWidth) {
+          this.ratio = width / this.maxWidth;
         }
       } else {
-        if(height > maxHeight) {
-          ratio = height / maxHeight;
+        if(height > this.maxHeight) {
+          this.ratio = height / this.maxHeight;
         }
       }
-      width = width * ratio;
-      height = height * ratio;
-      console.log(ratio);
+      width = width * this.ratio;
+      height = height * this.ratio;
+      console.log(this.ratio);
 
-      this.canvas.width = maxWidth;
-      this.canvas.height = maxHeight;
-      this.context.drawImage(this.image, 0, 0, this.image.naturalWidth, this.image.naturalHeight, 0, 0, maxWidth, maxHeight);
+      this.canvas.width = this.maxWidth;
+      this.canvas.height = this.maxHeight;
+      this.context.drawImage(
+          this.image, 
+          0, 0, this.image.naturalWidth, this.image.naturalHeight, 
+          0, 0, this.maxWidth, this.maxHeight
+      );
 
       // 本来は指定された解像度に圧縮してそれをエミット
       this.compressed.emit(this.canvas.toDataURL("image/jpeg",0.85));

@@ -144,4 +144,8 @@ export class WorkComponent implements OnInit {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
+  public floor(num: number) {
+    return Math.floor(num);
+  }
+
 }

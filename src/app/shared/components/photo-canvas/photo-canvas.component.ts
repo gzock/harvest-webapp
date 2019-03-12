@@ -9,15 +9,11 @@ import * as loadImage from 'blueimp-load-image';
   styleUrls: ['./photo-canvas.component.scss']
 })
 export class PhotoCanvasComponent implements AfterViewInit {
-  @Input() photoSrc: Blob;
-  @Input() output: boolen = false;
-  //@Input() compressWidth: number;
-  //@Input() compressHeight: number;
+  @Input() photoSrc: any;
+  @Input() output: boolean = false;
   @Output() compressed = new EventEmitter();
 
-  private image: string;
-  //private canvas: any;
-  //private ratio: number = 1.0;
+  public image: string;
   private maxWidth:number = 1280;
   private maxHeight:number = 720;
 
@@ -25,19 +21,9 @@ export class PhotoCanvasComponent implements AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
-  //context: CanvasRenderingContext2D;
-
-  //@ViewChild('viewCanvas') viewCanvas;
-  //@ViewChild('photoView') photoView;
-
   ngAfterViewInit() {
     this.image = "";
     console.log("detected ngAfterViewInit()");
-    //console.log(this.photoSrc);
-    //this.canvas = this.viewCanvas.nativeElement;
-    //this.context = this.canvas.getContext('2d');
-
-    //this.image = this.photoView.nativeElement;
 
     if(this.output) {
       loadImage.parseMetaData(this.photoSrc, (data) => {

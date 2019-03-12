@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.0.4",
     "@types/aws-sdk": "^2.7.0",
     "aws-amplify": "^1.1.19",
+    "blueimp-load-image": "^2.20.1",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
     "hammerjs": "^2.0.8",

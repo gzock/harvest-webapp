@@ -91,7 +91,7 @@
               </button>
             </div>
             <div class="col-12 text-center photo-canvas">
-              <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" (compressed)="onCompressedPhoto($event)"></app-photo-canvas>
+              <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" [output]=true (compressed)="onCompressedPhoto($event)"></app-photo-canvas>
             </div>
           </div>
         </mat-tab>
@@ -106,7 +106,7 @@
           <div class="col-12 row shot">
             <div class="col-12 text-center photo-canvas">
               <mat-spinner class="loading" *ngIf="!neededPhoto"></mat-spinner>
-              <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto"></app-photo-canvas>
+              <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto" [output]=false ></app-photo-canvas>
             </div>
 
             <div class="col-6">

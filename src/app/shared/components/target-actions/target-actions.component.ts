@@ -134,14 +134,17 @@ export class TargetActionsComponent implements OnInit {
 
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
-    let fileReader = new FileReader();
+    this.takenPhoto = this.selectedFile;
+    this.changeDetectorRef.detectChanges();
 
-    fileReader.onload = () => {
-      this.takenPhoto = fileReader.result;
-      this.changeDetectorRef.detectChanges();
-    }
+    //let fileReader = new FileReader();
 
-    fileReader.readAsDataURL(this.selectedFile);
+    //fileReader.onload = () => {
+    //  this.takenPhoto = fileReader.result;
+    //  this.changeDetectorRef.detectChanges();
+    //}
+
+    //fileReader.readAsDataURL(this.selectedFile);
   }
 
   onUpload() {
@@ -186,8 +189,8 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              this.neededPhoto = "data:image/jpeg;base64," + response;
-             console.log(this.neededPhoto);
              this.changeDetectorRef.detectChanges();
+             console.log(this.neededPhoto);
            },
            err => {
              console.log("error: " + err);

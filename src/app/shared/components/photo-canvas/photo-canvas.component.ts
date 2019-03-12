@@ -13,7 +13,7 @@ export class PhotoCanvasComponent implements AfterViewInit {
 
   private image: any;
   private canvas: any;
-  private ratio: number;
+  private ratio: number = 1.0;
   private maxWidth:number = 1280;
   private maxHeight:number = 720;
 
@@ -49,12 +49,12 @@ export class PhotoCanvasComponent implements AfterViewInit {
       height = height * this.ratio;
       console.log(this.ratio);
 
-      this.canvas.width = this.maxWidth;
-      this.canvas.height = this.maxHeight;
+      this.canvas.width = width;
+      this.canvas.height = height;
       this.context.drawImage(
           this.image, 
           0, 0, this.image.naturalWidth, this.image.naturalHeight, 
-          0, 0, this.maxWidth, this.maxHeight
+          0, 0, width, height
       );
 
       // 本来は指定された解像度に圧縮してそれをエミット

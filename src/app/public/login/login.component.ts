@@ -13,7 +13,7 @@ import { AuthService } from './../../shared/services/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
     user: LoginUser;
-    errormsg: string;
+    errorMsg: string;
     email: string;
     password: string;
 
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
           },
           error => {
             console.log(error);
+            this.errorMsg = "ログインに失敗しました。メールアドレスあるいはパスワードが正しいかご確認ください。";
           });
     }
 

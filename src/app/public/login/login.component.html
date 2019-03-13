@@ -18,8 +18,8 @@
                   <button class="btn btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
                   <!-- <a class="btn btn-outline-danger" (click)="onLoggedin()"> Login </a> -->
               </form>
-              <div *ngIf="errormsg">
-                <p class="text-danger">{{ errormsg }}</p>
+              <div *ngIf="errorMsg">
+                <p class="small text-danger">{{ errorMsg }}</p>
               </div>
 
         </div>

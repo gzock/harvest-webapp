@@ -31,7 +31,7 @@ export class PhotoCanvasComponent implements AfterViewInit {
           orientation: null,
           canvas: true,
           maxWidth: 1280,
-          maxHeighth: 1280
+          maxHeight: 1280
         };
         if (data.exif) {
           options.orientation = data.exif.get('Orientation');

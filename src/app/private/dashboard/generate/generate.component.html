@@ -5,6 +5,10 @@
       zip ダウンロード
     </button>
     
+    <button mat-stroked-button color="accent" (click)="onGenerateExcelDoc()">
+      excel ダウンロード
+    </button>
+
     <a download href="{{ downloadUrl }}" class="mat-rased-button" *ngIf="downloadUrl">
       ここがダウンロードリンク
     </a>

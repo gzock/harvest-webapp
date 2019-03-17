@@ -34,13 +34,6 @@ export class GenerateComponent implements OnInit {
          response => {
            console.log(response);
            this.downloadUrl = response.toString();
-           //this.places = response.places;
-           //this.placeDataSource = new MatTableDataSource(this.places);
-           //this.targets = response.targets;
-           //this.targetDataSource = new MatTableDataSource(this.targets);
-           //
-           //this.currentProject = this.projectsService.getCurrentProject();
-           //this.placesService.setProjectId(this.currentProject.project_id);
          },
          err => {
            console.log("error: " + err);
@@ -48,4 +41,20 @@ export class GenerateComponent implements OnInit {
       );
   }
 
+  public onGenerateExcelDoc() {
+    let projectId = this.currentProject.project_id;
+    this.generateService.generateExcelDoc(projectId, "basic_1.xlsx", false)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           console.log(response);
+           this.downloadUrl = response.toString();
+         },
+         err => {
+           console.log("error: " + err);
+         }
+      );
+  }
 }

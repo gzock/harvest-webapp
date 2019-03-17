@@ -18,8 +18,14 @@ export class GenerateService {
     let _generateUrl = this.generateUrl + projectId + "/generate/zip";
     return this.http.post(_generateUrl, {});
   }
-  public generateDoc(projectId) {
-    let _generateUrl = this.generateUrl + projectId + "/generate/doc";
-    return this.http.post(_generateUrl, {});
+  public generateExcelDoc(projectId, template, needCustomTemplate) {
+    let _generateUrl = this.generateUrl + projectId + "/generate/excel-doc";
+    return this.http.post(
+        _generateUrl, 
+        {
+          "template": template,
+          "need_custom_template": needCustomTemplate
+        }
+    );
   }
 }

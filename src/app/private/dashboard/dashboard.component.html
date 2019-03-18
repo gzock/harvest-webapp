@@ -2,7 +2,7 @@
 
 <mat-sidenav-container class="sidenav-container">
 
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+  <mat-sidenav #sidenav class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
@@ -12,15 +12,15 @@
         <i class="material-icons md-dark">home</i> 
         HOME
       </a>
-      <a mat-list-item routerLink="projects">
+      <a mat-list-item routerLink="projects" (click)="sidenav.mode === 'over' && sidenav.toggle()">
         <i class="material-icons md-dark">list_alt</i> 
         PROJECT
       </a>
-      <a mat-list-item routerLink="work">
+      <a mat-list-item routerLink="work" (click)="sidenav.mode === 'over' && sidenav.toggle()">
         <i class="material-icons md-dark">photo_camera</i> 
         WORK
       </a>
-      <a mat-list-item routerLink="generate">
+      <a mat-list-item routerLink="generate" (click)="sidenav.mode === 'over' && sidenav.toggle()">
         <i class="material-icons md-dark">photo_album</i> 
         GENERATE
       </a>
@@ -33,7 +33,7 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
+        (click)="sidenav.toggle()"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

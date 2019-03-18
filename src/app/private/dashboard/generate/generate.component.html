@@ -1,17 +1,96 @@
 <div class="container">
   <div class="row text-center">
 
-    <button mat-stroked-button color="accent" (click)="onGenerateZip()">
-      zip ダウンロード
-    </button>
-    
-    <button mat-stroked-button color="accent" (click)="onGenerateExcelDoc()">
-      excel ダウンロード
-    </button>
+    <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
+          生成とダウンロード
+        </ng-template>
 
-    <a download href="{{ downloadUrl }}" class="mat-rased-button" *ngIf="downloadUrl">
-      ここがダウンロードリンク
-    </a>
+        <mat-vertical-stepper [linear]="true" #stepper>
+          <mat-step [stepControl]="generateType">
+            <ng-template matStepLabel>種類の選択: {{ generateType }}</ng-template>
+
+            <button mat-raised-button matStepperNext class="step-1-type-select" (click)="generateType = 'zip'">
+              ZIP<br>
+              <mat-icon class="material-icons md-dark" color="accent">create_new_folder</mat-icon>
+            </button>
+
+            <button mat-raised-button matStepperNext class="step-1-type-select" (click)="generateType = 'excel'">
+              EXCEL<br>
+              <mat-icon class="material-icons md-dark" color="accent">grid_on</mat-icon>
+            </button>
+
+          </mat-step>
+
+          <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>設定</ng-template>
+            
+            <div class="step-2-settings">
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                  画像のファイル名を分かりやすい名前に変更する
+                </mat-checkbox>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                  ファイル名に場所の階層構造を含める
+                </mat-checkbox>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                  進捗率100%未満であっても強制的にダウンロードする
+                </mat-checkbox>
+              </section>
+
+              <!--
+              <section class="example-section">
+                <mat-form-field>
+                  <input matInput placeholder="ダウンロード有効期間: デフォルト15分" formControlName="secondCtrl" required>
+                </mat-form-field>
+              </section>
+              -->
+
+            </div>
+
+            <div>
+              <button mat-button matStepperPrevious>戻る</button>
+              <button mat-button matStepperNext>次へ</button>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            You are now done.
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+
+            <button mat-stroked-button color="accent" (click)="onGenerateZip()">
+              zip ダウンロード
+            </button>
+            
+            <button mat-stroked-button color="accent" (click)="onGenerateExcelDoc()">
+              excel ダウンロード
+            </button>
+
+            <a download href="{{ downloadUrl }}" class="mat-rased-button" *ngIf="downloadUrl">
+              ここがダウンロードリンク
+            </a>
+          </mat-step>
+        </mat-vertical-stepper>
+
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
+          テンプレート管理
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
 
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatNativeDateModule, MatInputModule, MAT_DATE_LOCALE } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -19,6 +19,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -60,6 +62,7 @@ import { GenerateService } from './../../shared/services/generate/generate.servi
     CommonModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     DashboardRoutingModule,
     MatToolbarModule,
     MatButtonModule,
@@ -83,6 +86,8 @@ import { GenerateService } from './../../shared/services/generate/generate.servi
     MatChipsModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatStepperModule,
+    MatCheckboxModule,
     NgbModule
   ],
   providers: [

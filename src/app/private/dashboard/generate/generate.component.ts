@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
@@ -15,13 +16,26 @@ export class GenerateComponent implements OnInit {
   private currentProject: Project;
   public downloadUrl: string;
 
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  generateType: string;
+
   constructor(
     public projectsService: ProjectsService,
-    public generateService: GenerateService
+    public generateService: GenerateService,
+    private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     this.currentProject = this.projectsService.getCurrentProject();
+
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   public onGenerateZip() {

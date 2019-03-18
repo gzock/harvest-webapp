@@ -25,3 +25,23 @@ table {
   max-height: 95vh !important;
 }
 
+
+.step-1-type-select {
+  width: 120px;
+  height: 120px;
+  font-size: 3vw;
+  margin: 6px 32px;
+
+  .mat-icon {
+    width: 5vw;
+    height: 5vw;
+  }
+  .material-icons {
+    font-size: 5vw;
+  }
+}
+
+.step-2-settings {
+  text-align: left;
+  font-size: 1.5vw;
+}

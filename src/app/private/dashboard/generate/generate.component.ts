@@ -16,10 +16,11 @@ export class GenerateComponent implements OnInit {
   private currentProject: Project;
   public downloadUrl: string;
 
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  generateType: string;
+  public isLinear = false;
+  public firstFormGroup: FormGroup;
+  public secondFormGroup: FormGroup;
+  public generateType: string;
+  public checked: any;
 
   constructor(
     public projectsService: ProjectsService,

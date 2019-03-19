@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
+
+import { MatVerticalStepper } from '@angular/material';
 
 import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
@@ -21,6 +23,8 @@ export class GenerateComponent implements OnInit {
   public secondFormGroup: FormGroup;
   public generateType: string;
   public checked: any;
+
+  @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
   constructor(
     public projectsService: ProjectsService,
@@ -71,5 +75,16 @@ export class GenerateComponent implements OnInit {
            console.log("error: " + err);
          }
       );
+  }
+
+  public onSetGenerateType(type: string) {
+    this.generateType = type;
+    this.onNext();
+  }
+
+  public onNext() {
+      this.stepper.selected.completed = true;
+      //this.stepper.selected.editable = false;
+      this.stepper.next();
   }
 }

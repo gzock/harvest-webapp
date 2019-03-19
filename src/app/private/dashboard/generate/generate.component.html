@@ -9,23 +9,26 @@
         </ng-template>
 
         <mat-vertical-stepper [linear]="true" #stepper>
-          <mat-step [stepControl]="generateType">
+          <mat-step [completed]="false">
             <ng-template matStepLabel>種類の選択: {{ generateType }}</ng-template>
 
-            <button mat-raised-button matStepperNext class="step-1-type-select" (click)="generateType = 'zip'">
+            <button mat-raised-button class="step-1-type-select" (click)="onSetGenerateType('zip')">
               ZIP<br>
               <mat-icon class="material-icons md-dark" color="accent">create_new_folder</mat-icon>
             </button>
 
-            <button mat-raised-button matStepperNext class="step-1-type-select" (click)="generateType = 'excel'">
+            <button mat-raised-button type="button" class="step-1-type-select" (click)="onSetGenerateType('excel')">
               EXCEL<br>
               <mat-icon class="material-icons md-dark" color="accent">grid_on</mat-icon>
             </button>
-
           </mat-step>
 
-          <mat-step [stepControl]="secondFormGroup">
+          <mat-step [optional]="true">
             <ng-template matStepLabel>設定</ng-template>
+
+            <p *ngIf="!generateType" class="text-danger">
+              エラー: 種類が選択されていません。
+            </p>
             
             <div class="step-2-settings">
               <section class="example-section">

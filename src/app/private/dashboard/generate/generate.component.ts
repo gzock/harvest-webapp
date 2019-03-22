@@ -9,6 +9,9 @@ import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { GenerateService } from './../../../shared/services/generate/generate.service';
 
+import { Order } from './order';
+import { Template } from './template';
+
 @Component({
   selector: 'app-generate',
   templateUrl: './generate.component.html',
@@ -23,6 +26,16 @@ export class GenerateComponent implements OnInit {
   public secondFormGroup: FormGroup;
   public generateType: string;
   public checked: any;
+
+  public order: Order = {
+    "type": "",
+    "template": "",
+    "by_name": false,
+    "has_hierarchy": false,
+    "force_download": false
+  };
+
+  public templates: Template[];
 
   @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
@@ -41,28 +54,15 @@ export class GenerateComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+
+    // temp
+    this.templates = [{"name": "basic_1.xlsx"}];
   }
 
-  public onGenerateZip() {
+  public onGenerate(order: Order) {
     let projectId = this.currentProject.project_id;
-    this.generateService.generateZip(projectId)
-      .pipe(
-         catchError(error => throwError(error))
-      )
-      .subscribe(
-         response => {
-           console.log(response);
-           this.downloadUrl = response.toString();
-         },
-         err => {
-           console.log("error: " + err);
-         }
-      );
-  }
 
-  public onGenerateExcelDoc() {
-    let projectId = this.currentProject.project_id;
-    this.generateService.generateExcelDoc(projectId, "basic_1.xlsx", false)
+    this.generateService.generate(projectId, order)
       .pipe(
          catchError(error => throwError(error))
       )
@@ -78,13 +78,22 @@ export class GenerateComponent implements OnInit {
   }
 
   public onSetGenerateType(type: string) {
-    this.generateType = type;
+    this.order.type = type;
     this.onNext();
   }
 
   public onNext() {
-      this.stepper.selected.completed = true;
-      //this.stepper.selected.editable = false;
-      this.stepper.next();
+    this.stepper.selected.completed = true;
+    //this.stepper.selected.editable = false;
+    this.stepper.next();
+  }
+
+  public onPrevious() {
+    this.stepper.previous();
+  }
+
+  public onReset() {
+    this.downloadUrl = "";
+    this.stepper.reset();
   }
 }

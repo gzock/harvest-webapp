@@ -10,7 +10,7 @@
 
         <mat-vertical-stepper [linear]="true" #stepper>
           <mat-step [completed]="false">
-            <ng-template matStepLabel>種類の選択: {{ generateType }}</ng-template>
+            <ng-template matStepLabel>種類の選択: {{ order.type }}</ng-template>
 
             <button mat-raised-button class="step-1-type-select" (click)="onSetGenerateType('zip')">
               ZIP<br>
@@ -26,25 +26,25 @@
           <mat-step [optional]="true">
             <ng-template matStepLabel>設定</ng-template>
 
-            <p *ngIf="!generateType" class="text-danger">
+            <p *ngIf="!order.type" class="text-danger">
               エラー: 種類が選択されていません。
             </p>
             
-            <div class="step-2-settings">
+            <div class="step-2-settings" *ngIf="order.type === 'zip'">
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.by_name">
                   画像のファイル名を分かりやすい名前に変更する
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy">
                   ファイル名に場所の階層構造を含める
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="checked">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download">
                   進捗率100%未満であっても強制的にダウンロードする
                 </mat-checkbox>
               </section>
@@ -56,7 +56,28 @@
                 </mat-form-field>
               </section>
               -->
+            </div>
 
+            <div class="step-2-settings" *ngIf="order.type === 'excel'">
+              <section class="example-section">
+                <mat-form-field>
+                  <mat-select placeholder="テンプレートを選択" *ngFor="let template of templates" [(ngModel)]="order.template">
+                    <mat-option value="{{ template.name }}">{{ template.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy">
+                  場所の階層構造を含める(テンプレートでの"$hierarchy"変数指定も必要です)
+                </mat-checkbox>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download">
+                  進捗率100%未満であっても強制的にダウンロードする
+                </mat-checkbox>
+              </section>
             </div>
 
             <div>
@@ -64,25 +85,33 @@
               <button mat-button matStepperNext>次へ</button>
             </div>
           </mat-step>
+
           <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            You are now done.
+            <ng-template matStepLabel>出力</ng-template>
             <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button (click)="stepper.reset()">Reset</button>
+              <button mat-raised-button class="row step-3-execute" (click)="onGenerate(order)">
+                <p *ngIf="!downloadUrl">
+                  {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を実行開始<br>
+                  <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'zip'">create_new_folder</mat-icon>
+                  <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'excel'">grid_on</mat-icon>
+                </p>
+                <!--<p *ngIf="!downloadUrl && !inProgress" class="col-12">
+                  <mat-spinner class=""></mat-spinner>
+                </p>-->
+                <p *ngIf="downloadUrl">
+                  <a mat-raseid-button download href="{{ downloadUrl }}" class="button step-3-execute">
+                    ダウンロード<br>
+                    <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
+                  </a>
+                </p>
+              </button>
             </div>
 
-            <button mat-stroked-button color="accent" (click)="onGenerateZip()">
-              zip ダウンロード
-            </button>
-            
-            <button mat-stroked-button color="accent" (click)="onGenerateExcelDoc()">
-              excel ダウンロード
-            </button>
+            <div>
+              <button mat-button (click)="onPrevious()">戻る</button>
+              <button mat-button (click)="onReset()">リセット</button>
+            </div>
 
-            <a download href="{{ downloadUrl }}" class="mat-rased-button" *ngIf="downloadUrl">
-              ここがダウンロードリンク
-            </a>
           </mat-step>
         </mat-vertical-stepper>
 

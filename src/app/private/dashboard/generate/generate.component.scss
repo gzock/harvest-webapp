@@ -45,3 +45,11 @@ table {
   text-align: left;
   font-size: 1.2vw;
 }
+
+.step-3-execute {
+  @extend .step-1-type-select;
+  width: 23vw;
+  height: 15vh;
+  margin: 6px;
+}
+

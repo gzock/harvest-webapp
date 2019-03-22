@@ -17,10 +17,12 @@ export class ProjectsService {
   private userId: string;
   public project: Project;
   public joinedProjects: Project[];
+  public joinedProjectsSubject: BehaviorSubject<Project[]>;
   public currentProject: Project;
   public currentProjectSubject: BehaviorSubject<Project>;
 
   constructor(private http: HttpClient) { 
+    this.joinedProjectsSubject = new BehaviorSubject<Project[]>();
     this.currentProjectSubject = new BehaviorSubject<Project>();
   }
 
@@ -41,8 +43,15 @@ export class ProjectsService {
   }
 
   public list(): Observable<any> {
-    // 可能なら返す前にresponseを自動的にjoinedProjectsに入れてしまいたい
-    return this.http.get(this.projectUrl);
+    return this.http.get(this.projectUrl)
+        .pipe(
+          tap(
+            projects => {
+              this.joinedProjects = projects;
+              this.joinedProjectsSubject.next(projects);
+            }
+          )
+        );
   }
 
   public show(projectId): Observable<any> {

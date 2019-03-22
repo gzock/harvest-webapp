@@ -32,8 +32,7 @@ export class DashboardComponent implements OnInit {
     if (this.router.url === '/') {
       this.router.navigate(['/dashboard']);
 
-    } else if(this.router.url !== '/dashboard/projects') {
-
+    } else {
       this.projectsService.list()
         .pipe(
            catchError(error => throwError(error))
@@ -42,8 +41,6 @@ export class DashboardComponent implements OnInit {
            response => {
              console.log(response);
              this.projects = response;
-             this.projectsService.joinedProjects = response;
-             //this.currentProject = this.projectsService.getCurrentProject();
            },
            err => {
              console.log("error: " + err);

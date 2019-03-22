@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
@@ -16,10 +16,11 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   public projects: Project[];
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
+  private joinedProjectsSubscription: Subscription;
 
   constructor(
     public dialog: MatDialog,
@@ -28,7 +29,25 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProjects();
+    this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
+      .subscribe(
+        projects => {
+           console.log(projects);
+           this.projects = projects;
+           this.dataSource = new MatTableDataSource(this.projects);
+        },
+        err => {
+          console.log("error: " + err);
+          this.openErrorAlert("プロジェクト一覧の取得");
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    console.log(this.joinedProjectsSubscription);
+    if (this.joinedProjectsSubscription) {
+      this.joinedProjectsSubscription.unsubscribe();
+    }
   }
 
   displayedColumns: string[] = ['project_id', 'name', 'created_at', 'updated_at'];
@@ -40,26 +59,6 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.select(project);
   }
 
-  public getProjects() {
-    this.projectsService.list()
-      .pipe(
-         catchError(error => throwError(error))
-      )
-      .subscribe(
-         response => {
-           //this.showAlert("Successfully", "success", 3000);
-           console.log(response);
-           this.projects = response;
-           this.projectsService.joinedProjects = response;
-           this.dataSource = new MatTableDataSource(this.projects);
-         },
-         err => {
-           console.log("error: " + err);
-           this.openErrorAlert("プロジェクト一覧の取得");
-         }
-      );
-  }
-
   public onCreateProject(project) {
     this.projectsService.create(project)
       .pipe(
@@ -67,15 +66,14 @@ export class ProjectsComponent implements OnInit {
       )
       .subscribe(
          response => {
-           console.log(response);
-           this.getProjects();
+            console.log(response);
+            this.projectsService.list().subscribe();
          },
          err => {
            console.log("error: " + err);
            this.openErrorAlert("プロジェクトの作成");
          }
       );
-    
   }
 
   openCreateProjectDialog() {

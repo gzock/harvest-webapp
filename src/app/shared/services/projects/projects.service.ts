@@ -22,8 +22,8 @@ export class ProjectsService {
   public currentProjectSubject: BehaviorSubject<Project>;
 
   constructor(private http: HttpClient) { 
-    this.joinedProjectsSubject = new BehaviorSubject<Project[]>();
-    this.currentProjectSubject = new BehaviorSubject<Project>();
+    this.joinedProjectsSubject = new BehaviorSubject<Project[]>(this.joinedProjects);
+    this.currentProjectSubject = new BehaviorSubject<Project>(this.currentProject);
   }
 
   public setUserId(userId) {

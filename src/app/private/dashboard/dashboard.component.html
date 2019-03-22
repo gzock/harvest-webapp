@@ -38,12 +38,12 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <mat-form-field *ngIf="router.url !== '/dashboard/projects'">
-        <mat-select [(value)]="selected" placeholder="プロジェクトを選択">
+      <mat-form-field *ngIf="router.url !== '/dashboard/projects' && projects">
+        <mat-select [(value)]="currentProjectName" placeholder="プロジェクトを選択">
           <!--<mat-option value="None">None</mat-option>-->
           <mat-option value="{{ project.name }}" 
-              *ngFor="let project of projectsService.joinedProjects" 
-              (click)="projectsService.select(project)">
+              *ngFor="let project of projects" 
+              (click)="select(project)">
             {{ project.name }}
           </mat-option>
         </mat-select>

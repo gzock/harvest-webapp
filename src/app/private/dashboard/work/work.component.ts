@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
+import { Observable, of, merge, throwError, Subject, BehaviorSubject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { MatTableDataSource } from '@angular/material';
@@ -21,9 +21,10 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.scss']
 })
-export class WorkComponent implements OnInit {
+export class WorkComponent implements OnInit, OnDestroy {
 
   public currentProject: Project;
+  public currentProjectSubscription: Subscription;
   public places: Place[];
   public targets: Target[];
 
@@ -40,33 +41,49 @@ export class WorkComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentProject = this.projectsService.getCurrentProject();
-    if(this.currentProject) {
-      this.placesService.setProjectId(this.currentProject.project_id);
-      this.targetsService.setProjectId(this.currentProject.project_id);
-      this.photosService.setProjectId(this.currentProject.project_id);
+    this.currentProjectSubscription = this.projectsService.currentProjectSubject
+      .subscribe(
+        project => {
+          console.log(project);
+          if(project) {
+            this.currentProject = project;
+            this.placesService.setProjectId(this.currentProject.project_id);
+            this.targetsService.setProjectId(this.currentProject.project_id);
+            this.photosService.setProjectId(this.currentProject.project_id);
 
-      let place = {
-        project_id: this.currentProject.project_id,
-        place_id: this.currentProject.project_id,
-        name: this.currentProject.name,
-        parent_place_id: this.currentProject.project_id,
-        hierarchy: "",
-        photos: {
-          required: 0,
-          results: {
-            before: 0,
-            after: 0
+            let place = {
+              project_id: this.currentProject.project_id,
+              place_id: this.currentProject.project_id,
+              name: this.currentProject.name,
+              parent_place_id: this.currentProject.project_id,
+              hierarchy: "",
+              photos: {
+                required: 0,
+                results: {
+                  before: 0,
+                  after: 0
+                }
+              },
+              created_at: "",
+              updated_at: ""
+            }
+            this.placesService.select(place);
+            this.placesService.placeHistory = [];
+            this.placesService.placeHistory.push(place);
+            this.getPlaces(this.currentProject.project_id);
+            this.targetsService.setPlaceId(place.place_id);
           }
         },
-        created_at: "",
-        updated_at: ""
-      }
-      this.placesService.select(place);
-      this.placesService.placeHistory = [];
-      this.placesService.placeHistory.push(place);
-      this.getPlaces(this.currentProject.project_id);
-      this.targetsService.setPlaceId(place.place_id);
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    console.log(this.currentProjectSubscription);
+    if (this.currentProjectSubscription) {
+      this.currentProjectSubscription.unsubscribe();
     }
   }
 

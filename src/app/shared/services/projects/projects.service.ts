@@ -14,14 +14,15 @@ export class ProjectsService {
 
   private projectUrl = environment.base_url + '/projects';  // URL to web api
 
-  //private userId: string = localStorage.getItem("_id");
   private userId: string;
   public project: Project;
-  public currentProject: Project;
   public joinedProjects: Project[];
-  //public requestSubject = new Subject<NwConfRequest>();
+  public currentProject: Project;
+  public currentProjectSubject: BehaviorSubject<Project>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.currentProjectSubject = new BehaviorSubject<Project>();
+  }
 
   public setUserId(userId) {
     this.userId = userId;
@@ -32,9 +33,10 @@ export class ProjectsService {
     console.log("current project: " + JSON.stringify(this.currentProject));
 
     localStorage.setItem('selectedProject', JSON.stringify(project));
+    this.currentProjectSubject.next(project);
   }
 
-  public getCurrentProject() {
+  public getCurrentProject(): Project {
     return this.currentProject || JSON.parse(localStorage.getItem('selectedProject'));
   }
 

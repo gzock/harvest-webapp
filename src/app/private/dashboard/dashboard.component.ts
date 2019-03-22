@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
+import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
@@ -14,6 +14,8 @@ import { ProjectsService } from './../../shared/services/projects/projects.servi
 })
 export class DashboardComponent implements OnInit {
   public projects: Project[];
+  private currentProject: Project;
+  public currentProjectName: string;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -23,13 +25,36 @@ export class DashboardComponent implements OnInit {
   constructor(
     public router: Router, 
     private breakpointObserver: BreakpointObserver,
-    public projectsService: ProjectsService
+    private projectsService: ProjectsService
   ) {}
 
   ngOnInit() {
     if (this.router.url === '/') {
       this.router.navigate(['/dashboard']);
+
+    } else if(this.router.url !== '/dashboard/projects') {
+
+      this.projectsService.list()
+        .pipe(
+           catchError(error => throwError(error))
+        )
+        .subscribe(
+           response => {
+             console.log(response);
+             this.projects = response;
+             this.projectsService.joinedProjects = response;
+             //this.currentProject = this.projectsService.getCurrentProject();
+           },
+           err => {
+             console.log("error: " + err);
+           }
+        );
     }
+  }
+
+  public select(project: Project) {
+    this.projectsService.select(project);
+    this.currentProjectName = project.name;
   }
 
 }

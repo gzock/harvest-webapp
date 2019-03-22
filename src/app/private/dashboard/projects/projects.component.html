@@ -45,7 +45,7 @@
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef> 開始 </th>
       <td mat-cell *matCellDef="let element"> 
-        {{element.created_at}}
+        {{ formatDate(element.created_at) }}
       </td>
     </ng-container>
   
@@ -53,7 +53,7 @@
     <ng-container matColumnDef="updated_at">
       <th mat-header-cell *matHeaderCellDef> 期限 </th>
       <td mat-cell *matCellDef="let element"> 
-        {{element.updated_at}}
+        {{ formatDate(element.updated_at) }}
       </td>
     </ng-container>
 

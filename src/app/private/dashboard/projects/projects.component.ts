@@ -98,4 +98,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
+  public formatDate(date: string) {
+    let _date: Date = new Date(date1);
+    return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
+  }
+
 }

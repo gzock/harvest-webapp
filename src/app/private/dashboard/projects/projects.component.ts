@@ -99,7 +99,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   public formatDate(date: string) {
-    let _date: Date = new Date(date1);
+    let _date: Date = new Date(date);
     return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
   }
 

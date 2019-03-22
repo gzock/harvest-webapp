@@ -29,8 +29,8 @@ export class GenerateComponent implements OnInit {
 
   public order: Order = {
     "type": "",
-    "template": "",
-    "by_name": false,
+    "template": "basic_1.xlsx",
+    "by_name": true,
     "has_hierarchy": false,
     "force_download": false
   };

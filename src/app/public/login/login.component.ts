@@ -23,6 +23,14 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+      this.authService.isAuthenticated()
+        .subscribe(
+          loggedIn => {
+            if (loggedIn) {
+              this.router.navigate(['/dashboard/projects']);
+            }
+          }
+        );
     }
 
     onLoggedIn(email: string, password: string) {

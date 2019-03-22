@@ -12,10 +12,11 @@ import { AuthService } from './../../shared/services/auth/auth.service';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-    user: LoginUser;
-    errorMsg: string;
-    email: string;
-    password: string;
+    public user: LoginUser;
+    public errorMsg: string;
+    public email: string;
+    public password: string;
+    public isSaveEmail: boolean = true;
 
     constructor(
       public router: Router,
@@ -31,9 +32,13 @@ export class LoginComponent implements OnInit {
             }
           }
         );
+      this.email = localStorage.getItem('email');
     }
 
     onLoggedIn(email: string, password: string) {
+      if(this.isSaveEmail) {
+        localStorage.setItem('email', email);
+      }
       this.authService.signIn(email, password)
         .subscribe(
           result => {
@@ -44,23 +49,4 @@ export class LoginComponent implements OnInit {
             this.errorMsg = "ログインに失敗しました。メールアドレスあるいはパスワードが正しいかご確認ください。";
           });
     }
-
-//
-//    loginCheck(user) {
-//      if(user.login) {
-//        localStorage.setItem('isLoggedin', 'true');
-//        localStorage.setItem('username', user.username);
-//        this.router.navigate(['/dashboard']);
-//      } else {
-//        this.errormsg = "ログインに失敗しました。";
-//      }
-//
-//    }
-//
-    onLoggedin() {
-//        this.loginService.onLoggedin(this.username, this.password)
-//        .then(user => this.user = user)
-//        .then(() => this.loginCheck(this.user));
-    }
-
 }

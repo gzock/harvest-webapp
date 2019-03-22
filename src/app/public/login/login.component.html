@@ -18,6 +18,13 @@
                   <button class="btn btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
                   <!-- <a class="btn btn-outline-danger" (click)="onLoggedin()"> Login </a> -->
               </form>
+
+              <section class="option-check">
+                <mat-checkbox class="example-margin" [(ngModel)]="isSaveEmail">
+                  メールアドレスを記憶
+                </mat-checkbox>
+              </section>
+
               <div *ngIf="errorMsg">
                 <p class="small text-danger">{{ errorMsg }}</p>
               </div>

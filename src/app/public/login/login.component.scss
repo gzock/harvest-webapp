@@ -9,6 +9,10 @@ $topnav-background-color: honeydew;
   height: 100%;
 }
 
+.option-check {
+  font-size: 1.2vw;
+}
+
 @media screen and (max-width:768px) { 
   .login-contents {
     text-align: center;
@@ -47,7 +51,7 @@ $topnav-background-color: honeydew;
   .login-contents {
     text-align: center;
     max-width: 25vw;
-    max-height: 40vh;
+    max-height: 45vh;
     background: #F5F5F5;
     margin: auto;
   }

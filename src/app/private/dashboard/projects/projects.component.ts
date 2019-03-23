@@ -50,7 +50,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayedColumns: string[] = ['project_id', 'name', 'created_at', 'updated_at'];
+  displayedColumns: string[] = ['project_id', 'name', 'start_on', 'complete_on'];
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -99,8 +99,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   public formatDate(date: string) {
-    let _date: Date = new Date(date);
-    return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
+    if(date) {
+      let _date: Date = new Date(date);
+      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
+    }
   }
 
 }

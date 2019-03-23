@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -88,6 +89,7 @@ import { GenerateService } from './../../shared/services/generate/generate.servi
     MatProgressSpinnerModule,
     MatStepperModule,
     MatCheckboxModule,
+    MatMenuModule,
     NgbModule
   ],
   providers: [

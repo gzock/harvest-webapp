@@ -43,6 +43,11 @@ mat-form-field {
 }
 mat-icon {
   padding: 0 7px;
+  cursor: pointer;
+}
+
+.mat-menu-item {
+    outline: none
 }
 /*
 .material-icons.md-light {

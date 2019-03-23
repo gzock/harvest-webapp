@@ -6,6 +6,7 @@ import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
+import { AuthService } from './../../shared/services/auth/auth.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -25,7 +26,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     public router: Router, 
     private breakpointObserver: BreakpointObserver,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,10 @@ export class DashboardComponent implements OnInit {
   public select(project: Project) {
     this.projectsService.select(project);
     this.currentProjectName = project.name;
+  }
+
+  public onLogout() {
+    this.authService.signOut();
   }
 
 }

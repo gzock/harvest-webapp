@@ -55,11 +55,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public onSelectProject(project) {
+  public onSelectProject(project: Project) {
     this.projectsService.select(project);
   }
 
-  public onCreateProject(project) {
+  public onCreateProject(project: Project) {
     this.projectsService.create(project)
       .pipe(
          catchError(error => throwError(error))

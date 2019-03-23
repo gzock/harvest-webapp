@@ -2,13 +2,13 @@
 <mat-dialog-content class="mat-typography">
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput placeholder="プロジェクト名" [(ngModel)]="new_project.name" required>
+      <input matInput placeholder="プロジェクト名" [(ngModel)]="newProject.name" required>
     </mat-form-field>
   </div>
 
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput [matDatepicker]="start" placeholder="開始予定日">
+      <input matInput [matDatepicker]="start" placeholder="開始予定日" (dateChange)="onDateChange('start', $event)">
       <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
       <mat-datepicker #start></mat-datepicker>
     </mat-form-field>
@@ -16,7 +16,7 @@
 
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput [matDatepicker]="end" placeholder="終了予定日">
+      <input matInput [matDatepicker]="end" placeholder="終了予定日" (dateChange)="onDateChange('complete', $event)">
       <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
       <mat-datepicker #end></mat-datepicker>
     </mat-form-field>
@@ -25,5 +25,5 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>キャンセル</button>
-  <button mat-button [mat-dialog-close]="new_project" cdkFocusInitial>作成</button>
+  <button mat-button [mat-dialog-close]="newProject" cdkFocusInitial>作成</button>
 </mat-dialog-actions>

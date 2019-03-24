@@ -18,7 +18,7 @@ $topnav-background-color: honeydew;
     text-align: center;
     max-width: 50vw;
     max-height: 60vh;
-    background: #F5F5F5;
+    background: #d8e4a5;
     margin: auto;
   }
   .font-control {
@@ -35,7 +35,7 @@ $topnav-background-color: honeydew;
     text-align: center;
     max-width: 30vw;
     max-height: 50vh;
-    background: #F5F5F5;
+    background: #d8e4a5;
     margin: auto;
   }
   .font-control {
@@ -52,7 +52,7 @@ $topnav-background-color: honeydew;
     text-align: center;
     max-width: 25vw;
     max-height: 45vh;
-    background: #F5F5F5;
+    background: #d8e4a5;
     margin: auto;
   }
   .font-control {
@@ -87,7 +87,7 @@ $topnav-background-color: honeydew;
         border-radius: 0;
     }
     .input-underline {
-        background: #F5F5F5;
+        background: #d8e4a5;
         border: none;
         box-shadow: none;
         border-bottom: 2px solid darkgreen;
@@ -183,4 +183,9 @@ $topnav-background-color: honeydew;
       right: 5%;
       font-size: 0.8vw;
     }
+}
+
+.logo-img {
+  max-width: 80%;
+  margin: 12px;
 }

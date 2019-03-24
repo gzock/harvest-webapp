@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
         loggedIn => {
           console.log("password change success.")
         },
-        () => {},
+        //() => {},
         error => {
           console.log(error);
         }

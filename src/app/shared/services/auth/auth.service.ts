@@ -99,6 +99,28 @@ export class AuthService {
       );
   }
 
+  public changePassword(oldPassword: string, newPassword: string): Observable<boolean | void> {
+    return from(Auth.currentAuthenticatedUser())
+      .pipe(
+        map(user => {
+          from(Auth.changePassword(user, oldPassword, newPassword))
+            .pipe(
+              map(result => { 
+                  console.log(result);
+                  return of(true);
+                }
+              ),
+              catchError(error => {
+                return of(false);
+              })
+            )
+        }),
+        catchError(error => {
+          return of(false);
+        })
+      );
+  }
+
   private saveUserData(userData) {
     let token = userData.idToken.jwtToken;
     let username = userData.idToken.payload.preferred_username;

@@ -38,7 +38,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <mat-form-field *ngIf="router.url !== '/dashboard/projects' && projects">
+      <mat-form-field *ngIf="(router.url === '/dashboard/work' || router.url === '/dashboard/generate') && projects">
         <mat-select [(value)]="currentProjectName" placeholder="プロジェクトを選択">
           <!--<mat-option value="None">None</mat-option>-->
           <mat-option value="{{ project.name }}" 
@@ -50,7 +50,7 @@
       </mat-form-field>
 
       <span class="spacer"></span>
-      <mat-icon class="material-icons md-light">payment</mat-icon>
+      <!--<mat-icon class="material-icons md-light">payment</mat-icon>-->
       <mat-icon class="material-icons md-light">notifications</mat-icon>
       <mat-icon class="material-icons md-light" [matMenuTriggerFor]="menu">account_circle</mat-icon>
       <mat-menu #menu="matMenu">

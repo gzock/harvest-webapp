@@ -5,12 +5,14 @@ import { DashboardComponent } from './dashboard.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
 import { GenerateComponent } from './generate/generate.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
     {
         path: '', component: DashboardComponent,
         children: [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
+            { path: 'user', component: UserComponent },
             { path: 'projects', component: ProjectsComponent },
             { path: 'work', component: WorkComponent },
             { path: 'generate', component: GenerateComponent }

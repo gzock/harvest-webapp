@@ -46,6 +46,7 @@ import { AlertService } from './../../shared/services/alert/alert.service';
 
 import { GenerateComponent } from './generate/generate.component';
 import { GenerateService } from './../../shared/services/generate/generate.service';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { GenerateService } from './../../shared/services/generate/generate.servi
     SettingProjectComponent,
     TargetActionsComponent,
     PhotoCanvasComponent,
-    GenerateComponent
+    GenerateComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,

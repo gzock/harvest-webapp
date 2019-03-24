@@ -13,6 +13,7 @@ export class UserComponent implements OnInit {
   public email: string;
   public username: string;
   public accountType: string;
+  public billing: string;
 
   constructor(
     private auth: AuthService

@@ -7,6 +7,7 @@ import { filter, map, tap, catchError } from "rxjs/operators";
 import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { AuthService } from './../../shared/services/auth/auth.service';
+import { AlertService } from './../../shared/services/alert/alert.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -27,7 +28,8 @@ export class DashboardComponent implements OnInit {
     public router: Router, 
     private breakpointObserver: BreakpointObserver,
     private projectsService: ProjectsService,
-    private authService: AuthService
+    private authService: AuthService,
+    public alert: AlertService
   ) {}
 
   ngOnInit() {
@@ -46,6 +48,7 @@ export class DashboardComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
+             this.openErrorAlert("プロジェクト一覧の取得");
            }
         );
     }
@@ -58,6 +61,10 @@ export class DashboardComponent implements OnInit {
 
   public onLogout() {
     this.authService.signOut();
+  }
+
+  private openErrorAlert(msg) {
+    this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
 }

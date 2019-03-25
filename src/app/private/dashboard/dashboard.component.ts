@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private currentProject: Project;
   public currentProjectName: string;
   public currentProjectSubscription: Subscription;
-  public isModile: boolean = false;
+  public isMobile: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(

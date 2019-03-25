@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
@@ -14,10 +14,11 @@ import { AlertService } from './../../shared/services/alert/alert.service';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   public projects: Project[];
   private currentProject: Project;
   public currentProjectName: string;
+  public currentProjectSubscription: Subscription;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -51,6 +52,26 @@ export class DashboardComponent implements OnInit {
              this.openErrorAlert("プロジェクト一覧の取得");
            }
         );
+    }
+    this.currentProjectSubscription = this.projectsService.currentProjectSubject
+      .subscribe(
+        project => {
+          if(project) {
+            console.log("dashboard: ");
+            console.log(project);
+            this.currentProjectName = project.name;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    console.log(this.currentProjectSubscription);
+    if (this.currentProjectSubscription) {
+      this.currentProjectSubscription.unsubscribe();
     }
   }
 

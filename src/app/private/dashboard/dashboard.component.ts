@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Platform } from '@angular/cdk/platform';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private currentProject: Project;
   public currentProjectName: string;
   public currentProjectSubscription: Subscription;
+  public isModile: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -28,12 +30,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router, 
     private breakpointObserver: BreakpointObserver,
+    public platform: Platform,
     private projectsService: ProjectsService,
     private authService: AuthService,
     public alert: AlertService
   ) {}
 
   ngOnInit() {
+    if(this.platform.ANDROID || this.platform.IOS) {
+      this.isMobile = true;
+    }
     if (this.router.url === '/') {
       this.router.navigate(['/dashboard']);
 

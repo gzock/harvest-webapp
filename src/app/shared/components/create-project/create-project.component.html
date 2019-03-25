@@ -8,7 +8,7 @@
 
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput [matDatepicker]="start" placeholder="開始予定日" (dateChange)="onDateChange('start', $event)">
+      <input matInput [matDatepicker]="start" placeholder="開始予定日" (dateChange)="onDateChange('start', $event)" required>
       <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
       <mat-datepicker #start></mat-datepicker>
     </mat-form-field>
@@ -16,14 +16,18 @@
 
   <div class="col-sm-6">
     <mat-form-field>
-      <input matInput [matDatepicker]="end" placeholder="終了予定日" (dateChange)="onDateChange('complete', $event)">
+      <input matInput [matDatepicker]="end" placeholder="終了予定日" (dateChange)="onDateChange('complete', $event)" required>
       <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
       <mat-datepicker #end></mat-datepicker>
     </mat-form-field>
   </div>
+  <p class="small text-danger">
+    {{ errMsg }}
+  </p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>キャンセル</button>
-  <button mat-button [mat-dialog-close]="newProject" cdkFocusInitial>作成</button>
+  <button mat-button (click)="onCreateProject(newProject)" cdkFocusInitial>作成</button>
+  <!--<button mat-button [mat-dialog-close]="newProject" cdkFocusInitial>作成</button>-->
 </mat-dialog-actions>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import { Project } from '../../../private/dashboard/projects/project';
@@ -10,7 +10,7 @@ import { Project } from '../../../private/dashboard/projects/project';
   styleUrls: ['./create-project.component.scss']
 })
 export class CreateProjectComponent implements OnInit {
-
+  public errMsg: string;
   public newProject: Project = {
     "name": "",
     "project_id": "",
@@ -20,9 +20,21 @@ export class CreateProjectComponent implements OnInit {
     "complete_on": ""
   }
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<CreateProjectComponent>
+  ) { }
 
   ngOnInit() {
+  }
+
+  public onCreateProject(newProject: Project) {
+    this.errMsg = "";
+    console.log("event fired create project.")
+    if(newProject.name && newProject.start_on && newProject.complete_on) {
+      this.dialogRef.close(newProject);
+    } else {
+      this.errMsg = "エラー: 全ての項目を指定してください。";
+    }
   }
 
   public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {

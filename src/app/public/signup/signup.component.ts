@@ -11,6 +11,8 @@ import { SignupInfo } from './signup-info';
 })
 export class SignupComponent implements OnInit {
 
+  public info: SignupInfo;
+
   constructor(
       public router: Router,
       private authService: AuthService

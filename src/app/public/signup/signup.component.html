@@ -24,23 +24,23 @@
           </section>
           <section class="example-section">
             <mat-form-field>
-              <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="email">
+              <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="info.email">
             </mat-form-field>
           </section>
           <section class="example-section">
             <mat-form-field>
-              <input type="text" matInput placeholder="姓" [(ngModel)]="lastName">
+              <input type="text" matInput placeholder="姓" [(ngModel)]="info.lastName">
             </mat-form-field>
             <mat-form-field>
-              <input type="text" matInput placeholder="名" [(ngModel)]="firstName">
+              <input type="text" matInput placeholder="名" [(ngModel)]="info.firstName">
             </mat-form-field>
           </section>
           <section class="example-section">
             <mat-form-field>
-              <input type="text" matInput placeholder="姓(カナ)" [(ngModel)]="kanaLastname">
+              <input type="text" matInput placeholder="姓(カナ)" [(ngModel)]="info.kanaLastName">
             </mat-form-field>
             <mat-form-field>
-              <input type="text" matInput placeholder="名(カナ)" [(ngModel)]="kanaFirstName">
+              <input type="text" matInput placeholder="名(カナ)" [(ngModel)]="info.kanaFirstName">
             </mat-form-field>
           </section>
         </mat-card-content>

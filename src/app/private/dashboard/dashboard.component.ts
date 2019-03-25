@@ -77,7 +77,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public select(project: Project) {
     this.projectsService.select(project);
-    this.currentProjectName = project.name;
   }
 
   public onLogout() {

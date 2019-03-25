@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 user-info">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>新規登録</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="email">
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="text" matInput placeholder="姓" [(ngModel)]="lastName">
+            </mat-form-field>
+            <mat-form-field>
+              <input type="text" matInput placeholder="名" [(ngModel)]="firstName">
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="text" matInput placeholder="姓(カナ)" [(ngModel)]="kanaLastname">
+            </mat-form-field>
+            <mat-form-field>
+              <input type="text" matInput placeholder="名(カナ)" [(ngModel)]="kanaFirstName">
+            </mat-form-field>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

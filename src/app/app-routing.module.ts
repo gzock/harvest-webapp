@@ -10,7 +10,8 @@ const routes: Routes = [
       canActivate: [AuthGuard]
   },
   { path: '', loadChildren: './public/login/login.module#LoginModule' },
-  { path: 'login', loadChildren: './public/login/login.module#LoginModule' }
+  { path: 'login', loadChildren: './public/login/login.module#LoginModule' },
+  { path: 'signup', loadChildren: './public/signup/signup.module#SignupModule' }
 
   //{ path: 'signup', loadChildren: './public/signup/signup.module#SignupModule' },
   //{ path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },

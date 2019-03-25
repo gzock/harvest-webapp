@@ -23,4 +23,14 @@ export class SignupComponent implements OnInit {
     let userName: string = info.lastName + " " + info.firstName;
     let kanaUserName: string = info.kanaLastName + " " + info.kanaFirstName;
   }
+
+  // thanks for https://javascript.programmer-reference.com/js-check-zenkaku-katakana/
+  public isZenKataKana(str: string){
+    str = (str==null)?"":str;
+    if(str.match(/^[ァ-ヶー　]+$/)){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

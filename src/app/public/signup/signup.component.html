@@ -7,6 +7,21 @@
         </mat-card-header>
 
         <mat-card-content>
+
+          <section class="example-section">
+            <label>アカウントの種類:　</label>
+            <mat-radio-group>
+              <mat-radio-button value="auto">個人　</mat-radio-button>
+              <mat-radio-button value="always" disabled>法人　</mat-radio-button>
+            </mat-radio-group>
+          </section>
+          <section class="example-section">
+            <label>アカウント:　</label>
+            <mat-radio-group>
+              <mat-radio-button value="auto">スタンダード　</mat-radio-button>
+              <mat-radio-button value="always" disabled>ゲスト　</mat-radio-button>
+            </mat-radio-group>
+          </section>
           <section class="example-section">
             <mat-form-field>
               <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="email">

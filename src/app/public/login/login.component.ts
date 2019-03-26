@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
           },
           error => {
             console.log(error);
-            this.errorMsg = "ログインに失敗しました。メールアドレスあるいはパスワードが正しいかご確認ください。";
+            this.errorMsg = "ログインに失敗しました。メールアドレスあるいはパスワードをご確認ください。";
           });
     }
 }

@@ -11,7 +11,17 @@ import { SignupInfo } from './signup-info';
 })
 export class SignupComponent implements OnInit {
 
-  public info: SignupInfo;
+  public info: SignupInfo = {
+    "type": "personal",
+    "plan": "standard",
+    "organization": "",
+    "email": "",
+    "firstName": "",
+    "lastName": "",
+    "kanaFirstName": "",
+    "kanaLastName": "",
+    "password": ""
+  }
 
   constructor(
       public router: Router,

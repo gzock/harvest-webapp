@@ -1,0 +1,42 @@
+.container {
+  background-color: #90A4AE;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.mat-form-field {
+  margin: 6px;
+}
+
+.mat-card-actions {
+  text-align: center;
+}
+
+@media screen and (max-width:768px) { 
+  .signup-contents {
+    max-width: 95vw;
+    max-height: 80vh;
+    margin: 2.5vh auto;
+  }
+}
+
+@media screen and (min-width:769px) {
+  .signup-contents {
+    max-width: 70vw;
+    max-height: 80vh;
+    margin: 10vh auto;
+  }
+}
+  
+@media screen and (min-width:1000px) {
+  .signup-contents {
+    max-width: 60vw;
+    max-height: 80vh;
+    margin: 10vh auto;
+  }
+}
+
+.to-login {
+  text-align: right;
+  margin: 3px;
+}

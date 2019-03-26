@@ -17,7 +17,7 @@ $topnav-background-color: honeydew;
   .login-contents {
     text-align: center;
     max-width: 50vw;
-    max-height: 60vh;
+    max-height: 65vh;
     background: #d8e4a5;
     margin: auto;
   }
@@ -188,4 +188,9 @@ $topnav-background-color: honeydew;
 .logo-img {
   max-width: 80%;
   margin: 12px;
+}
+
+.to-signup {
+  text-align: right;
+  margin: 3px;
 }

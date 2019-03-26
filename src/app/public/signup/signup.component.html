@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 user-info">
+    <div class="col-12 signup-contents">
       <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title>新規登録</mat-card-title>
@@ -10,21 +10,24 @@
 
           <section class="example-section">
             <label>アカウントの種類:　</label>
-            <mat-radio-group>
-              <mat-radio-button value="auto">個人　</mat-radio-button>
-              <mat-radio-button value="always" disabled>法人　</mat-radio-button>
+            <mat-radio-group [(ngModel)]="info.type">
+              <mat-radio-button value="personal">個人　</mat-radio-button>
+              <mat-radio-button value="corporate" disabled>法人　</mat-radio-button>
+              <p class="text-danger small">法人アカウントは7月以降に選択可能になる予定です</p>
             </mat-radio-group>
           </section>
           <section class="example-section">
-            <label>アカウント:　</label>
-            <mat-radio-group>
-              <mat-radio-button value="auto">スタンダード　</mat-radio-button>
-              <mat-radio-button value="always" disabled>ゲスト　</mat-radio-button>
+            <label>プラン:　</label>
+            <mat-radio-group [(ngModel)]="info.plan">
+              <mat-radio-button value="standard">スタンダード　</mat-radio-button>
+              <mat-radio-button value="guest" disabled>ゲスト　</mat-radio-button>
+              <p class="text-danger small">ゲストプランは7月以降に選択可能になる予定です</p>
             </mat-radio-group>
           </section>
           <section class="example-section">
             <mat-form-field>
-              <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="info.email">
+              <input type="text" matInput placeholder="メールアドレス" [(ngModel)]="info.email">
+              <mat-hint>ユーザーIDとしても使用されます</mat-hint>
             </mat-form-field>
           </section>
           <section class="example-section">
@@ -43,7 +46,24 @@
               <input type="text" matInput placeholder="名(カナ)" [(ngModel)]="info.kanaFirstName">
             </mat-form-field>
           </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="password" matInput placeholder="パスワード" [(ngModel)]="info.kanaLastName">
+              <mat-hint>英数字記号8文字以上</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+              <input type="password" matInput placeholder="パスワード再入力" [(ngModel)]="info.kanaFirstName">
+            </mat-form-field>
+          </section>
         </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-stroked-button color="primary">登録</button>
+          <!--<div class="to-login">
+            <a class="small text-primary" routerLink="/login">ログイン</a>
+          </div>-->
+
+        </mat-card-actions>
       </mat-card>
     </div>
   </div>

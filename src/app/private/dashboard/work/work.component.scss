@@ -25,3 +25,14 @@ table {
   max-height: 95vh !important;
 }
 
+mat-icon {
+  color: white;
+}
+
+.create-fab {
+  position: fixed;
+  width: 56px;
+  right: 5%;
+  bottom: 5%;
+  margin-left: -28px;
+}

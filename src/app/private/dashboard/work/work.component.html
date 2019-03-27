@@ -18,9 +18,9 @@
         </div>
       
         <div class="col-6 col-md-4 text-right">
-          <button mat-stroked-button class="action-button">
+          <!--<button mat-stroked-button class="action-button">
             <mat-icon class="material-icons md-dark" color="accent" (click)="openBottomSheet(placesService.getCurrentPlace())" >build</mat-icon>
-          </button>
+          </button>-->
           <button mat-stroked-button class="action-button">
             <mat-icon class="material-icons md-dark" color="accent" (click)="goHome()" >home</mat-icon>
           </button>
@@ -101,3 +101,9 @@
 
   </div>
 </div>
+
+<button mat-fab color="primary" class="create-fab" 
+    (click)="openBottomSheet(placesService.getCurrentPlace())" 
+    *ngIf="currentProject">
+  <mat-icon class="material-icon">add</mat-icon>
+</button>

@@ -10,14 +10,14 @@
           </button>
         </div>
       
-        <div class="col-4 col-md-6">
+        <div class="col-5 col-md-6">
           <mat-form-field>
             <input matInput placeholder="検索">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
       
-        <div class="col-6 col-md-4 text-right">
+        <div class="col-5 col-md-4 text-right">
           <!--<button mat-stroked-button class="action-button">
             <mat-icon class="material-icons md-dark" color="accent" (click)="openBottomSheet(placesService.getCurrentPlace())" >build</mat-icon>
           </button>-->
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<button mat-fab color="primary" class="create-fab" 
+<button mat-fab color="primary" class="create-fab mat-elevation-z10" 
     (click)="openBottomSheet(placesService.getCurrentPlace())" 
     *ngIf="currentProject">
   <mat-icon class="material-icon">add</mat-icon>

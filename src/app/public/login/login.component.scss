@@ -11,15 +11,44 @@ $topnav-background-color: honeydew;
 
 .option-check {
   font-size: 1.2vw;
+  height: 2vh;
 }
 
-@media screen and (max-width:768px) { 
+input:-internal-autofill-selected {
+  background-color: transparent !important;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 999px #d8e4a5 inset !important;
+  -webkit-box-shadow: 0 0 0px 999px #d8e4a5 inset !important;
+}
+
+@media screen and (max-width:450px) { 
   .login-contents {
     text-align: center;
-    max-width: 50vw;
+    max-width: 60vw;
     max-height: 65vh;
     background: #d8e4a5;
     margin: auto;
+    border-radius: 30px;
+  }
+  .font-control {
+    font-size: 2vw;
+  }
+  .submit-btn {
+    margin-bottom: 5px;
+    font-size: 2vw;
+  }
+}
+
+@media screen and (min-width:451px) { 
+  .login-contents {
+    text-align: center;
+    max-width: 40vw;
+    max-height: 65vh;
+    background: #d8e4a5;
+    margin: auto;
+    border-radius: 30px;
   }
   .font-control {
     font-size: 2vw;
@@ -36,7 +65,8 @@ $topnav-background-color: honeydew;
     max-width: 30vw;
     max-height: 50vh;
     background: #d8e4a5;
-    margin: auto;
+    margin: 25vh auto auto;
+    border-radius: 30px;
   }
   .font-control {
     font-size: 2vw;
@@ -50,10 +80,11 @@ $topnav-background-color: honeydew;
 @media screen and (min-width:1000px) {
   .login-contents {
     text-align: center;
-    max-width: 25vw;
+    max-width: 20vw;
     max-height: 45vh;
     background: #d8e4a5;
-    margin: auto;
+    margin: 25vh auto auto;
+    border-radius: 30px;
   }
   .font-control {
     font-size: 1vw;
@@ -71,7 +102,12 @@ $topnav-background-color: honeydew;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: #90A4AE;
+    //background: #90A4AE;
+    background: url("/assets/login.png");
+    background-size: contain;
+    background-repeat: space;
+    background-color: #d8e4a5;
+    background-position: center;
     text-align: center;
     color: darkgreen;
     font-weight: bold;

@@ -1,5 +1,10 @@
 .container {
-  background-color: #90A4AE;
+  //background-color: #90A4AE;
+  background: url("/assets/login.png");
+  background-size: contain;
+  background-repeat: space;
+  background-color: #d8e4a5;
+  background-position: center;
   min-width: 100vw;
   min-height: 100vh;
 }

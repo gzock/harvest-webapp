@@ -230,3 +230,11 @@ input:-webkit-autofill {
   text-align: right;
   margin: 3px;
 }
+
+.error-msg {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  p {
+    margin: 3px 0px;
+  }
+}

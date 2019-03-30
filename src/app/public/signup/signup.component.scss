@@ -9,8 +9,17 @@
   min-height: 100vh;
 }
 
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 999px white inset !important;
+  -webkit-box-shadow: 0 0 0px 999px white inset !important;
+}
+
 .mat-form-field {
   margin: 6px;
+}
+
+/deep/ .mat-card-header-text {
+  width: 50%;
 }
 
 .mat-card-actions {
@@ -44,4 +53,5 @@
 .to-login {
   text-align: right;
   margin: 3px;
+  width: 50%;
 }

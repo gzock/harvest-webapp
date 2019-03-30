@@ -26,8 +26,16 @@ export class AuthService {
   }
 
   /** サインアップ */
-  public signUp(email, password): Observable<any> {
-    return from(Auth.signUp(email, password));
+  public signUp(email, password, attributes): Observable<any> {
+    return from(
+        Auth.signUp(
+          {
+            "username": email,
+            "password": password,
+            "attributes": attributes
+          }
+        )
+    );
   }
 
   /** 検証 */

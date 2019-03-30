@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>検証コード</h2>
+<mat-dialog-content class="mat-typography">
+  <p class="text-danger small">
+    ご指定のメールアドレスに検証コードを送信しました。<br>
+    メールを確認し、その確認コードを入力してください。
+  </p>
+  <div class="col-12">
+    <mat-form-field>
+      <input matInput placeholder="検証コードを入力" [(ngModel)]="code" required>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="sent">
+  <button mat-button (click)="onConfirm(code)" cdkFocusInitial [disabled]="!code">送信</button>
+</mat-dialog-actions>

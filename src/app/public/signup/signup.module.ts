@@ -7,11 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule, MatIconModule, MatInputModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
+import { ConfirmSignupComponent } from './../../shared/components/confirm-signup/confirm-signup.component';
 
 @NgModule({
     imports: [
@@ -25,10 +27,17 @@ import { SignupComponent } from './signup.component';
         MatButtonModule,
         MatIconModule,
         MatInputModule,
-        MatRadioModule
+        MatRadioModule,
+        MatDialogModule
     ],
-    declarations: [SignupComponent],
-    providers: [ ]
+    declarations: [
+      SignupComponent,
+      ConfirmSignupComponent
+    ],
+    providers: [ ],
+    entryComponents: [
+      ConfirmSignupComponent
+    ]
 })
 export class SignupModule {
 }

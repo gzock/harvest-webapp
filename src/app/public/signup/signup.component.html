@@ -1,68 +1,71 @@
 <div class="container">
   <div class="row">
     <div class="col-12 signup-contents">
-      <mat-card class="example-card">
+      <mat-card class="mat-elevation-z12">
         <mat-card-header>
           <mat-card-title>新規登録</mat-card-title>
+          <div class="to-login">
+            <a class="small text-primary" routerLink="/login">ログイン画面</a>
+          </div>
         </mat-card-header>
 
         <mat-card-content>
-
-          <section class="example-section">
-            <label>アカウントの種類:　</label>
-            <mat-radio-group [(ngModel)]="info.type">
-              <mat-radio-button value="personal">個人　</mat-radio-button>
-              <mat-radio-button value="corporate" disabled>法人　</mat-radio-button>
-              <p class="text-danger small">法人アカウントは7月以降に選択可能になる予定です</p>
-            </mat-radio-group>
-          </section>
-          <section class="example-section">
-            <label>プラン:　</label>
-            <mat-radio-group [(ngModel)]="info.plan">
-              <mat-radio-button value="standard">スタンダード　</mat-radio-button>
-              <mat-radio-button value="guest" disabled>ゲスト　</mat-radio-button>
-              <p class="text-danger small">ゲストプランは7月以降に選択可能になる予定です</p>
-            </mat-radio-group>
-          </section>
-          <section class="example-section">
-            <mat-form-field>
-              <input type="text" matInput placeholder="メールアドレス" [(ngModel)]="info.email">
-              <mat-hint>ユーザーIDとしても使用されます</mat-hint>
-            </mat-form-field>
-          </section>
-          <section class="example-section">
-            <mat-form-field>
-              <input type="text" matInput placeholder="姓" [(ngModel)]="info.lastName">
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput placeholder="名" [(ngModel)]="info.firstName">
-            </mat-form-field>
-          </section>
-          <section class="example-section">
-            <mat-form-field>
-              <input type="text" matInput placeholder="姓(カナ)" [(ngModel)]="info.kanaLastName">
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput placeholder="名(カナ)" [(ngModel)]="info.kanaFirstName">
-            </mat-form-field>
-          </section>
-          <section class="example-section">
-            <mat-form-field>
-              <input type="password" matInput placeholder="パスワード" [(ngModel)]="info.kanaLastName">
-              <mat-hint>英数字記号8文字以上</mat-hint>
-            </mat-form-field>
-            <mat-form-field>
-              <input type="password" matInput placeholder="パスワード再入力" [(ngModel)]="info.kanaFirstName">
-            </mat-form-field>
-          </section>
+          <form #formCheck="ngForm">
+            <section class="example-section">
+              <label>アカウントの種類:　</label>
+              <mat-radio-group name="input-user-type" [(ngModel)]="info.user_type" required>
+                <mat-radio-button value="personal">個人　</mat-radio-button>
+                <mat-radio-button value="corporate" disabled>法人　</mat-radio-button>
+                <p class="text-danger small">法人アカウントは7月以降に選択可能になる予定です</p>
+              </mat-radio-group>
+            </section>
+            <section class="example-section">
+              <label>プラン:　</label>
+              <mat-radio-group name="input-pricing-plan" [(ngModel)]="info.pricing_plan" required>
+                <mat-radio-button value="standard">スタンダード　</mat-radio-button>
+                <mat-radio-button value="guest" disabled>フリー　</mat-radio-button>
+                <p class="text-danger small">ゲストプランは7月以降に選択可能になる予定です</p>
+              </mat-radio-group>
+            </section>
+            <section class="example-section">
+              <mat-form-field>
+                <input type="email" matInput name="input-email" placeholder="メールアドレス" [(ngModel)]="info.email" pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
+                <mat-hint>ユーザーIDとしても使用されます</mat-hint>
+              </mat-form-field>
+            </section>
+            <section class="example-section">
+              <mat-form-field>
+                <input type="text" matInput name="input-last-name" placeholder="姓" [(ngModel)]="info.lastName" required>
+              </mat-form-field>
+              <mat-form-field>
+                <input type="text" matInput name="input-first-name" placeholder="名" [(ngModel)]="info.firstName" required>
+              </mat-form-field>
+            </section>
+            <section class="example-section">
+              <mat-form-field>
+                <input type="text" matInput name="input-kana-last-name" placeholder="姓(カナ)" [(ngModel)]="info.kanaLastName" pattern="^[ァ-ヶー　]+$" required>
+              </mat-form-field>
+              <mat-form-field>
+                <input type="text" matInput name="input-kana-first-name" placeholder="名(カナ)" [(ngModel)]="info.kanaFirstName" pattern="^[ァ-ヶー　]+$" required>
+              </mat-form-field>
+            </section>
+            <section class="example-section">
+              <mat-form-field>
+                <input type="password" matInput name="input-password" placeholder="パスワード" [(ngModel)]="info.password" pattern="^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}$" required>
+                <mat-hint>英数字記号8文字以上</mat-hint>
+              </mat-form-field>
+              <mat-form-field>
+                <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword" pattern="^{{ info.password }}$" required>
+              </mat-form-field>
+            </section>
+          </form>
+          <p class="text-danger small" *ngIf="errMsg">
+            {{ errMsg }}
+          </p>
         </mat-card-content>
 
         <mat-card-actions>
-          <button mat-stroked-button color="primary">登録</button>
-          <!--<div class="to-login">
-            <a class="small text-primary" routerLink="/login">ログイン</a>
-          </div>-->
-
+          <button mat-stroked-button color="primary" (click)="onSignup(info)" [disabled]="formCheck.invalid">登録</button>
         </mat-card-actions>
       </mat-card>
     </div>

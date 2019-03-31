@@ -38,13 +38,19 @@
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy">
+                <mat-checkbox class="example-margin" disabled>
+                  採用画像だけでなく全ての撮影画像を含める
+                </mat-checkbox>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy" disabled>
                   ファイル名に場所の階層構造を含める
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download" disabled>
                   進捗率100%未満であっても強制的にダウンロードする
                 </mat-checkbox>
               </section>
@@ -68,13 +74,13 @@
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy" disabled>
                   場所の階層構造を含める(テンプレートでの"$hierarchy"変数指定も必要です)
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download" disabled>
                   進捗率100%未満であっても強制的にダウンロードする
                 </mat-checkbox>
               </section>

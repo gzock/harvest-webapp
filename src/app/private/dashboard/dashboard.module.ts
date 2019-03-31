@@ -22,6 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -92,6 +93,7 @@ import { UserComponent } from './user/user.component';
     MatStepperModule,
     MatCheckboxModule,
     MatMenuModule,
+    MatTooltipModule,
     NgbModule
   ],
   providers: [

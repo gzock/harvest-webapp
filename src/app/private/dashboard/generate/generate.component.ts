@@ -68,7 +68,7 @@ export class GenerateComponent implements OnInit {
       )
       .subscribe(
          response => {
-           console.log(response);
+           //console.log(response);
            this.downloadUrl = response.toString();
          },
          err => {

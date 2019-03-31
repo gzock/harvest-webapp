@@ -1,11 +1,12 @@
 <div class="container">
   <div class="row">
-    <div class="col-6 col-md-4">
+    <div class="col-6 col-md-7">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="フィルタ">
       </mat-form-field>
     </div>
     
+    <!--
     <div class="col-6 col-md-3">
       <mat-form-field>
         <mat-select [(value)]="filterStatus" placeholder="ステータス">
@@ -16,10 +17,23 @@
         </mat-select>
       </mat-form-field>
     </div>
+    -->
     <div class="col-12 col-md-5 text-center">
       <button mat-raised-button color="primary" (click)="openCreateProjectDialog()">新規作成</button>
-      <button mat-raised-button>参加</button>
-      <button mat-raised-button color="accent" (click)="openSettingProjectDialog()">設定</button>
+      <button mat-raised-button 
+          matTooltip="他のプロジェクトに参加" 
+          [matTooltipPosition]="'above'" 
+          disabled
+      >
+        参加
+      </button>
+      <button mat-raised-button color="accent" (click)="openSettingProjectDialog()" 
+          matTooltip="選択したプロジェクトを編集" 
+          [matTooltipPosition]="'above'" 
+          disabled
+      >
+        設定
+      </button>
     </div>
   </div>  
 </div>  

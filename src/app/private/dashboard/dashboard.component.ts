@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         )
         .subscribe(
            response => {
-             console.log(response);
              this.projects = response;
            },
            err => {
@@ -63,8 +62,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(
         project => {
           if(project) {
-            console.log("dashboard: ");
-            console.log(project);
             this.currentProjectName = project.name;
           }
         },
@@ -75,7 +72,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(this.currentProjectSubscription);
     if (this.currentProjectSubscription) {
       this.currentProjectSubscription.unsubscribe();
     }

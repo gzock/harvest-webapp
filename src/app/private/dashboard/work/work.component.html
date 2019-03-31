@@ -12,7 +12,7 @@
       
         <div class="col-5 col-md-6">
           <mat-form-field>
-            <input matInput placeholder="検索">
+            <input matInput placeholder="検索 (本機能はまだ使用できません)" disabled>
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
@@ -22,10 +22,20 @@
             <mat-icon class="material-icons md-dark" color="accent" (click)="openBottomSheet(placesService.getCurrentPlace())" >build</mat-icon>
           </button>-->
           <button mat-stroked-button class="action-button">
-            <mat-icon class="material-icons md-dark" color="accent" (click)="goHome()" >home</mat-icon>
+            <mat-icon class="material-icons md-dark" color="accent" (click)="goHome()" 
+                matTooltip="プロジェクト直下に戻る" 
+                [matTooltipPosition]="'above'"
+            >
+              home
+            </mat-icon>
           </button>
           <button mat-stroked-button class="action-button">
-            <mat-icon class="material-icons md-dark" color="accent" (click)="refresh()" >refresh</mat-icon>
+            <mat-icon class="material-icons md-dark" color="accent" (click)="refresh()"
+                matTooltip="場所および撮影対象を再取得" 
+                [matTooltipPosition]="'above'"
+            >
+              refresh
+            </mat-icon>
           </button>
         </div>
       </div>

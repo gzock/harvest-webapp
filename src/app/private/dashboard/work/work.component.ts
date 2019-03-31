@@ -44,7 +44,6 @@ export class WorkComponent implements OnInit, OnDestroy {
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
         project => {
-          console.log(project);
           if(project) {
             this.currentProject = project;
             this.placesService.setProjectId(this.currentProject.project_id);
@@ -81,7 +80,6 @@ export class WorkComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(this.currentProjectSubscription);
     if (this.currentProjectSubscription) {
       this.currentProjectSubscription.unsubscribe();
     }
@@ -89,10 +87,9 @@ export class WorkComponent implements OnInit, OnDestroy {
 
   openBottomSheet(selected): void {
     this.targetsService.select(selected);
-    console.log(selected);
     const actionRef = this.bottomSheet.open(TargetActionsComponent, {data: selected});
     actionRef.afterDismissed().subscribe(result => {
-      console.log("ActionModal result: " + JSON.stringify(result));
+      //console.log("ActionModal result: " + JSON.stringify(result));
       this.getPlaces(this.placesService.getCurrentPlace().place_id);
     });
   }
@@ -107,7 +104,7 @@ export class WorkComponent implements OnInit, OnDestroy {
       )
       .subscribe(
          response => {
-           console.log(response);
+           //console.log(response);
            this.places = response.places;
            this.placeDataSource = new MatTableDataSource(this.places);
            this.targets = response.targets;

@@ -32,7 +32,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
         projects => {
-           console.log(projects);
            this.projects = projects;
            this.dataSource = new MatTableDataSource(this.projects);
         },
@@ -44,7 +43,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(this.joinedProjectsSubscription);
     if (this.joinedProjectsSubscription) {
       this.joinedProjectsSubscription.unsubscribe();
     }
@@ -66,7 +64,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
          response => {
-            console.log(response);
             this.projectsService.list().subscribe();
          },
          err => {
@@ -80,7 +77,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CreateProjectComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Dialog result: " + JSON.stringify(result));
+      //console.log("Dialog result: " + JSON.stringify(result));
       if(result) {
         this.onCreateProject(result);
       }

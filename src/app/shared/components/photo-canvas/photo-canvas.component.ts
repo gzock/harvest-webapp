@@ -23,7 +23,6 @@ export class PhotoCanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.image = "";
-    console.log("detected ngAfterViewInit()");
 
     if(this.output) {
       loadImage.parseMetaData(this.photoSrc, (data) => {

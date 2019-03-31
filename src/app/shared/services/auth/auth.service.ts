@@ -48,7 +48,6 @@ export class AuthService {
     return from(Auth.signIn(email, password))
       .pipe(
         tap(user => {
-          console.log(user);
           if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
             let requiredAttrs = {"preferred_username": "Guest"}; //TODO: signupで入れておく必要がある
             from(Auth.completeNewPassword(user, password, requiredAttrs))
@@ -114,7 +113,6 @@ export class AuthService {
           from(Auth.changePassword(user, oldPassword, newPassword))
             .pipe(
               map(result => { 
-                  console.log(result);
                   return of(true);
                 }
               ),

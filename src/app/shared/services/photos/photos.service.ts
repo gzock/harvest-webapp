@@ -54,8 +54,6 @@ export class PhotosService {
 
   public create(targetId, type, photoData): Observable<any> {
     let photoUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId + "/photos";
-    console.log(photoUrl);
-    console.log(photoData);
     return this.http.post(photoUrl, { "type": type, "data": photoData });
   }
 

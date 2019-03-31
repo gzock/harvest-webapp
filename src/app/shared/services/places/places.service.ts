@@ -35,7 +35,7 @@ export class PlacesService {
 
   public select(place) {
     this.place = place;
-    console.log("current place: " + JSON.stringify(this.place));
+    //console.log("current place: " + JSON.stringify(this.place));
   }
 
   public getCurrentPlace() {

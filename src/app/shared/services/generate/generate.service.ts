@@ -30,7 +30,6 @@ export class GenerateService {
   }
 
   public generate(projectId: string, order: Order) {
-    console.log(order);
     switch(order.type) {
       case 'zip':
         return this.generateZip(projectId, order)

@@ -17,7 +17,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.auth.getToken()
             .pipe(
               mergeMap((token: string) => {
-                console.log(token);
                 request = request.clone({
                   headers:
                     request.headers

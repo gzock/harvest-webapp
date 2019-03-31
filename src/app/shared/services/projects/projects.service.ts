@@ -32,7 +32,7 @@ export class ProjectsService {
 
   public select(project) {
     this.currentProject = project;
-    console.log("current project: " + JSON.stringify(this.currentProject));
+    //console.log("current project: " + JSON.stringify(this.currentProject));
 
     localStorage.setItem('selectedProject', JSON.stringify(project));
     this.currentProjectSubject.next(project);

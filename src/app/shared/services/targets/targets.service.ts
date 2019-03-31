@@ -42,7 +42,7 @@ export class TargetsService {
 
   public select(target) {
     this.currentTarget = target;
-    console.log("current target: " + JSON.stringify(this.currentTarget));
+    //console.log("current target: " + JSON.stringify(this.currentTarget));
   }
 
   public getCurrentTarget() {

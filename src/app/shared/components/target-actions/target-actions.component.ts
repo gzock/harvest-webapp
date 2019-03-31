@@ -76,7 +76,6 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             console.log(response);
              this.bottomSheetRef.dismiss();
            },
            err => {
@@ -92,7 +91,6 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             console.log(response);
              this.bottomSheetRef.dismiss();
            },
            err => {
@@ -115,14 +113,12 @@ export class TargetActionsComponent implements OnInit {
       service = this.targetsService;
       id = this.selectedTarget.target_id;
     }
-    console.log(service);
     service.update_name(id, name)
       .pipe(
          catchError(error => throwError(error))
       )
       .subscribe(
          response => {
-           console.log(response);
            this.bottomSheetRef.dismiss();
          },
          err => {
@@ -148,7 +144,7 @@ export class TargetActionsComponent implements OnInit {
   }
 
   onUpload() {
-    console.log(this.compressedPhoto);
+    //console.log(this.compressedPhoto);
     let targetId = this.targetsService.getCurrentTarget().target_id;
     let data = this.compressedPhoto.split(",")[1];
     this.photosService.create(targetId, this.photo.type, data)
@@ -167,13 +163,11 @@ export class TargetActionsComponent implements OnInit {
   }
 
   onCompressedPhoto(photo) {
-    console.log("compressed: " + photo);
+    //console.log("compressed: " + photo);
     this.compressedPhoto = photo;
   }
 
   onGetPhoto(type, index) {
-    console.log(type);
-    console.log(index);
     this.neededPhoto = null;
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];
@@ -190,7 +184,6 @@ export class TargetActionsComponent implements OnInit {
            response => {
              this.neededPhoto = "data:image/jpeg;base64," + response;
              this.changeDetectorRef.detectChanges();
-             console.log(this.neededPhoto);
            },
            err => {
              console.log("error: " + err);

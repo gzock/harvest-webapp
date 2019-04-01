@@ -10,7 +10,7 @@ $topnav-background-color: honeydew;
 }
 
 .option-check {
-  font-size: 1.5vw;
+  font-size: 14px;
   height: 2vh;
 }
 
@@ -102,10 +102,8 @@ input:-webkit-autofill {
     right: 0;
     bottom: 0;
     overflow: auto;
-    //background: #90A4AE;
     background: url("/assets/login.svg");
     background-size: contain;
-    //background-repeat: space;
     background-repeat: no-repeat;
     background-color: #d8e4a5;
     background-position: center;

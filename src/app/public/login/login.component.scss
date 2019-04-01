@@ -103,9 +103,10 @@ input:-webkit-autofill {
     bottom: 0;
     overflow: auto;
     //background: #90A4AE;
-    background: url("/assets/login.png");
+    background: url("/assets/login.svg");
     background-size: contain;
-    background-repeat: space;
+    //background-repeat: space;
+    background-repeat: no-repeat;
     background-color: #d8e4a5;
     background-position: center;
     text-align: center;

@@ -26,6 +26,7 @@ export class TargetActionsComponent implements OnInit {
   public selectedPlace: Place;
   public selectedTarget: Target;
   public selectedPhotoType: string = "before";
+  public selectedName: string;
   public photoIndex: number = 0;
   public isTarget:boolean = false;
   public isPlace: boolean = false;
@@ -61,10 +62,23 @@ export class TargetActionsComponent implements OnInit {
     if("target_id" in this.data) {
       this.selectedTarget = this.data;
       this.isTarget = true;
+      this.selectedName = this.selectedTarget.name;
+
+      //TODO: 要リファクタリング
+      this.selectedTarget.photos.before.splice(
+        this.selectedTarget.photos.before.indexOf(this.selectedTarget.photos.adopt.before), 1
+      )
+      this.selectedTarget.photos.before.unshift(this.selectedTarget.photos.adopt.before);
+
+      this.selectedTarget.photos.after.splice(
+        this.selectedTarget.photos.after.indexOf(this.selectedTarget.photos.adopt.after), 1
+      )
+      this.selectedTarget.photos.after.unshift(this.selectedTarget.photos.adopt.after);
 
     } else {
       this.selectedPlace = this.data;
       this.isPlace = true;
+      this.selectedName = this.selectedPlace.name;
     }
   }
 

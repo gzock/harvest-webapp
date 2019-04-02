@@ -204,6 +204,7 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              console.log(response);
+             this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);

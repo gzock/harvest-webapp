@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 text-center" *ngIf="selectedPlace">
-      <h4> 選択対象: {{ selectedPlace.name }} </h4>
+    <div class="col-12 text-center" *ngIf="selectedName">
+      <h4> 選択対象: {{ selectedName }} </h4>
     </div>
     
       <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
-        <mat-tab>
+        <mat-tab *ngIf="isPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">add</mat-icon>

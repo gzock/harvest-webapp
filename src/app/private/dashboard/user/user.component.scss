@@ -1,7 +1,18 @@
+
 .change-password, .user-info {
-  max-width: 60vw;
   margin: 16px auto;
   mat-form-field {
     width: 100%;
+  }
+  @media screen and (max-width:768px) { 
+      max-width: 90vw;
+  }
+  
+  @media screen and (min-width:769px) {
+      max-width: 70vw;
+  }
+    
+  @media screen and (min-width:1000px) {
+      max-width: 60vw;
   }
 }

@@ -11,6 +11,7 @@ import { GenerateService } from './../../../shared/services/generate/generate.se
 
 import { Order } from './order';
 import { Template } from './template';
+import { Generated } from './generated';
 
 @Component({
   selector: 'app-generate',
@@ -67,9 +68,9 @@ export class GenerateComponent implements OnInit {
          catchError(error => throwError(error))
       )
       .subscribe(
-         response => {
+         (response: Generated) => {
            //console.log(response);
-           this.downloadUrl = response.toString();
+           this.downloadUrl = response.download_url;
          },
          err => {
            console.log("error: " + err);

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>削除の確認</h2>
+<mat-dialog-content class="mat-typography">
+  <p class="text-danger">
+    本当に削除しますか？<br>
+    削除してしまうと、二度と元に戻すことはできません。
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="sent">
+  <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
+  <button mat-button mat-raised-button color="warn" (click)="onAccept()">削除する</button>
+</mat-dialog-actions>

@@ -3,9 +3,11 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
-import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
+import { MatDialog, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 
 import { PhotoCanvasComponent } from './../photo-canvas/photo-canvas.component';
+import { ConfirmDeleteComponent } from './../confirm-delete/confirm-delete.component';
+
 import { Project } from './../../../private/dashboard/projects/project';
 import { Place } from './../../../private/dashboard/work/place';
 import { Target } from './../../../private/dashboard/work/target';
@@ -55,7 +57,8 @@ export class TargetActionsComponent implements OnInit {
     public projectsService: ProjectsService,
     public photosService: PhotosService,
     private changeDetectorRef: ChangeDetectorRef,
-    private alert: AlertService
+    private alert: AlertService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -214,7 +217,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             console.log(response);
+             //console.log(response);
              this.bottomSheetRef.dismiss();
            },
            err => {
@@ -225,7 +228,7 @@ export class TargetActionsComponent implements OnInit {
     }
   }
 
-  public onDeletePhoto(type, index) {
+  public onDeletePhoto(type: string, index: number) {
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];
       let photoId = this.selectedTarget["photos"][type][index];
@@ -235,10 +238,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             console.log(response);
+             //console.log(response);
+             this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);
+             this.openErrorAlert("写真の削除")
            }
         )
     }
@@ -267,6 +272,16 @@ export class TargetActionsComponent implements OnInit {
 
   private openErrorAlert(msg) {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
+  }
+
+  public openConfirmDeleteDialog(type: string, index: number) {
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.onDeletePhoto(type, index);
+      }
+    });
   }
 
 }

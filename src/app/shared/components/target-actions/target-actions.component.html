@@ -78,7 +78,7 @@
               </mat-form-field>
             </div>
             <div class="col-6 col-md-4">
-              <input type="file" id="camera-input" capture="camera" accept="image/*" (change)="onFileSelected($event)"/>
+              <input type="file" id="camera-input" capture="camera" accept="image/*" (click)="takenPhoto=''" (change)="onFileSelected($event)" />
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
                 <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
                 撮影
@@ -98,7 +98,7 @@
 
         <mat-tab *ngIf="isTarget && (selectedTarget.photos.before.length || selectedTarget.photos.after.length)">
           <ng-template mat-tab-label>
-            <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto('before', 0)">
+            <button mat-raised-button class="mat-elevation-z6" (click)="onGetPhoto(selectedPhotoType, 0)">
               <mat-icon class="material-icons md-dark" color="accent">photo_library</mat-icon>
             </button>
           </ng-template>
@@ -121,7 +121,7 @@
             <div class="col-6">
               <button mat-stroked-button color="accent" 
                   matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
-                  [disabled]="!selectedTarget.photos.after.length"
+                  [disabled]="!selectedTarget.photos.after.length && selectedPhotoType != 'after'"
                   class="btn-block" (click)="selectedPhotoType = 'after'; onGetPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 施工後

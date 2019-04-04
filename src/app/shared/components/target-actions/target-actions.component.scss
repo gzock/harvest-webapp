@@ -35,10 +35,14 @@ button {
 
 .shot {
   margin: 0px;
-}
 
-.shot input {
-  display:none;
+  mat-icon {
+    vertical-align: middle;
+  }
+
+  input {
+    display:none;
+  }
 }
 
 .photo-canvas {

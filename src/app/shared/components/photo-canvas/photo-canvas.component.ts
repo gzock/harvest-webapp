@@ -29,8 +29,8 @@ export class PhotoCanvasComponent implements AfterViewInit {
         const options = {
           orientation: null,
           canvas: true,
-          maxWidth: 1280,
-          maxHeight: 1280
+          maxHeight: 1280,
+          maxWidth: 1280
         };
         if (data.exif) {
           options.orientation = data.exif.get('Orientation');
@@ -50,7 +50,7 @@ export class PhotoCanvasComponent implements AfterViewInit {
   getDataUrl(blobImage: Blob, options: Object): Promise<any> {
     return new Promise((resolve) => {
       loadImage(blobImage, (canvas) => {
-        resolve(canvas.toDataURL("image/jpeg",0.85));
+        resolve(canvas.toDataURL("image/jpeg",0.83));
       }, options);
     });
   }

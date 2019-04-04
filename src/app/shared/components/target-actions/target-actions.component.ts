@@ -65,15 +65,21 @@ export class TargetActionsComponent implements OnInit {
       this.selectedName = this.selectedTarget.name;
 
       //TODO: 要リファクタリング
-      this.selectedTarget.photos.before.splice(
-        this.selectedTarget.photos.before.indexOf(this.selectedTarget.photos.adopt.before), 1
-      )
-      this.selectedTarget.photos.before.unshift(this.selectedTarget.photos.adopt.before);
+      if(this.selectedTarget.photos.after.length > 0) {
+        this.selectedTarget.photos.after.splice(
+          this.selectedTarget.photos.after.indexOf(this.selectedTarget.photos.adopt.after), 1
+        )
+        this.selectedTarget.photos.after.unshift(this.selectedTarget.photos.adopt.after);
+        this.selectedPhotoType = 'after';
+      }
 
-      this.selectedTarget.photos.after.splice(
-        this.selectedTarget.photos.after.indexOf(this.selectedTarget.photos.adopt.after), 1
-      )
-      this.selectedTarget.photos.after.unshift(this.selectedTarget.photos.adopt.after);
+      if(this.selectedTarget.photos.before.length > 0) {
+        this.selectedTarget.photos.before.splice(
+          this.selectedTarget.photos.before.indexOf(this.selectedTarget.photos.adopt.before), 1
+        )
+        this.selectedTarget.photos.before.unshift(this.selectedTarget.photos.adopt.before);
+        this.selectedPhotoType = 'before';
+      }
 
     } else {
       this.selectedPlace = this.data;
@@ -146,15 +152,6 @@ export class TargetActionsComponent implements OnInit {
     this.selectedFile = event.target.files[0];
     this.takenPhoto = this.selectedFile;
     this.changeDetectorRef.detectChanges();
-
-    //let fileReader = new FileReader();
-
-    //fileReader.onload = () => {
-    //  this.takenPhoto = fileReader.result;
-    //  this.changeDetectorRef.detectChanges();
-    //}
-
-    //fileReader.readAsDataURL(this.selectedFile);
   }
 
   onUpload() {

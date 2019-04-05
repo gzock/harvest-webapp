@@ -69,6 +69,7 @@ export class TargetsService {
   }
 
   public delete(targetId): Observable<any> {
-    return this.http.delete(this.targetUrl + this.placeId + "/targets/" + targetId);
+    let targetUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId;
+    return this.http.delete(targetUrl, {});
   }
 }

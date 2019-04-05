@@ -59,6 +59,11 @@
               <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
             </button>
           </ng-template>
+          <p class="text-danger">
+            本当に削除しますか？<br>
+            削除してしまうと、二度と元に戻すことはできません。
+          </p>
+          <button mat-raised-button color="warn" (click)="onDelete(selectedPlace)">削除する</button>
         </mat-tab>
       
         <mat-tab *ngIf="isTarget">

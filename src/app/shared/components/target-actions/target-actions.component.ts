@@ -228,6 +228,33 @@ export class TargetActionsComponent implements OnInit {
     }
   }
 
+  public onDelete() {
+    let service: any;
+    let id: string; 
+
+    if(this.isPlace) {
+      service = this.placesService;
+      id = this.selectedPlace.place_id;
+
+    } else if(this.isTarget) {
+      service = this.targetsService;
+      id = this.selectedTarget.target_id;
+    }
+    service.delete(id)
+      .pipe(
+         catchError(error => throwError(error))
+      )
+      .subscribe(
+         response => {
+           this.bottomSheetRef.dismiss();
+         },
+         err => {
+           console.log("error: " + err);
+           this.openErrorAlert("削除")
+         }
+      );
+  }
+
   public onDeletePhoto(type: string, index: number) {
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];

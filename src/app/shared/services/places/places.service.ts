@@ -68,6 +68,6 @@ export class PlacesService {
   }
 
   public delete(placeId): Observable<any> {
-    return this.http.delete(this.placeUrl + "/" + placeId);
+    return this.http.delete(this.placeUrl + "/" + placeId, {});
   }
 }

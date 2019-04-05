@@ -7,6 +7,7 @@ import { MatDialog, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } f
 
 import { PhotoCanvasComponent } from './../photo-canvas/photo-canvas.component';
 import { ConfirmDeleteComponent } from './../confirm-delete/confirm-delete.component';
+import { CautionComponent } from './../caution/caution.component';
 
 import { Project } from './../../../private/dashboard/projects/project';
 import { Place } from './../../../private/dashboard/work/place';
@@ -259,6 +260,7 @@ export class TargetActionsComponent implements OnInit {
     if(this.isTarget) {
       let targetId = this.selectedTarget["target_id"];
       let photoId = this.selectedTarget["photos"][type][index];
+
       this.photosService.delete(targetId, photoId)
         .pipe(
            catchError(error => throwError(error))
@@ -302,6 +304,15 @@ export class TargetActionsComponent implements OnInit {
   }
 
   public openConfirmDeleteDialog(type: string, index: number) {
+    if(this.selectedTarget["photos"][type].length == 1) {
+       this.dialog.open(CautionComponent, { data: { message: "1枚しかない写真を削除することはできません。" } });
+       return;
+    }
+    if(this.selectedTarget["photos"][type][index] === this.selectedTarget["photos"]["adopt"][type] ) {
+       this.dialog.open(CautionComponent, { data: { message: "採用されている写真を削除することはできません。" } });
+       return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDeleteComponent);
 
     dialogRef.afterClosed().subscribe(result => {

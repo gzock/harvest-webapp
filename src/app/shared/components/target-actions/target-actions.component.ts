@@ -236,11 +236,15 @@ export class TargetActionsComponent implements OnInit {
     if(this.isPlace) {
       service = this.placesService;
       id = this.selectedPlace.place_id;
-
+      if(Number(this.selectedPlace.photos.required) > 0) {
+         this.dialog.open(CautionComponent, { data: { message: "配下に何も存在しない状態でなければ削除できません" } });
+         return;
+      }
     } else if(this.isTarget) {
       service = this.targetsService;
       id = this.selectedTarget.target_id;
     }
+
     service.delete(id)
       .pipe(
          catchError(error => throwError(error))

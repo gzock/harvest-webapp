@@ -60,8 +60,10 @@
             </button>
           </ng-template>
           <p class="text-danger">
-            本当に削除しますか？<br>
-            削除してしまうと、二度と元に戻すことはできません。
+            本当に削除しますか？削除してしまうと、二度と元に戻すことはできません。
+          </p>
+          <p class="text-danger" *ngIf="isPlace">
+            削除条件: "場所"は配下に何も存在しない状態でなければ削除することはできません。
           </p>
           <button mat-raised-button color="warn" (click)="onDelete(selectedPlace)">削除する</button>
         </mat-tab>

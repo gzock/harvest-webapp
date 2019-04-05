@@ -20,15 +20,20 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-6 col-md-6">
+            <div class="col-6 col-md-6" *ngIf="new.type === 'target' || this.placesService.placeHistory.length < 6">
               <mat-form-field class="add-action-name">
                 <input matInput placeholder="名称" [(ngModel)]="new.name">
               </mat-form-field>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3" *ngIf="new.type === 'target' || this.placesService.placeHistory.length < 6">
               <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, selectedPlace.place_id)">
                 作成
               </button>
+            </div>
+            <div class="col-6 col-md-9 caution" *ngIf="new.type === 'place' && this.placesService.placeHistory.length == 6">
+              <p class="text-danger">
+                注意: "場所"をこれ以上作成できません。最大5階層までです。
+              </p>
             </div>
           </div>
         </mat-tab>
@@ -84,18 +89,23 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-6 col-md-4">
+            <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
               <input type="file" id="camera-input" capture="camera" accept="image/*" (click)="takenPhoto=''" (change)="onFileSelected($event)" />
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
                 <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
                 撮影
               </label>
             </div>
-            <div class="col-6 col-md-4">
+            <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
               <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!takenPhoto">
                 <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
                 アップロード
               </button>
+            </div>
+            <div class="col-12 col-md-8 caution" *ngIf="selectedTarget['photos'][photo.type].length == 5">
+              <p class="text-danger">
+                5枚以上、写真をアップロードすることはできません。
+              </p>
             </div>
             <div class="col-12 text-center photo-canvas">
               <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" [output]=true (compressed)="onCompressedPhoto($event)"></app-photo-canvas>

@@ -100,11 +100,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
+             this.openSucccessAlert("場所の追加");
              this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);
-            this.openErrorAlert("場所の追加")
+            this.openErrorAlert("場所の追加");
            }
         );
 
@@ -115,11 +116,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
+             this.openSucccessAlert("撮影対象の追加");
              this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);
-            this.openErrorAlert("撮影対象の追加")
+            this.openErrorAlert("撮影対象の追加");
            }
         );
     }
@@ -147,7 +149,7 @@ export class TargetActionsComponent implements OnInit {
          },
          err => {
            console.log("error: " + err);
-           this.openErrorAlert("名前の変更")
+           this.openErrorAlert("名前の変更");
          }
       );
   }
@@ -168,11 +170,12 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
+           this.openSucccessAlert("写真のアップロード");
            this.bottomSheetRef.dismiss();
          },
          err => {
            console.log("error: " + err);
-           this.openErrorAlert("写真のアップロード")
+           this.openErrorAlert("写真のアップロード");
          }
       );
   }
@@ -202,7 +205,7 @@ export class TargetActionsComponent implements OnInit {
            },
            err => {
              console.log("error: " + err);
-             this.openErrorAlert("写真の取得")
+             this.openErrorAlert("写真の取得");
            }
         )
     }
@@ -218,12 +221,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             //console.log(response);
+             this.openSucccessAlert("写真の採用");
              this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);
-             this.openErrorAlert("写真の採用")
+             this.openErrorAlert("写真の採用");
            }
         )
     }
@@ -251,11 +254,12 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
+           this.openSucccessAlert("削除");
            this.bottomSheetRef.dismiss();
          },
          err => {
            console.log("error: " + err);
-           this.openErrorAlert("削除")
+           this.openErrorAlert("削除");
          }
       );
   }
@@ -271,12 +275,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             //console.log(response);
+             this.openSucccessAlert("写真の削除");
              this.bottomSheetRef.dismiss();
            },
            err => {
              console.log("error: " + err);
-             this.openErrorAlert("写真の削除")
+             this.openErrorAlert("写真の削除");
            }
         )
     }
@@ -301,6 +305,10 @@ export class TargetActionsComponent implements OnInit {
   finish(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
+  }
+
+  private openSucccessAlert(msg) {
+    this.alert.openSucccessAlert(msg + "に成功しました。");
   }
 
   private openErrorAlert(msg) {

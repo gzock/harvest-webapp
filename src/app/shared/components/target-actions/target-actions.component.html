@@ -70,7 +70,7 @@
           <p class="text-danger" *ngIf="isPlace">
             削除条件: "場所"は配下に何も存在しない状態でなければ削除することはできません。
           </p>
-          <button mat-raised-button color="warn" (click)="onDelete(selectedPlace)">削除する</button>
+          <button mat-raised-button color="warn" (click)="onDelete()">削除する</button>
         </mat-tab>
       
         <mat-tab *ngIf="isTarget">

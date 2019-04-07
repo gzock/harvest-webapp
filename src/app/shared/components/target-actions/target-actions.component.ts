@@ -197,7 +197,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             this.neededPhoto = "data:image/jpeg;base64," + response;
+             this.neededPhoto = "data:image/jpeg;base64," + response.data;
              this.changeDetectorRef.detectChanges();
            },
            err => {

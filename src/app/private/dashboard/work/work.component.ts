@@ -37,7 +37,7 @@ export class WorkComponent implements OnInit, OnDestroy {
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
     public photosService: PhotosService,
-    public alert: AlertService
+    private alert: AlertService
   ) { }
 
   ngOnInit() {

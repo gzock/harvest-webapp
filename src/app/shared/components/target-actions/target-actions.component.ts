@@ -145,6 +145,7 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
+           this.openSucccessAlert("名前の変更");
            this.bottomSheetRef.dismiss();
          },
          err => {

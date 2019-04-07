@@ -51,7 +51,7 @@ export class AuthService {
           if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
             //let requiredAttrs = {"preferred_username": "Guest"}; //TODO: signupで入れておく必要がある
             //from(Auth.completeNewPassword(user, password, requiredAttrs))
-            from(Auth.completeNewPassword(user, password))
+            from(Auth.completeNewPassword(user, password, {}))
               .pipe(
                 tap(_user => { 
                     //this.saveUserData(_user.signInUserSession);

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { SignupInfo } from './signup-info';
 import { ConfirmSignupComponent } from './../../shared/components/confirm-signup/confirm-signup.component';
+import { AlertService } from './../../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-signup',
@@ -30,6 +31,7 @@ export class SignupComponent implements OnInit {
   constructor(
     public router: Router,
     private authService: AuthService,
+    private alertService: AlertService,
     public dialog: MatDialog
   ) { }
 
@@ -80,9 +82,23 @@ export class SignupComponent implements OnInit {
     this.authService.confirmSignUp(email, code)
       .subscribe(
         result => {
-          this.router.navigate(['/dashboard/projects']);
+          this.openSucccessAlert("ユーザー登録に成功しました。ログインを行ってください。");
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.openErrorAlert("ユーザー登録に失敗しました。検証コードが間違っていないか再度ご確認ください。");
+          this.openConfirmSignupDialog(this.info);
+          console.log(error);
         }
       );
+  }
+
+  private openSucccessAlert(msg) {
+    this.alertService.openSucccessAlert(msg);
+  }
+
+  private openErrorAlert(msg) {
+    this.alertService.openErrorAlert(msg);
   }
 
   // thanks for https://javascript.programmer-reference.com/js-check-zenkaku-katakana/

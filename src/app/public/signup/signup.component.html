@@ -24,11 +24,11 @@
               <mat-radio-group name="input-pricing-plan" [(ngModel)]="info.pricing_plan" required>
                 <mat-radio-button value="standard">スタンダード　</mat-radio-button>
                 <mat-radio-button value="guest" disabled>フリー　</mat-radio-button>
-                <p class="text-danger small">ゲストプランは7月以降に選択可能になる予定です</p>
+                <p class="text-danger small">フリープランは7月以降に選択可能になる予定です</p>
               </mat-radio-group>
             </section>
             <section class="example-section">
-              <mat-form-field>
+              <mat-form-field class="input-email">
                 <input type="email" matInput name="input-email" placeholder="メールアドレス" [(ngModel)]="info.email" pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
                 <mat-hint>ユーザーIDとしても使用されます</mat-hint>
               </mat-form-field>

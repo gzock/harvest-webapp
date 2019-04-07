@@ -97,7 +97,7 @@
             <div>
               <button mat-raised-button class="row step-3-execute" (click)="onGenerate(order)">
                 <p *ngIf="!downloadUrl">
-                  {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を実行開始<br>
+                  {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を開始<br>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'zip'">create_new_folder</mat-icon>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'excel'">grid_on</mat-icon>
                 </p>
@@ -113,6 +113,10 @@
               </button>
             </div>
 
+            <p class="small text-danger" *ngIf="downloadUrl">
+              ※ダウンロードは15分間のみ有効です
+            </p>
+
             <div>
               <button mat-button (click)="onPrevious()">戻る</button>
               <button mat-button (click)="onReset()">リセット</button>
@@ -127,6 +131,8 @@
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
           テンプレート管理
         </ng-template>
+        こちらの機能はまだ使用できません。<br>
+        お好みのExcelテンプレートをアップロードし、画像の貼り付けを行える機能を提供予定です。
       </mat-tab>
     </mat-tab-group>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
@@ -18,8 +18,9 @@ import { Generated } from './generated';
   templateUrl: './generate.component.html',
   styleUrls: ['./generate.component.scss']
 })
-export class GenerateComponent implements OnInit {
+export class GenerateComponent implements OnInit, OnDestroy {
   private currentProject: Project;
+  private currentProjectSubscription: Subscription;
   public downloadUrl: string;
 
   public isLinear = false;
@@ -68,6 +69,12 @@ export class GenerateComponent implements OnInit {
 
     // temp
     this.templates = [{"name": "basic_1.xlsx"}];
+  }
+
+  ngOnDestroy() {
+    if (this.currentProjectSubscription) {
+      this.currentProjectSubscription.unsubscribe();
+    }
   }
 
   public onGenerate(order: Order) {

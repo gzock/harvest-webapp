@@ -18,7 +18,7 @@ export class ProjectsService {
   public project: Project;
   public joinedProjects: Project[];
   public joinedProjectsSubject: BehaviorSubject<Project[]>;
-  public currentProject: Project;
+  public currentProject: Project = JSON.parse(localStorage.getItem('selectedProject'));
   public currentProjectSubject: BehaviorSubject<Project>;
 
   constructor(private http: HttpClient) { 

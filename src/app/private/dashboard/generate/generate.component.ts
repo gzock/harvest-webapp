@@ -19,7 +19,7 @@ import { Generated } from './generated';
   styleUrls: ['./generate.component.scss']
 })
 export class GenerateComponent implements OnInit, OnDestroy {
-  private currentProject: Project;
+  public currentProject: Project;
   private currentProjectSubscription: Subscription;
   public downloadUrl: string;
 

@@ -52,7 +52,7 @@
             <section class="example-section">
               <mat-form-field>
                 <input type="password" matInput name="input-password" placeholder="パスワード" [(ngModel)]="info.password" pattern="^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}$" required>
-                <mat-hint>英数字記号8文字以上</mat-hint>
+                <mat-hint>英小文字/英大文字/数字それぞれ1文字を含む8文字以上</mat-hint>
               </mat-form-field>
               <mat-form-field>
                 <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword" pattern="^{{ info.password }}$" required>

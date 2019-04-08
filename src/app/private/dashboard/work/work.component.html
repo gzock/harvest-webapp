@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="row text-center">
+  <p class="text-danger" *ngIf="!currentProject">
+    エラー: プロジェクトを選択してください。
+  </p>
+  <div class="row text-center" *ngIf="currentProject">
 
     <mat-card class="mat-elevation-z4 col-12">
       <div class="row align-items-center">

@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row text-center">
 
-    <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
+    <p class="text-danger" *ngIf="!this.currentProject">
+      エラー: プロジェクトを選択してください。
+    </p>
+
+    <mat-tab-group mat-align-tabs="center" class="col-12 row text-center" *ngIf="this.currentProject">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>

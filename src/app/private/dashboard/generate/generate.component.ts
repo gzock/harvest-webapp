@@ -47,7 +47,17 @@ export class GenerateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentProject = this.projectsService.getCurrentProject();
+    this.currentProjectSubscription = this.projectsService.currentProjectSubject
+      .subscribe(
+        project => {
+          if(project) {
+            this.currentProject = project;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]

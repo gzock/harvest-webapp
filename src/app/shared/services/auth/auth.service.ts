@@ -107,21 +107,14 @@ export class AuthService {
       );
   }
 
-  public changePassword(oldPassword: string, newPassword: string): Observable<boolean | void> {
+  public changePassword(oldPassword: string, newPassword: string): Observable<any> {
     return from(Auth.currentAuthenticatedUser())
       .pipe(
-        map(user => {
-          from(Auth.changePassword(user, oldPassword, newPassword))
-            .pipe(
-              map(result => { 
-                  return of(true);
-                }
-              ),
-              catchError(error => {
-                return of(false);
-              })
-            )
-        }),
+        mergeMap(
+          user => {
+            return from(Auth.changePassword(user, oldPassword, newPassword))
+          }
+        ),
         catchError(error => {
           return of(false);
         })

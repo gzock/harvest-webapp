@@ -19,7 +19,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public projects: Project[];
   private currentProject: Project;
   public currentProjectName: string;
-  public currentProjectSubscription: Subscription;
+  private currentProjectSubscription: Subscription;
+  private joinedProjectsSubscription: Subscription;
   public isMobile: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -57,6 +58,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
              this.openErrorAlert("プロジェクト一覧の取得");
            }
         );
+      this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
+        .subscribe(
+          projects => {
+             this.projects = projects;
+          },
+          err => {
+            console.log("error: " + err);
+            this.openErrorAlert("プロジェクト一覧の取得");
+          }
+        );
     }
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
@@ -74,6 +85,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.currentProjectSubscription) {
       this.currentProjectSubscription.unsubscribe();
+    }
+    if (this.joinedProjectsSubscription) {
+      this.joinedProjectsSubscription.unsubscribe();
     }
   }
 

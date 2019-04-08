@@ -104,7 +104,7 @@
                 <!--<p *ngIf="!downloadUrl && !inProgress" class="col-12">
                   <mat-spinner class=""></mat-spinner>
                 </p>-->
-                <p *ngIf="downloadUrl">
+                <p *ngIf="downloadUrl" matTooltip="ダウンロードは3分間のみ有効です" [matTooltipPosition]="'above'">
                   <a mat-raseid-button download href="{{ downloadUrl }}" class="button step-3-execute">
                     ダウンロード<br>
                     <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
@@ -112,10 +112,6 @@
                 </p>
               </button>
             </div>
-
-            <p class="small text-danger" *ngIf="downloadUrl">
-              ※ダウンロードは3分間のみ有効です
-            </p>
 
             <div>
               <button mat-button (click)="onPrevious()">戻る</button>

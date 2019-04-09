@@ -341,7 +341,7 @@ export class TargetActionsComponent implements OnInit {
   public onValidatePhoto(event) {
     if(!event) {
       this.takenPhoto = '';
-      this.alert.openErrorAlert("有効な画像ファイルを選択して下さい。");
+      this.alert.openErrorAlert("有効なJPEG画像ファイルを選択して下さい。");
     }
   }
 

@@ -26,16 +26,28 @@ button {
   margin-top: 18px;
   margin-bottom: 10px;
   width: 128px;
+  @media screen and (max-width:768px) { 
+    margin-top: 6px;
+    margin-bottom: 0px;
+  }
 }
 
 .shot-action-submit {
   margin-top: 18px;
   margin-bottom: 10px;
+  @media screen and (max-width:768px) { 
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
 }
 
 .shot-action-upload {
   margin-top: 18px;
   margin-bottom: 10px;
+  @media screen and (max-width:768px) { 
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
 }
 
 .shot {

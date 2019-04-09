@@ -99,15 +99,18 @@
           <mat-step>
             <ng-template matStepLabel>出力</ng-template>
             <div>
-              <button mat-raised-button class="row step-3-execute" (click)="onGenerate(order)">
-                <p *ngIf="!downloadUrl">
+              <button mat-raised-button class="row step-3-execute">
+                <p *ngIf="!downloadUrl && !isProgress" (click)="onGenerate(order)">
                   {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を開始<br>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'zip'">create_new_folder</mat-icon>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'excel'">grid_on</mat-icon>
                 </p>
-                <!--<p *ngIf="!downloadUrl && !inProgress" class="col-12">
-                  <mat-spinner class=""></mat-spinner>
-                </p>-->
+                <p *ngIf="!downloadUrl && isProgress" class="col-12">
+                  生成中…<br>
+                  <mat-icon class="material-icons md-dark" color="accent">
+                    <mat-spinner class="progress-spinner"></mat-spinner>
+                  </mat-icon>
+                </p>
                 <p *ngIf="downloadUrl" matTooltip="ダウンロードは3分間のみ有効です" [matTooltipPosition]="'above'">
                   <a mat-raseid-button download href="{{ downloadUrl }}" class="button step-3-execute">
                     ダウンロード<br>

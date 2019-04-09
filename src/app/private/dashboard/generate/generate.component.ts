@@ -22,6 +22,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public currentProject: Project;
   private currentProjectSubscription: Subscription;
   public downloadUrl: string;
+  public isProgress: boolean = false;
 
   public isLinear = false;
   public firstFormGroup: FormGroup;
@@ -79,9 +80,11 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
   public onGenerate(order: Order) {
     let projectId = this.currentProject.project_id;
+    this.isProgress = true;
 
     this.generateService.generate(projectId, order)
       .pipe(
+         tap( () => { this.isProgress = false; } ),
          catchError(error => throwError(error))
       )
       .subscribe(

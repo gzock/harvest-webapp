@@ -53,3 +53,11 @@ table {
   margin: 6px;
 }
 
+.progress-spinner {
+  width: 5vw !important;
+  height: 5vw !important;
+  /deep/ svg {
+    width: 5vw !important;
+    height: 5vw !important;
+  }
+}

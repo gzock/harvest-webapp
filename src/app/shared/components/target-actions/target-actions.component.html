@@ -109,7 +109,7 @@
               </p>
             </div>
             <div class="col-12 text-center photo-canvas">
-              <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" [output]=true (compressed)="onCompressedPhoto($event)"></app-photo-canvas>
+              <app-photo-canvas *ngIf="takenPhoto" [photoSrc]="takenPhoto" [output]=true (compressed)="onCompressedPhoto($event)" (validatePhoto)="onValidatePhoto($event)"></app-photo-canvas>
             </div>
           </div>
         </mat-tab>

@@ -12,6 +12,7 @@ export class PhotoCanvasComponent implements AfterViewInit {
   @Input() photoSrc: any;
   @Input() output: boolean = false;
   @Output() compressed = new EventEmitter();
+  @Output() validatePhoto = new EventEmitter();
 
   public image: string;
   private maxWidth:number = 1280;
@@ -26,20 +27,25 @@ export class PhotoCanvasComponent implements AfterViewInit {
 
     if(this.output) {
       loadImage.parseMetaData(this.photoSrc, (data) => {
-        const options = {
-          orientation: null,
-          canvas: true,
-          maxHeight: 1280,
-          maxWidth: 1280
-        };
-        if (data.exif) {
-          options.orientation = data.exif.get('Orientation');
+        if (!data.imageHead) {
+          this.validatePhoto.emit(false);
+        } else {
+          this.validatePhoto.emit(true);
+          const options = {
+            orientation: null,
+            canvas: true,
+            maxHeight: 1280,
+            maxWidth: 1280
+          };
+          if (data.exif) {
+            options.orientation = data.exif.get('Orientation');
+          }
+          this.getDataUrl(this.photoSrc, options)
+          .then(result => {
+            this.image = result;
+            this.compressed.emit(result);
+          });
         }
-        this.getDataUrl(this.photoSrc, options)
-        .then(result => {
-          this.image = result;
-          this.compressed.emit(result);
-        });
       });
     } else {
       this.image = this.photoSrc;

@@ -90,7 +90,7 @@
               </mat-form-field>
             </div>
             <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
-              <input type="file" id="camera-input" capture="camera" accept="image/jpeg" (click)="takenPhoto=''" (change)="onFileSelected($event)" />
+              <input type="file" id="camera-input" capture="camera" accept="image/*" (click)="takenPhoto=''" (change)="onFileSelected($event)" />
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
                 <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
                 撮影

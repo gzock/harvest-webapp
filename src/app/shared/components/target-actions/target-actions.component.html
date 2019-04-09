@@ -99,7 +99,7 @@
             <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
               <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!takenPhoto || isUploading">
                 <mat-icon class="material-icons md-dark" color="accent" *ngIf="!isUploading">cloud_upload</mat-icon>
-                <mat-icon *ngIf="isUploading"><mat-spinner class="uploading"></mat-spinner></mat-icon>
+                <mat-icon *ngIf="isUploading"><mat-spinner class="uploading-spinner"></mat-spinner></mat-icon>
                 アップロード
               </button>
             </div>
@@ -123,7 +123,7 @@
 
           <div class="col-12 row shot">
             <div class="col-12 text-center photo-canvas">
-              <mat-spinner class="loading" *ngIf="!neededPhoto"></mat-spinner>
+              <mat-spinner class="loading-spinner" *ngIf="!neededPhoto"></mat-spinner>
               <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto" [output]=false ></app-photo-canvas>
             </div>
 

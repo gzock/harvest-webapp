@@ -33,6 +33,7 @@ export class TargetActionsComponent implements OnInit {
   public photoIndex: number = 0;
   public isTarget:boolean = false;
   public isPlace: boolean = false;
+  public isUploading: boolean = false;
 
   //TODO: 要リファクタリング
   public selectedFile:any;
@@ -163,10 +164,12 @@ export class TargetActionsComponent implements OnInit {
 
   onUpload() {
     //console.log(this.compressedPhoto);
+    this.isUploading = true;
     let targetId = this.targetsService.getCurrentTarget().target_id;
     let data = this.compressedPhoto.split(",")[1];
     this.photosService.create(targetId, this.photo.type, data)
       .pipe(
+         tap( () => { this.isUploading = false; } ),
          catchError(error => throwError(error))
       )
       .subscribe(

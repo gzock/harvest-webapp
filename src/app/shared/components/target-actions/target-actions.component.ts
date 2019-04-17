@@ -33,6 +33,7 @@ export class TargetActionsComponent implements OnInit {
   public photoIndex: number = 0;
   public isTarget:boolean = false;
   public isPlace: boolean = false;
+  public isRootPlace: boolean = false;
   public isUploading: boolean = false;
 
   //TODO: 要リファクタリング
@@ -87,10 +88,14 @@ export class TargetActionsComponent implements OnInit {
       }
 
     } else {
+      console.log(this.data.selected);
       this.selectedPlace = this.data.selected;
       this.new.type = this.data.defaultType;
-      this.isPlace = true;
       this.selectedName = this.selectedPlace.name;
+      this.isPlace = true;
+      if(this.selectedPlace.project_id === this.selectedPlace.place_id) {
+        this.isRootPlace = true;
+      }
     }
   }
 

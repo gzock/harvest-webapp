@@ -38,7 +38,7 @@
           </div>
         </mat-tab>
       
-        <mat-tab>
+        <mat-tab *ngIf="!isRootPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">edit</mat-icon>
@@ -58,7 +58,7 @@
           </div>
         </mat-tab>
       
-        <mat-tab>
+        <mat-tab *ngIf="!isRootPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>

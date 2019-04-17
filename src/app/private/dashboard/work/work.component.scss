@@ -11,6 +11,26 @@ table {
 .mat-card {
   width: 100%;
   padding: 0px 16px 0px 16px;
+
+  /deep/ .mat-card-header-text {
+    margin: auto;
+  }
+}
+
+.init-action {
+  margin: 16px 0px;
+  button {
+    margin: 16px 8px !important;
+  }
+  h3 {
+    margin: 12px;
+  }
+  .mat-divider {
+    position: relative;
+    left: unset;
+    margin: auto;
+    width: 80%;
+  }
 }
 
 .mat-form-field {

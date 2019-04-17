@@ -64,8 +64,8 @@ export class TargetActionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if("target_id" in this.data) {
-      this.selectedTarget = this.data;
+    if("target_id" in this.data.selected) {
+      this.selectedTarget = this.data.selected;
       this.isTarget = true;
       this.selectedName = this.selectedTarget.name;
 
@@ -87,7 +87,8 @@ export class TargetActionsComponent implements OnInit {
       }
 
     } else {
-      this.selectedPlace = this.data;
+      this.selectedPlace = this.data.selected;
+      this.new.type = this.data.defaultType;
       this.isPlace = true;
       this.selectedName = this.selectedPlace.name;
     }

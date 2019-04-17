@@ -25,8 +25,8 @@ export class WorkComponent implements OnInit, OnDestroy {
 
   public currentProject: Project;
   public currentProjectSubscription: Subscription;
-  public places: Place[];
-  public targets: Target[];
+  public places: Place[] = [];
+  public targets: Target[] = [];
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
@@ -85,9 +85,9 @@ export class WorkComponent implements OnInit, OnDestroy {
     }
   }
 
-  openBottomSheet(selected): void {
+  openBottomSheet(selected, defaultType = 'place'): void {
     this.targetsService.select(selected);
-    const actionRef = this.bottomSheet.open(TargetActionsComponent, {data: selected});
+    const actionRef = this.bottomSheet.open(TargetActionsComponent, { data: { selected: selected , defaultType: defaultType } });
     actionRef.afterDismissed().subscribe(result => {
       //console.log("ActionModal result: " + JSON.stringify(result));
       this.getPlaces(this.placesService.getCurrentPlace().place_id);

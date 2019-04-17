@@ -71,9 +71,9 @@ export class ProjectsService {
     return this.http.delete(this.projectUrl + "/" + projectId);
   }
 
-
-
-
+  public import(projectId, csv): Observable<any> {
+    return this.http.port(this.projectUrl + "/" + projectId + "/import", { "csv": csv });
+  }
 
   /*
   onGetDraftRequestList(): Observable<any> {

@@ -72,7 +72,7 @@ export class ProjectsService {
   }
 
   public import(projectId, csv): Observable<any> {
-    return this.http.port(this.projectUrl + "/" + projectId + "/import", { "csv": csv });
+    return this.http.post(this.projectUrl + "/" + projectId + "/import", { "csv": csv });
   }
 
   /*

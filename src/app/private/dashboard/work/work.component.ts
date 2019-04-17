@@ -4,8 +4,11 @@ import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { MatTableDataSource } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { Platform } from '@angular/cdk/platform';
 
 import { TargetActionsComponent } from './../../../shared/components/target-actions/target-actions.component';
+import { ImportActionComponent } from './../../../shared/components/import-action/import-action.component';
 
 import { Project } from './../projects/project';
 import { Place } from './place';
@@ -27,6 +30,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   public currentProjectSubscription: Subscription;
   public places: Place[] = [];
   public targets: Target[] = [];
+  public isMobile: boolean = false;
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
@@ -37,10 +41,15 @@ export class WorkComponent implements OnInit, OnDestroy {
     public targetsService: TargetsService,
     public projectsService: ProjectsService,
     public photosService: PhotosService,
-    private alert: AlertService
+    private alert: AlertService,
+    public dialog: MatDialog,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
+    if(this.platform.ANDROID || this.platform.IOS) {
+      this.isMobile = true;
+    }
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
         project => {
@@ -160,6 +169,18 @@ export class WorkComponent implements OnInit, OnDestroy {
 
   public floor(num: number) {
     return Math.floor(num);
+  }
+
+  openImportActionDialog() {
+    const dialogRef = this.dialog.open(ImportActionComponent, { width: '600px' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log("Dialog result: " + JSON.stringify(result));
+      if(result) {
+        //this.onCreateProject(result);
+        console.log(result);
+      }
+    });
   }
 
 }

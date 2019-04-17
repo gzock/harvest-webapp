@@ -71,8 +71,10 @@ export class ProjectsService {
     return this.http.delete(this.projectUrl + "/" + projectId);
   }
 
-  public import(projectId, csv): Observable<any> {
-    return this.http.post(this.projectUrl + "/" + projectId + "/import", { "csv": csv });
+  public import(csv): Observable<any> {
+    if(this.currentProject) {
+      return this.http.post(this.projectUrl + "/" + this.currentProject.project_id + "/import", { "csv": csv });
+    }
   }
 
   /*

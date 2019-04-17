@@ -88,7 +88,6 @@ export class TargetActionsComponent implements OnInit {
       }
 
     } else {
-      console.log(this.data.selected);
       this.selectedPlace = this.data.selected;
       this.new.type = this.data.defaultType;
       this.selectedName = this.selectedPlace.name;

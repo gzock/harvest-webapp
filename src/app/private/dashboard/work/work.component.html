@@ -59,7 +59,7 @@
 
         <mat-divider></mat-divider>
 
-        <button mat-stroked-button color="primary" (click)="openImportActionDialog()" *ngIf="!this.isMobile">
+        <button mat-stroked-button color="primary" (click)="openImportActionDialog()" *ngIf="!this.isMobile && placesService.placeHistory.length == 1">
           <h3>一括インポート</h3>
         </button>
       </mat-card-content>

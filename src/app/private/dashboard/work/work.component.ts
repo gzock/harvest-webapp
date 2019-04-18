@@ -107,8 +107,10 @@ export class WorkComponent implements OnInit, OnDestroy {
   displayedTargetColumns: string[] = ['name', 'before', 'after'];
 
   public getPlaces(placeId) {
+    this.isLoading = true;
     this.placesService.list(placeId)
       .pipe(
+         tap( () => { this.isLoading = false } ),
          catchError(error => throwError(error))
       )
       .subscribe(
@@ -175,10 +177,8 @@ export class WorkComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ImportActionComponent, { width: '600px' });
 
     dialogRef.afterClosed().subscribe(result => {
-      //console.log("Dialog result: " + JSON.stringify(result));
       if(result) {
-        //this.onCreateProject(result);
-        console.log(result);
+        this.refresh();
       }
     });
   }

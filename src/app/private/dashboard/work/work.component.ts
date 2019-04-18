@@ -31,6 +31,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   public places: Place[] = [];
   public targets: Target[] = [];
   public isMobile: boolean = false;
+  public isLoading: boolean = false;
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;

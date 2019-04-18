@@ -57,6 +57,11 @@ export class ImportActionComponent implements OnInit {
          err => {
             this.isImporting = false;
             console.log("error: " + err);
+            if(err.error.error) {
+              this.errMsg = "エラー: " + err.error.error.message;
+            } else {
+              this.errMsg = "エラー: タイムアウト";
+            }
             this.alert.openErrorAlert("インポートに失敗しました。CSVファイルの内容をご確認ください。");
          }
       )

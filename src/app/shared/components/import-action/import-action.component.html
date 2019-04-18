@@ -8,6 +8,9 @@
         <li>, (カンマ)区切りのCSVファイルのみサポートしています。</li>
         <li>文字コードはUTF-8のみサポートしています。</li>
         <li>"場所"と"撮影対象"をそれぞれ1つ以上指定してください。</li>
+        <li> 同じ"名前"の"場所"を指定しないでください。</li>
+        <li>"場所"は最大で5階層まで作成することができます。</li>
+        <li>存在しないparentを指定してもエラーになります。</li>
         <!--
         <li></li>
         <li></li>-->
@@ -15,6 +18,13 @@
     </div>
 
     <div class="col-12 example-csv">
+      一行目にヘッダ行として、<code>parent,type,name</code>を指定して下さい。
+      <pre>
+        parent: 紐づく"場所"の名前を指定してください。
+        type: "場所"あるいは"撮影対象"を指定してください。
+        name: 任意の名前を指定してください。
+        ※parentに何も指定しない場合は、プロジェクト直下に作成されます。</pre>
+
       CSVの例
       <pre>
         1.  parent,type,name
@@ -32,6 +42,41 @@
           + 部屋1
               + 無線アクセスポイント2</pre>
     </div>
+
+    <mat-tab-group>
+      <mat-tab label="エラー例1">
+        <code>同じ"名前"の"場所"を指定しないでください。</code>
+        <pre>
+          1.  parent,type,name
+          2.  ,場所,拠点1
+          3.  ,場所,拠点2
+          4.  拠点1,場所,部屋1 ← 同じ名前
+          5.  拠点2,場所,部屋1 ← 同じ名前
+          6.  部屋1,撮影対象,無線アクセスポイント</pre>
+      </mat-tab>
+      <mat-tab label="エラー例2">
+        <code>"場所"は最大で5階層まで作成することができます。</code>
+        <pre>
+          1.  parent,type,name
+          2.  ,場所,拠点1
+          3.  拠点1,場所,1号館
+          4.  1,場所,1F
+          5.  1F,場所,A側
+          6.  A側,場所,部屋1
+          7.  部屋1,場所,デスクA ← 6階層目
+          8.  部屋1,撮影対象,無線アクセスポイント</pre>
+      </mat-tab>
+      <mat-tab label="エラー例3">
+        <code>存在しないparentを指定してもエラーになります。</code>
+        <pre>
+          1.  parent,type,name
+          2.  ,場所,拠点1
+          3.  ,場所,拠点2
+          4.  拠点1,場所,部屋1 
+          5.  ビルA,場所,部屋1 ← ビルAは存在しない
+          6.  部屋1,撮影対象,無線アクセスポイント</pre>
+      </mat-tab>
+    </mat-tab-group>
 
     <div class="col-12 csv-input" *ngIf="!isImporting">
       <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />

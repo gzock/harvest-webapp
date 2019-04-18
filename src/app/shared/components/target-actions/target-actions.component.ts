@@ -174,15 +174,16 @@ export class TargetActionsComponent implements OnInit {
     let data = this.compressedPhoto.split(",")[1];
     this.photosService.create(targetId, this.photo.type, data)
       .pipe(
-         tap( () => { this.isUploading = false; } ),
          catchError(error => throwError(error))
       )
       .subscribe(
          response => {
+           this.isUploading = false;
            this.openSucccessAlert("写真のアップロード");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
+           this.isUploading = false;
            console.log("error: " + err);
            this.openErrorAlert("写真のアップロード");
          }

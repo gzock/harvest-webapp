@@ -84,15 +84,15 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
     this.generateService.generate(projectId, order)
       .pipe(
-         tap( () => { this.isProgress = false; } ),
          catchError(error => throwError(error))
       )
       .subscribe(
          (response: Generated) => {
-           //console.log(response);
+           this.isProgress = false;
            this.downloadUrl = response.download_url;
          },
          err => {
+           this.isProgress = false;
            console.log("error: " + err);
          }
       );

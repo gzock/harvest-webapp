@@ -112,12 +112,11 @@ export class WorkComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.placesService.list(placeId)
       .pipe(
-         tap( () => { this.isLoading = false } ),
          catchError(error => throwError(error))
       )
       .subscribe(
          response => {
-           //console.log(response);
+           this.isLoading = false;
            this.places = response.places;
            this.placeDataSource = new MatTableDataSource(this.places);
            this.targets = response.targets;
@@ -127,16 +126,9 @@ export class WorkComponent implements OnInit, OnDestroy {
            this.placesService.setProjectId(this.currentProject.project_id);
          },
          err => {
+           this.isLoading = false;
            console.log("error: " + err);
            this.openErrorAlert("場所の取得");
-           //this.showAlert("Error: " + err.message, "danger", 10000);
-           //if (err.status == 401) {
-           //  localStorage.removeItem('isLoggedin');
-           //  this.router.navigate(["/login"]);
-           //}
-           //else if (err.status == 400) {
-           //  this.errMsg = "Error: " + err.error.message;
-           //}
          }
       );
   }

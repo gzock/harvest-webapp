@@ -48,15 +48,15 @@ export class ImportActionComponent implements OnInit {
 
   private onImportExecute(csv) {
     this.projectsService.import(csv)
-      .pipe(tap( () => this.isImporting = false ))
       .subscribe(
          response => {
+            this.isImporting = false;
             this.alert.openSucccessAlert("インポートに成功しました。");
             this.dialogRef.close(true);
          },
          err => {
-            console.log("error: " + err);
             this.isImporting = false;
+            console.log("error: " + err);
             this.alert.openErrorAlert("インポートに失敗しました。CSVファイルの内容をご確認ください。");
          }
       )

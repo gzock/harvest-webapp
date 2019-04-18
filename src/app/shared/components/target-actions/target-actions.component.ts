@@ -107,7 +107,7 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              this.openSucccessAlert("場所の追加");
-             this.bottomSheetRef.dismiss();
+             this.bottomSheetRef.dismiss(true);
            },
            err => {
              console.log("error: " + err);
@@ -123,7 +123,7 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              this.openSucccessAlert("撮影対象の追加");
-             this.bottomSheetRef.dismiss();
+             this.bottomSheetRef.dismiss(true);
            },
            err => {
              console.log("error: " + err);
@@ -152,7 +152,7 @@ export class TargetActionsComponent implements OnInit {
       .subscribe(
          response => {
            this.openSucccessAlert("名前の変更");
-           this.bottomSheetRef.dismiss();
+           this.bottomSheetRef.dismiss(true);
          },
          err => {
            console.log("error: " + err);
@@ -180,7 +180,7 @@ export class TargetActionsComponent implements OnInit {
       .subscribe(
          response => {
            this.openSucccessAlert("写真のアップロード");
-           this.bottomSheetRef.dismiss();
+           this.bottomSheetRef.dismiss(true);
          },
          err => {
            console.log("error: " + err);
@@ -231,7 +231,7 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              this.openSucccessAlert("写真の採用");
-             this.bottomSheetRef.dismiss();
+             this.bottomSheetRef.dismiss(true);
            },
            err => {
              console.log("error: " + err);
@@ -264,7 +264,7 @@ export class TargetActionsComponent implements OnInit {
       .subscribe(
          response => {
            this.openSucccessAlert("削除");
-           this.bottomSheetRef.dismiss();
+           this.bottomSheetRef.dismiss(true);
          },
          err => {
            console.log("error: " + err);
@@ -285,7 +285,7 @@ export class TargetActionsComponent implements OnInit {
         .subscribe(
            response => {
              this.openSucccessAlert("写真の削除");
-             this.bottomSheetRef.dismiss();
+             this.bottomSheetRef.dismiss(true);
            },
            err => {
              console.log("error: " + err);

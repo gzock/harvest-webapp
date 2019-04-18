@@ -98,8 +98,9 @@ export class WorkComponent implements OnInit, OnDestroy {
     this.targetsService.select(selected);
     const actionRef = this.bottomSheet.open(TargetActionsComponent, { data: { selected: selected , defaultType: defaultType } });
     actionRef.afterDismissed().subscribe(result => {
-      //console.log("ActionModal result: " + JSON.stringify(result));
-      this.getPlaces(this.placesService.getCurrentPlace().place_id);
+      if(result) {
+        this.getPlaces(this.placesService.getCurrentPlace().place_id);
+      }
     });
   }
 

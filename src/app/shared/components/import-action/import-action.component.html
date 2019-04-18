@@ -73,7 +73,7 @@
           2.  ,場所,拠点1
           3.  ,場所,拠点2
           4.  拠点1,場所,部屋1 
-          5.  ビルA,場所,部屋1 ← ビルAは存在しない
+          5.  ビルA,場所,部屋2 ← ビルAは存在しない
           6.  部屋1,撮影対象,無線アクセスポイント</pre>
       </mat-tab>
     </mat-tab-group>
@@ -88,6 +88,9 @@
     <div class="col-12 text-center" *ngIf="isImporting">
       <h3>実行中...しばらくお待ち下さい</h3>
       <mat-spinner class="importing-spinner"></mat-spinner>
+    </div>
+    <div class="col-12 text-center" *ngIf="errMsg">
+      <h3 class="text-danger">{{ errMsg }}</h3>
     </div>
   </div>
 </mat-dialog-content>

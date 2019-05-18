@@ -30,7 +30,7 @@
 
       <mat-tab label="メンバー管理">
         <mat-card>
-          プロジェクトコード: xxxx-yyyy-zzzz
+          プロジェクトコード: {{ joinCode}}
           <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
         </mat-card>
         <mat-divider [vertical]="true"></mat-divider>
@@ -38,24 +38,23 @@
         <h4>参加中</h4>
         <mat-accordion>
           <mat-expansion-panel *ngFor="let user of users">
-            <mat-expansion-panel-header>
-    
-              <div class="username">{{ user.name }}</div>
-              <mat-form-field>
-                <mat-select [(value)]="selected" placeholder="権限">
+            <mat-expansion-panel-header class="row">
+              <div class="col-7 username">{{ user.username }}</div>
+              <mat-form-field class="col-5">
+                <mat-select [(value)]="user.role" placeholder="権限">
                   <mat-option class="mat-option-box">
                     <mat-option>None</mat-option>
-                    <mat-option value="option1">オーナー</mat-option>
-                    <mat-option value="option2">ワーカー</mat-option>
-                    <mat-option value="option3">ゲスト</mat-option>
+                    <mat-option value="owner">オーナー</mat-option>
+                    <mat-option value="admin">管理者</mat-option>
+                    <mat-option value="worker">ワーカー</mat-option>
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-    
             </mat-expansion-panel-header>
+
             <div class="row">
-              <div class="col-8">
-                組織:"{{ user.organization }}"
+              <div class="col-9">
+                メールアドレス:"{{ user.email }}"
               </div>
               <div class="col-3">
                 <button mat-raised-button color="warn">強制離脱</button>

@@ -77,6 +77,18 @@ export class ProjectsService {
     }
   }
 
+  public listUsers(projectId): Observable<any> {
+    return this.http.get(this.projectUrl + "/" + projectId + "/users");
+  }
+
+  public showJoinCode(projectId): Observable<any> {
+    return this.http.get(this.projectUrl + "/" + projectId + "/join");
+  }
+
+  public join(projectId): Observable<any> {
+    return this.http.post(this.projectUrl + "/" + projectId + "/join", {});
+  }
+
   /*
   onGetDraftRequestList(): Observable<any> {
     return this.onGetDraftRequest().pipe(map(response => { return {title: "下書き", list: response}; }));

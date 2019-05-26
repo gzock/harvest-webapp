@@ -29,6 +29,7 @@
       <button mat-raised-button color="accent" (click)="openSettingProjectDialog()" 
           matTooltip="選択したプロジェクトを編集" 
           [matTooltipPosition]="'above'" 
+          [disabled]="!projects"
       >
         設定
       </button>

@@ -85,19 +85,19 @@ export class ProjectsService {
     return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "update", "role": role});
   }
 
-  public join(projectId): Observable<any> {
+  public joinProject(projectId): Observable<any> {
     return this.http.post(this.projectUrl + "/" + projectId + "/join", {});
   }
 
-  public accept(projectId, userId): Observable<any> {
+  public acceptUser(projectId, userId): Observable<any> {
     return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "accept"});
   }
 
-  public reject(projectId, userId): Observable<any> {
+  public rejectUser(projectId, userId): Observable<any> {
     return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "reject"});
   }
 
-  public delete(projectId, userId): Observable<any> {
+  public deleteUser(projectId, userId): Observable<any> {
     return this.http.delete(this.projectUrl + "/" + projectId + "/users" + userId, {});
   }
 

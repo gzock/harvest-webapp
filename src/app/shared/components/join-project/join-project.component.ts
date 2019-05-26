@@ -19,7 +19,7 @@ export class JoinProjectComponent implements OnInit {
   }
 
   public onJoinProjectRequest(projectCode) {
-    this.projectsService.join(projectCode)
+    this.projectsService.joinProject(projectCode)
      .subscribe(
        res => {
          console.log(res);

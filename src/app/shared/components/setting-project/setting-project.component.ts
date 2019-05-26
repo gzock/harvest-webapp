@@ -46,7 +46,7 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onAcceptUser(userId) {
-    this.projectsService.accept(this.currentProject.project_id, userId)
+    this.projectsService.acceptUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
          console.log(res);
@@ -55,7 +55,7 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onRejectUser(userId) {
-    this.projectsService.reject(this.currentProject.project_id, userId)
+    this.projectsService.rejectUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
          console.log(res);
@@ -64,7 +64,7 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onDeleteUser(userId) {
-    this.projectsService.delete(this.currentProject.project_id, userId)
+    this.projectsService.deleteUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
          console.log(res);

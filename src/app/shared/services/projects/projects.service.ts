@@ -49,6 +49,7 @@ export class ProjectsService {
             projects => {
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);
+              this.select(projects[0]);
             }
           )
         );
@@ -86,7 +87,7 @@ export class ProjectsService {
   }
 
   public joinProject(projectId): Observable<any> {
-    return this.http.post(this.projectUrl + "/" + projectId + "/join", {});
+    return this.http.post(this.projectUrl + "/" + projectId + "/users", {});
   }
 
   public acceptUser(projectId, userId): Observable<any> {

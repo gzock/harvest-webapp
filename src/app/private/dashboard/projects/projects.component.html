@@ -43,7 +43,7 @@
     <ng-container matColumnDef="project_id">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <mat-radio-button class="example-radio-button" (change)="onSelectProject(element)">
+        <mat-radio-button class="example-radio-button" value="{{ element.project_id }}" (change)="onSelectProject(element)" [checked]="projectsService.getCurrentProject()['project_id']">
         </mat-radio-button>
       </td>
     </ng-container>

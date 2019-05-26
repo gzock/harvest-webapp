@@ -6,13 +6,15 @@
       プロジェクトコードを入力し参加を希望することができます。<br>
       その参加希望をプロジェクト管理者が許可した場合、あなたに割り当てられた権限に基づいた様々な操作を行うことが出来ます。
     </p>
-    <mat-form-field>
-      <input matInput placeholder="プロジェクトコードを入力" [(ngModel)]="projectCode">
-    </mat-form-field>
+    <form #formCheck="ngForm">
+      <mat-form-field>
+        <input type="text" matInput name="project-code-input" placeholder="プロジェクトコードを入力" [(ngModel)]="projectCode" pattern="^[a-zA-Z0-9_-]{22}$" required>
+      </mat-form-field>
+    </form>
   </mat-card>
 </mat-dialog-content>
 
 <mat-dialog-actions align="sent">
   <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
-  <button mat-button mat-raised-button color="primary" (click)="onJoinProjectRequest(projectCode)">参加を希望する</button>
+  <button mat-button mat-raised-button color="primary" (click)="onJoinProjectRequest(projectCode)" [disabled]="formCheck.invalid">参加を希望する</button>
 </mat-dialog-actions>

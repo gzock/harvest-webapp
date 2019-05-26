@@ -35,57 +35,61 @@
         </mat-card>
         <mat-divider [vertical]="true"></mat-divider>
     
-        <h4>参加中</h4>
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let user of joinedUsers">
-            <mat-expansion-panel-header class="row">
-              <div class="col-7 username">{{ user.username }}</div>
+        <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 
-              <mat-form-field class="col-5">
-                <input matInput placeholder="権限" value="オーナー" disabled>
-              </mat-form-field>
+        <div *ngIf="!isLoading">
+          <h4>参加中</h4>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let user of joinedUsers">
+              <mat-expansion-panel-header class="row">
+                <div class="col-7 username">{{ user.username }}</div>
 
-              <mat-form-field class="col-5" *ngIf="user.role !== 'owner'">
-                <mat-select [(value)]="user.role" placeholder="権限" (selectionChange)="onUpdateRole(user.user_id, user.role)">
-                  <mat-option value="owner">オーナー</mat-option>
-                  <mat-option value="admin">管理者</mat-option>
-                  <mat-option value="worker">ワーカー</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </mat-expansion-panel-header>
+                <mat-form-field class="col-5">
+                  <input matInput placeholder="権限" value="オーナー" disabled>
+                </mat-form-field>
 
-            <div class="row">
-              <div class="col-9">
-                メールアドレス:"{{ user.email }}"
-              </div>
-              <div class="col-3">
-                <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)">強制離脱</button>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+                <mat-form-field class="col-5" *ngIf="user.role !== 'owner'">
+                  <mat-select [(value)]="user.role" placeholder="権限" (selectionChange)="onUpdateRole(user.user_id, user.role)">
+                    <mat-option value="owner">オーナー</mat-option>
+                    <mat-option value="admin">管理者</mat-option>
+                    <mat-option value="worker">ワーカー</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-expansion-panel-header>
 
-        <h4>参加希望</h4>
-        <h6 class="small" *ngIf="requestedUsers.length == 0">現在、このプロジェクトへの参加を希望しているユーザーは存在しません。</h6>
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let user of requestedUsers">
-            <mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-9">
+                  メールアドレス:"{{ user.email }}"
+                </div>
+                <div class="col-3">
+                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)">強制離脱</button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
 
-            <div class="username">{{ user.name }}</div>
-            </mat-expansion-panel-header>
-            <div class="row">
-              <div class="col-12">
-                メールアドレス:"{{ user.email }}"
+          <h4>参加希望</h4>
+          <h6 class="small" *ngIf="requestedUsers.length == 0">現在、このプロジェクトへの参加を希望しているユーザーは存在しません。</h6>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let user of requestedUsers">
+              <mat-expansion-panel-header>
+
+              <div class="username">{{ user.name }}</div>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-12">
+                  メールアドレス:"{{ user.email }}"
+                </div>
+                <div class="offset-6 col-3">
+                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)">許可</button>
+                </div>
+                <div class="col-3">
+                  <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)">拒否</button>
+                </div>
               </div>
-              <div class="offset-6 col-3">
-                <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)">許可</button>
-              </div>
-              <div class="col-3">
-                <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)">拒否</button>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
     
       </mat-tab>
     </mat-tab-group>

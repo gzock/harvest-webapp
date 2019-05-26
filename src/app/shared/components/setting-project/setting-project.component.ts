@@ -19,6 +19,7 @@ export class SettingProjectComponent implements OnInit {
   public joinedUsers: ProjectJoinUser[] = [];
   public requestedUsers: ProjectJoinUser[] = [];
   private currentProject: Project;
+  public isLoading: boolean = true;
 
   constructor(
     private projectsService: ProjectsService
@@ -31,6 +32,7 @@ export class SettingProjectComponent implements OnInit {
         users => {
           this.joinedUsers = users.filter( user => user.status === "active" );
           this.requestedUsers = users.filter( user => user.status === "request" );
+          this.isLoading = false;
           console.log(users);
         }
       );

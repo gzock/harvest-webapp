@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
+import { Observable, of, merge, throwError, Subject, BehaviorSubject, Subscription  } from "rxjs";
+import { filter, map, tap, catchError } from "rxjs/operators";
+
 import { Project } from '../../../private/dashboard/projects/project';
 import { ProjectJoinUser } from './project-join-user';
 import { ProjectsService } from './../../services/projects/projects.service';
@@ -13,7 +16,8 @@ import { ProjectsService } from './../../services/projects/projects.service';
 export class SettingProjectComponent implements OnInit {
   public projects: Project[];
   public joinCode: string;
-  public users: ProjectJoinUser[];
+  public joinedUsers: ProjectJoinUser[] = [];
+  public requestedUsers: ProjectJoinUser[] = [];
   private currentProject: Project;
 
   constructor(
@@ -22,30 +26,50 @@ export class SettingProjectComponent implements OnInit {
 
   ngOnInit() {
     this.currentProject = this.projectsService.getCurrentProject();
-    this.projectsService.showJoinCode(this.currentProject.project_id)
-      .subscribe(
-        res => {
-          this.joinCode = res.join_code;
-        }
-      );
     this.projectsService.listUsers(this.currentProject.project_id)
       .subscribe(
         users => {
-          this.users = users;
+          this.joinedUsers = users.filter( user => user.status === "active" );
+          this.requestedUsers = users.filter( user => user.status === "request" );
           console.log(users);
         }
       );
   }
 
-  //public users = [
-  //  {
-  //    name: "hoge",
-  //    organization: "株式会社ミライト"
-  //  },
-  //  {
-  //    name: "foo",
-  //    organization: "株式会社ミライト"
-  //  }
-  //];
+  public onUpdateRole(userId, role) {
+    this.projectsService.updateRole(this.currentProject.project_id, userId, role)
+     .subscribe(
+       res => {
+         console.log(res);
+       }
+     );
+  }
+
+  public onAcceptUser(userId) {
+    this.projectsService.accept(this.currentProject.project_id, userId)
+     .subscribe(
+       res => {
+         console.log(res);
+       }
+     );
+  }
+
+  public onRejectUser(userId) {
+    this.projectsService.reject(this.currentProject.project_id, userId)
+     .subscribe(
+       res => {
+         console.log(res);
+       }
+     );
+  }
+
+  public onDeleteUser(userId) {
+    this.projectsService.delete(this.currentProject.project_id, userId)
+     .subscribe(
+       res => {
+         console.log(res);
+       }
+     );
+  }
 
 }

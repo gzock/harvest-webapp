@@ -3,4 +3,5 @@ export interface ProjectJoinUser {
   username: string;
   role: string;
   email: string;
+  status: string;
 }

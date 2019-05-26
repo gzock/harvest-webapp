@@ -81,12 +81,24 @@ export class ProjectsService {
     return this.http.get(this.projectUrl + "/" + projectId + "/users");
   }
 
-  public showJoinCode(projectId): Observable<any> {
-    return this.http.get(this.projectUrl + "/" + projectId + "/join");
+  public updateRole(projectId, userId, role): Observable<any> {
+    return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "update", "role": role});
   }
 
   public join(projectId): Observable<any> {
     return this.http.post(this.projectUrl + "/" + projectId + "/join", {});
+  }
+
+  public accept(projectId, userId): Observable<any> {
+    return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "accept"});
+  }
+
+  public reject(projectId, userId): Observable<any> {
+    return this.http.put(this.projectUrl + "/" + projectId + "/users" + userId, {"action": "reject"});
+  }
+
+  public delete(projectId, userId): Observable<any> {
+    return this.http.delete(this.projectUrl + "/" + projectId + "/users" + userId, {});
   }
 
   /*

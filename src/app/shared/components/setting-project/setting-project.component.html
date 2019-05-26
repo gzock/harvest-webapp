@@ -44,13 +44,12 @@
               <mat-expansion-panel-header class="row">
                 <div class="col-7 username">{{ user.username }}</div>
 
-                <mat-form-field class="col-5">
+                <mat-form-field class="col-5" *ngIf="user.role === 'owner'">
                   <input matInput placeholder="権限" value="オーナー" disabled>
                 </mat-form-field>
 
                 <mat-form-field class="col-5" *ngIf="user.role !== 'owner'">
                   <mat-select [(value)]="user.role" placeholder="権限" (selectionChange)="onUpdateRole(user.user_id, user.role)">
-                    <mat-option value="owner">オーナー</mat-option>
                     <mat-option value="admin">管理者</mat-option>
                     <mat-option value="worker">ワーカー</mat-option>
                   </mat-select>

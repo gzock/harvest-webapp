@@ -62,7 +62,7 @@
                   メールアドレス:"{{ user.email }}"
                 </div>
                 <div class="col-3">
-                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)">強制離脱</button>
+                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)" [disabled]="user.role === 'owner'">強制離脱</button>
                 </div>
               </div>
             </mat-expansion-panel>

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>他のプロジェクトへの参加</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-card>
+    <p class="small">
+      あなたが他のプロジェクトへ参加したい場合は、そのプロジェクトの管理者からプロジェクトコードを教えてもらってください。<br>
+      プロジェクトコードを入力し参加を希望することができます。<br>
+      その参加希望をプロジェクト管理者が許可した場合、あなたに割り当てられた権限に基づいた様々な操作を行うことが出来ます。
+    </p>
+    <mat-form-field>
+      <input matInput placeholder="プロジェクトコードを入力" [(ngModel)]="projectCode">
+    </mat-form-field>
+  </mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions align="sent">
+  <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
+  <button mat-button mat-raised-button color="primary" (click)="onJoinProjectRequest(projectCode)">参加を希望する</button>
+</mat-dialog-actions>

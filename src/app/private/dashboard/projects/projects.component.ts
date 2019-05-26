@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
+import { JoinProjectComponent } from './../../../shared/components/join-project/join-project.component';
 
 import { Project } from './project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
@@ -85,6 +86,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
   openSettingProjectDialog() {
     const dialogRef = this.dialog.open(SettingProjectComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openJoinProjectDialog() {
+    const dialogRef = this.dialog.open(JoinProjectComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

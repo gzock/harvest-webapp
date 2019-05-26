@@ -33,6 +33,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
 import { CreateProjectComponent } from './../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
+import { JoinProjectComponent } from './../../shared/components/join-project/join-project.component';
 import { TargetActionsComponent } from './../../shared/components/target-actions/target-actions.component';
 import { PhotoCanvasComponent } from './../../shared/components/photo-canvas/photo-canvas.component';
 import { ConfirmDeleteComponent } from './../../shared/components/confirm-delete/confirm-delete.component';
@@ -60,6 +61,7 @@ import { UserComponent } from './user/user.component';
     WorkComponent,
     CreateProjectComponent,
     SettingProjectComponent,
+    JoinProjectComponent,
     TargetActionsComponent,
     PhotoCanvasComponent,
     GenerateComponent,
@@ -121,6 +123,7 @@ import { UserComponent } from './user/user.component';
   entryComponents: [
     CreateProjectComponent,
     SettingProjectComponent,
+    JoinProjectComponent,
     TargetActionsComponent,
     ConfirmDeleteComponent,
     CautionComponent,

@@ -19,6 +19,7 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   public projects: Project[] = [];
+  public currentProject: Project;
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
@@ -33,9 +34,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
         projects => {
-          if(projects) {
+          if(projects instanceof Array && projects.length) {
             this.projects = projects;
             this.dataSource = new MatTableDataSource(this.projects);
+            this.currentProject = projects[0];
+            this.projectsService.select(this.currentProject);
           }
         },
         err => {

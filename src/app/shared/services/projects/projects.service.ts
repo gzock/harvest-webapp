@@ -49,9 +49,6 @@ export class ProjectsService {
             projects => {
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);
-              if(projects.length > 0 && projects[0] instanceof Project) {
-                this.select(projects[0]);
-              }
             }
           )
         );

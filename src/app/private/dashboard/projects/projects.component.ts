@@ -30,14 +30,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.projects);
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
         projects => {
           if(projects) {
             this.projects = projects;
             this.dataSource = new MatTableDataSource(this.projects);
-            console.log(this.projects);
           }
         },
         err => {

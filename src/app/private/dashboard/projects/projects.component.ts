@@ -18,7 +18,7 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
-  public projects: Project[];
+  public projects: Project[] = [];
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
@@ -30,11 +30,15 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log(this.projects);
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
         projects => {
-           this.projects = projects;
-           this.dataSource = new MatTableDataSource(this.projects);
+          if(projects) {
+            this.projects = projects;
+            this.dataSource = new MatTableDataSource(this.projects);
+            console.log(this.projects);
+          }
         },
         err => {
           console.log("error: " + err);

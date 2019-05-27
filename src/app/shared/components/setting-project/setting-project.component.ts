@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { Observable, of, merge, throwError, Subject, BehaviorSubject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
@@ -7,6 +7,7 @@ import { filter, map, tap, catchError } from "rxjs/operators";
 import { Project } from '../../../private/dashboard/projects/project';
 import { ProjectJoinUser } from './project-join-user';
 import { ProjectsService } from './../../services/projects/projects.service';
+import { AlertService } from './../../../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-setting-project',
@@ -22,7 +23,9 @@ export class SettingProjectComponent implements OnInit {
   public isLoading: boolean = true;
 
   constructor(
-    private projectsService: ProjectsService
+    private dialogRef: MatDialogRef<SettingProjectComponent>,
+    private projectsService: ProjectsService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -42,7 +45,12 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.updateRole(this.currentProject.project_id, userId, role)
      .subscribe(
        res => {
-         console.log(res);
+         this.openSucccessAlert("ロールの変更に成功しました。");
+         this.dialogRef.close();
+       },
+       err => {
+         this.openErrorAlert("ロールの変更");
+         console.log(err);
        }
      );
   }
@@ -51,7 +59,12 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.acceptUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         console.log(res);
+         this.openSucccessAlert("指定したユーザーの参加を許可しました。");
+         this.dialogRef.close();
+       },
+       err => {
+         this.openErrorAlert("参加処理");
+         console.log(err);
        }
      );
   }
@@ -60,7 +73,12 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.rejectUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         console.log(res);
+         this.openSucccessAlert("指定したユーザーの参加を拒否しました。");
+         this.dialogRef.close();
+       },
+       err => {
+         this.openErrorAlert("参加拒否の処理");
+         console.log(err);
        }
      );
   }
@@ -69,9 +87,22 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.deleteUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         console.log(res);
+         this.openSucccessAlert("指定したユーザーを削除しました。");
+         this.dialogRef.close();
+       },
+       err => {
+         this.openErrorAlert("削除処理");
+         console.log(err);
        }
      );
+  }
+
+  private openSucccessAlert(msg) {
+    this.alertService.openSucccessAlert(msg);
+  }
+
+  private openErrorAlert(msg) {
+    this.alertService.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
 }

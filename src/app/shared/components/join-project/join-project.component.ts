@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { ProjectsService } from './../../services/projects/projects.service';
+import { AlertService } from './../../../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-join-project',
@@ -12,7 +13,9 @@ export class JoinProjectComponent implements OnInit {
   public projectCode: string;
 
   constructor(
-    private projectsService: ProjectsService
+    private dialogRef: MatDialogRef<JoinProjectComponent>,
+    private projectsService: ProjectsService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -23,6 +26,11 @@ export class JoinProjectComponent implements OnInit {
      .subscribe(
        res => {
          console.log(res);
+         this.alertService.openSucccessAlert("指定したプロジェクトへの参加希望を申請しました。");
+         this.dialogRef.close();
+       },
+       err => {
+         this.alertService.openErrorAlert("参加機能の申請に失敗しました。再度、お試しください。");
        }
      );
   }

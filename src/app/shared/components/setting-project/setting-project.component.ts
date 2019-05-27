@@ -8,6 +8,7 @@ import { Project } from '../../../private/dashboard/projects/project';
 import { ProjectJoinUser } from './project-join-user';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { AuthService } from './../../../shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-setting-project',
@@ -21,11 +22,13 @@ export class SettingProjectComponent implements OnInit {
   public requestedUsers: ProjectJoinUser[] = [];
   private currentProject: Project;
   public isLoading: boolean = true;
+  public myUserData: any;
 
   constructor(
     private dialogRef: MatDialogRef<SettingProjectComponent>,
     private projectsService: ProjectsService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -39,6 +42,12 @@ export class SettingProjectComponent implements OnInit {
           console.log(users);
         }
       );
+    this.authService.getData()
+      .subscribe(
+        userData => {
+          this.myUserData = userData;
+        }
+      )
   }
 
   public onUpdateRole(userId, role) {

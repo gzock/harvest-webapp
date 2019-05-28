@@ -33,7 +33,7 @@
           プロジェクトコード: {{ currentProject.project_code }}
           <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
         </mat-card>
-        <mat-divider [vertical]="true"></mat-divider>
+        <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading }"></mat-divider>
     
         <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 

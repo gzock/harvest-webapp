@@ -40,6 +40,9 @@ export class SettingProjectComponent implements OnInit {
           this.requestedUsers = users.filter( user => user.status === "request" );
           this.isLoading = false;
           console.log(users);
+        },
+        err => {
+          this.openErrorAlert("ユーザー情報の取得");
         }
       );
     this.authService.getData()

@@ -39,7 +39,6 @@ export class SettingProjectComponent implements OnInit {
           this.joinedUsers = users.filter( user => user.status === "active" );
           this.requestedUsers = users.filter( user => user.status === "request" );
           this.isLoading = false;
-          console.log(users);
         },
         err => {
           this.openErrorAlert("ユーザー情報の取得");

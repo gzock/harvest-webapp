@@ -33,11 +33,11 @@
           プロジェクトコード: {{ currentProject.project_code }}
           <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
         </mat-card>
-        <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading }"></mat-divider>
+        <mat-divider [vertical]="true"></mat-divider>
     
         <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 
-        <div *ngIf="!isLoading">
+        <div>
           <h4>参加中</h4>
           <mat-accordion>
             <mat-expansion-panel *ngFor="let user of joinedUsers">
@@ -49,7 +49,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="col-5" *ngIf="user.role !== 'owner'">
-                  <mat-select [(value)]="user.role" placeholder="権限" (selectionChange)="onUpdateRole(user.user_id, user.role)" [disabled]="user.user_id === myUserData.username">
+                  <mat-select 
+                    [(value)]="user.role" placeholder="権限" 
+                    (selectionChange)="onUpdateRole(user.user_id, user.role)" 
+                    [disabled]="user.user_id === myUserData.username || isLoading"
+                  >
                     <mat-option value="admin">管理者</mat-option>
                     <mat-option value="worker">ワーカー</mat-option>
                   </mat-select>
@@ -61,14 +65,14 @@
                   メールアドレス:"{{ user.email }}"
                 </div>
                 <div class="col-3">
-                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)" [disabled]="user.role === 'owner'">強制離脱</button>
+                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)" [disabled]="user.role === 'owner' || isLoading">強制離脱</button>
                 </div>
               </div>
             </mat-expansion-panel>
           </mat-accordion>
 
           <h4>参加希望</h4>
-          <h6 class="small" *ngIf="requestedUsers.length == 0">現在、このプロジェクトへの参加を希望しているユーザーは存在しません。</h6>
+          <h6 class="small" *ngIf="!isLoading && requestedUsers.length == 0">現在、このプロジェクトへの参加を希望しているユーザーは存在しません。</h6>
           <mat-accordion>
             <mat-expansion-panel *ngFor="let user of requestedUsers">
               <mat-expansion-panel-header>
@@ -80,10 +84,10 @@
                   メールアドレス:"{{ user.email }}"
                 </div>
                 <div class="offset-6 col-3">
-                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)">許可</button>
+                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">許可</button>
                 </div>
                 <div class="col-3">
-                  <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)">拒否</button>
+                  <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)" [disabled]="isLoading">拒否</button>
                 </div>
               </div>
             </mat-expansion-panel>

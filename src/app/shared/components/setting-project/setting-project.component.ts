@@ -53,6 +53,7 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onUpdateRole(userId, role) {
+    this.isLoading = true;
     this.projectsService.updateRole(this.currentProject.project_id, userId, role)
      .subscribe(
        res => {
@@ -61,12 +62,14 @@ export class SettingProjectComponent implements OnInit {
        },
        err => {
          this.openErrorAlert("ロールの変更");
+         this.isLoading = false;
          console.log(err);
        }
      );
   }
 
   public onAcceptUser(userId) {
+    this.isLoading = true;
     this.projectsService.acceptUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
@@ -75,12 +78,14 @@ export class SettingProjectComponent implements OnInit {
        },
        err => {
          this.openErrorAlert("参加処理");
+         this.isLoading = false;
          console.log(err);
        }
      );
   }
 
   public onRejectUser(userId) {
+    this.isLoading = true;
     this.projectsService.rejectUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
@@ -89,12 +94,14 @@ export class SettingProjectComponent implements OnInit {
        },
        err => {
          this.openErrorAlert("参加拒否の処理");
+         this.isLoading = false;
          console.log(err);
        }
      );
   }
 
   public onDeleteUser(userId) {
+    this.isLoading = true;
     this.projectsService.deleteUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
@@ -103,6 +110,7 @@ export class SettingProjectComponent implements OnInit {
        },
        err => {
          this.openErrorAlert("削除処理");
+         this.isLoading = false;
          console.log(err);
        }
      );

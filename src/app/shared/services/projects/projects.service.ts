@@ -6,6 +6,7 @@ import { Observable, of, merge, concat, throwError, Subject, Subscription, Behav
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
 
 import { Project } from "./../../../private/dashboard/projects/project";
+import { Permissions } from "./action-permissions/permissions/permissions";
 import { ActionPermissions } from "./action-permissions/action-permissions";
 
 @Injectable({
@@ -16,15 +17,19 @@ export class ProjectsService {
   private projectUrl = environment.base_url + '/projects';  // URL to web api
 
   private userId: string;
+  private currentProjectRole: string;
   public project: Project;
   public joinedProjects: Project[];
   public joinedProjectsSubject: BehaviorSubject<Project[]>;
   public currentProject: Project = JSON.parse(localStorage.getItem('selectedProject'));
   public currentProjectSubject: BehaviorSubject<Project>;
+  private actionPermissions: ActionPermissions;;
+  public permissions: Permissions;
 
   constructor(private http: HttpClient) { 
     this.joinedProjectsSubject = new BehaviorSubject<Project[]>(this.joinedProjects);
     this.currentProjectSubject = new BehaviorSubject<Project>(this.currentProject);
+    this.actionPermissions = new ActionPermissions();
   }
 
   public setUserId(userId) {
@@ -33,7 +38,9 @@ export class ProjectsService {
 
   public select(project) {
     this.currentProject = project;
-    //console.log("current project: " + JSON.stringify(this.currentProject));
+    this.currentProjectRole = project.role;
+    this.permissions = this.actionPermissions.permissions(project.role);
+    console.log(this.permissions);
 
     localStorage.setItem('selectedProject', JSON.stringify(project));
     this.currentProjectSubject.next(project);

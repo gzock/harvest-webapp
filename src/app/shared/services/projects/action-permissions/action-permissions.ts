@@ -8,34 +8,38 @@ import { ReporterPermissions } from './permissions/reporter-permissions';
 export class ActionPermissions {
   private role: string;
 
-  constructor(role: string) {
+  constructor(role?: string) {
+    if(role) this.setRole(role);
+  }
+
+  public setRole(role: string) {
     this.role = role;
   }
 
-  public permissions(role: string): Permissions {
-    return this.actionPermissionsFactory(role);
+  public permissions(role?: string): Permissions {
+    return this.actionPermissionsFactory(role || this.role);
   }
 
   private actionPermissionsFactory(role: string): Permissions {
-    let permission: Permissions;
+    let permissions: Permissions;
 
     switch(role) {
       case "owner":
-        permission = new OwnerPermissions();
+        permissions = new OwnerPermissions();
         break;
 
       case "admin":
-        permission = new AdminPermissions();
+        permissions = new AdminPermissions();
         break;
 
       case "worker":
-        permission = new WorkerPermissions();
+        permissions = new WorkerPermissions();
         break;
 
       case "reporter":
-        permission = new ReporterPermissions();
+        permissions = new ReporterPermissions();
         break;
     }
-    return permission;
+    return permissions;
   }
 }

@@ -1,4 +1,4 @@
-import { Permissions } from './permissions';
+import { Permissions } from './permissions/permissions';
 
 import { OwnerPermissions } from './permissions/owner-permissions';
 import { AdminPermissions } from './permissions/admin-permissions';
@@ -17,7 +17,7 @@ export class ActionPermissions {
   }
 
   private actionPermissionsFactory(role: string): Permissions {
-    permission: Permissions;
+    let permission: Permissions;
 
     switch(role) {
       case "owner":

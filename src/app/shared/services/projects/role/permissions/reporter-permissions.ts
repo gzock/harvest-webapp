@@ -1,11 +1,11 @@
-import { Actions } from './actions';
-import { ProjectActions } from './project-actions';
-import { ProjectUserActions } from './project-user-actions';
-import { WorkActions } from './work-actions';
-import { PhotoActions } from './photo-actions';
-import { GenerateActions } from './generate-actions';
+import { Permissions } from './permissions';
+import { ProjectActions } from './../actions/project-actions';
+import { ProjectUserActions } from './../actions/project-user-actions';
+import { WorkActions } from './../actions/work-actions';
+import { PhotoActions } from './../actions/photo-actions';
+import { GenerateActions } from './../actions/generate-actions';
 
-export class OwnerActions implements Actions {
+export class ReporterPermissions implements Permissions {
   public project: ProjectActions = {
     "create": false,
     "update": false,

@@ -11,6 +11,8 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
 })
 export class JoinProjectComponent implements OnInit {
   public projectCode: string;
+  public isLoading: boolean = false;
+  public errMsg: string;
 
   constructor(
     private dialogRef: MatDialogRef<JoinProjectComponent>,
@@ -22,6 +24,8 @@ export class JoinProjectComponent implements OnInit {
   }
 
   public onJoinProjectRequest(projectCode) {
+    this.errMsg = "";
+    this.isLoading = true;
     this.projectsService.joinProject(projectCode)
      .subscribe(
        res => {
@@ -31,6 +35,8 @@ export class JoinProjectComponent implements OnInit {
        },
        err => {
          this.alertService.openErrorAlert("参加機能の申請に失敗しました。再度、お試しください。");
+         this.errMsg = err.message;
+         this.isLoading = false;
        }
      );
   }

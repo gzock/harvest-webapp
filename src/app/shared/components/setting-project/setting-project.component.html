@@ -61,11 +61,11 @@
               </mat-expansion-panel-header>
 
               <div class="row">
-                <div class="col-9">
-                  メールアドレス:"{{ user.email }}"
-                </div>
-                <div class="col-3">
-                  <button mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)" [disabled]="user.role === 'owner' || isLoading">強制離脱</button>
+                <p class="col-12 display-email">
+                  メールアドレス: {{ user.email }} 
+                </p>
+                <div class="col-12">
+                  <button class="btn-block" mat-raised-button color="warn" (click)="onDeleteUser(user.user_id)" [disabled]="user.role === 'owner' || isLoading">強制離脱</button>
                 </div>
               </div>
             </mat-expansion-panel>
@@ -81,14 +81,14 @@
               <div class="username">{{ user.username }}</div>
               </mat-expansion-panel-header>
               <div class="row">
-                <div class="col-12">
-                  メールアドレス:"{{ user.email }}"
+                <p class="col-12 display-email">
+                  メールアドレス: {{ user.email }} 
+                </p>
+                <div class="col-6">
+                  <button class="btn-block" mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">許可</button>
                 </div>
-                <div class="offset-6 col-3">
-                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">許可</button>
-                </div>
-                <div class="col-3">
-                  <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)" [disabled]="isLoading">拒否</button>
+                <div class="col-6">
+                  <button class="btn-block"  mat-raised-button color="warn" (click)="onRejectUser(user.user_id)" [disabled]="isLoading">拒否</button>
                 </div>
               </div>
             </mat-expansion-panel>
@@ -104,11 +104,11 @@
               <div class="username">{{ user.username }}</div>
               </mat-expansion-panel-header>
               <div class="row">
+                <p class="col-12 display-email">
+                  メールアドレス: {{ user.email }} 
+                </p>
                 <div class="col-12">
-                  メールアドレス:"{{ user.email }}"
-                </div>
-                <div class="offset-6 col-6">
-                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">再許可</button>
+                  <button class="btn-block" mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">再許可</button>
                 </div>
               </div>
             </mat-expansion-panel>

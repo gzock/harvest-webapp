@@ -6,6 +6,7 @@ import { Observable, of, merge, concat, throwError, Subject, Subscription, Behav
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
 
 import { Project } from "./../../../private/dashboard/projects/project";
+import { ActionPermissions } from "./action-permissions/action-permissions";
 
 @Injectable({
   providedIn: 'root'

@@ -20,6 +20,7 @@ export class SettingProjectComponent implements OnInit {
   public joinCode: string;
   public joinedUsers: ProjectJoinUser[] = [];
   public requestedUsers: ProjectJoinUser[] = [];
+  public rejectedUsers: ProjectJoinUser[] = [];
   private currentProject: Project;
   public isLoading: boolean = true;
   public myUserData: any;
@@ -38,6 +39,7 @@ export class SettingProjectComponent implements OnInit {
         users => {
           this.joinedUsers = users.filter( user => user.status === "active" );
           this.requestedUsers = users.filter( user => user.status === "request" );
+          this.rejectedUsers = users.filter( user => user.status === "reject" );
           this.isLoading = false;
         },
         err => {

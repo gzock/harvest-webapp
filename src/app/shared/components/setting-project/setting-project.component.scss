@@ -27,12 +27,13 @@ mat-expansion-panel-header {
   padding: 0 4px 4px;
 }
 
-.loading-spinner-container {
-  margin: 16px auto;
+.dummy-space {
+  margin: 0px 180px 180px 180px;
+  //margin-bottom: 180px;
 }
 
 .loading-spinner {
-  margin: auto;
+  margin: 0px auto 0px auto;
   position: absolute;
   top: 30%;
   bottom: 0;

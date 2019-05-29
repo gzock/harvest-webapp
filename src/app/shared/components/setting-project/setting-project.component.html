@@ -33,12 +33,12 @@
           プロジェクトコード: {{ currentProject.project_code }}
           <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
         </mat-card>
-        <mat-divider [vertical]="true"></mat-divider>
+        <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading && joinedUsers.length == 0 }"></mat-divider>
     
         <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 
-        <div>
-          <h4>参加中</h4>
+        <div *ngIf="joinedUsers.length > 0">
+          <h4>参加中のユーザー</h4>
           <mat-accordion>
             <mat-expansion-panel *ngFor="let user of joinedUsers">
               <mat-expansion-panel-header class="row">
@@ -70,9 +70,10 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
+        </div>
 
-          <h4>参加希望</h4>
-          <h6 class="small" *ngIf="!isLoading && requestedUsers.length == 0">現在、このプロジェクトへの参加を希望しているユーザーは存在しません。</h6>
+        <div *ngIf="requestedUsers.length > 0">
+          <h4>現在、参加を希望しているユーザー</h4>
           <mat-accordion>
             <mat-expansion-panel *ngFor="let user of requestedUsers">
               <mat-expansion-panel-header>
@@ -88,6 +89,26 @@
                 </div>
                 <div class="col-3">
                   <button mat-raised-button color="warn" (click)="onRejectUser(user.user_id)" [disabled]="isLoading">拒否</button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div *ngIf="rejectedUsers.length > 0">
+          <h4>以前、参加希望を拒否したユーザー</h4>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let user of rejectedUsers">
+              <mat-expansion-panel-header>
+
+              <div class="username">{{ user.username }}</div>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-12">
+                  メールアドレス:"{{ user.email }}"
+                </div>
+                <div class="offset-6 col-6">
+                  <button mat-raised-button color="primary" (click)="onAcceptUser(user.user_id)" [disabled]="isLoading">再許可</button>
                 </div>
               </div>
             </mat-expansion-panel>

@@ -3,8 +3,8 @@
   <div class="container">
     <div class="row">
 
-    <mat-tab-group>
-      <mat-tab label="設定">
+    <mat-tab-group class="col-12">
+      <mat-tab class="row" label="設定">
         <div class="col-sm-12">
           <mat-form-field>
             <input matInput placeholder="プロジェクト名" required>
@@ -30,8 +30,11 @@
 
       <mat-tab label="ユーザー管理">
         <mat-card>
-          プロジェクトコード: {{ currentProject.project_code }}
           <h6 class="mat-small">このプロジェクトへの参加を希望するユーザーに本コードをお伝えください</h6>
+            <div class="display-project-code">
+              {{ currentProject.project_code }}
+            </div>
+            <mat-icon class="material-icons md-dark project-code-copy" (click)="onCopyClipboard(currentProject.project_code)">file_copy</mat-icon>
         </mat-card>
         <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading && joinedUsers.length == 0 }"></mat-divider>
     

@@ -55,3 +55,35 @@ mat-expansion-panel-header {
     font-size: 13px;
   }
 }
+
+.display-project-code {
+  background: #ddd;
+  font-size: 16px;
+  padding: 8px;
+  color: black;
+  font-weight: bold;
+  float: left;
+  width: 85%;
+  @media (max-width: 321px) { 
+    font-size: 11px;
+    padding: 2px;
+  }
+  @media (min-width: 322px) and (max-width: 420px) { 
+    font-size: 13px;
+  }
+}
+
+.material-icons {
+  height: 36px;
+}
+
+.project-code-copy {
+  cursor: pointer;
+  font-size: 32px;
+  @media (max-width: 321px) { 
+    font-size: 24px;
+  }
+  @media (min-width: 322px) and (max-width: 420px) { 
+    font-size: 28px;
+  }
+}

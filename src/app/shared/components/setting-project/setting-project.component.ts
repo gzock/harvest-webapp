@@ -59,7 +59,7 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.updateRole(this.currentProject.project_id, userId, role)
      .subscribe(
        res => {
-         this.openSucccessAlert("ロールの変更に成功しました。");
+         this.openSuccessAlert("ロールの変更に成功しました。");
          this.dialogRef.close();
        },
        err => {
@@ -75,7 +75,7 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.acceptUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         this.openSucccessAlert("指定したユーザーの参加を許可しました。");
+         this.openSuccessAlert("指定したユーザーの参加を許可しました。");
          this.dialogRef.close();
        },
        err => {
@@ -91,7 +91,7 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.rejectUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         this.openSucccessAlert("指定したユーザーの参加を拒否しました。");
+         this.openSuccessAlert("指定したユーザーの参加を拒否しました。");
          this.dialogRef.close();
        },
        err => {
@@ -107,7 +107,7 @@ export class SettingProjectComponent implements OnInit {
     this.projectsService.deleteUser(this.currentProject.project_id, userId)
      .subscribe(
        res => {
-         this.openSucccessAlert("指定したユーザーを削除しました。");
+         this.openSuccessAlert("指定したユーザーを削除しました。");
          this.dialogRef.close();
        },
        err => {

@@ -36,7 +36,7 @@ export class WorkComponent implements OnInit, OnDestroy {
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
-  private permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = {} as Permissions;
 
   constructor(
     private bottomSheet: MatBottomSheet,

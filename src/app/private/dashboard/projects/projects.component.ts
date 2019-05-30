@@ -25,7 +25,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
-  private permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = {} as Permissions;
 
   constructor(
     public dialog: MatDialog,

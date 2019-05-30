@@ -51,7 +51,7 @@
             class="" 
             value="{{ element.project_id }}" 
             (change)="onSelectProject(element)" 
-            [checked]="element.project_id == currentProject.project_id"
+            [checked]="element.project_id === currentProject.project_id"
           >
           </mat-radio-button>
         </td>

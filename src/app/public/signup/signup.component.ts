@@ -82,7 +82,7 @@ export class SignupComponent implements OnInit {
     this.authService.confirmSignUp(email, code)
       .subscribe(
         result => {
-          this.openSucccessAlert("ユーザー登録に成功しました。ログインを行ってください。");
+          this.openSuccessAlert("ユーザー登録に成功しました。ログインを行ってください。");
           this.router.navigate(['/login']);
         },
         error => {
@@ -93,8 +93,8 @@ export class SignupComponent implements OnInit {
       );
   }
 
-  private openSucccessAlert(msg) {
-    this.alertService.openSucccessAlert(msg);
+  private openSuccessAlert(msg) {
+    this.alertService.openSuccessAlert(msg);
   }
 
   private openErrorAlert(msg) {

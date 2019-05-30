@@ -82,7 +82,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       .subscribe(
          response => {
             this.projectsService.list().subscribe();
-            this.openSucccessAlert("プロジェクトの作成");
+            this.openSuccessAlert("プロジェクトの作成");
             this.isLoading = false;
          },
          err => {
@@ -119,8 +119,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private openSucccessAlert(msg) {
-    this.alert.openSucccessAlert(msg + "に成功しました。");
+  private openSuccessAlert(msg) {
+    this.alert.openSuccessAlert(msg + "に成功しました。");
   }
 
   private openErrorAlert(msg) {

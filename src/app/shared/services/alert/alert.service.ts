@@ -21,7 +21,7 @@ export class AlertService {
     this.openSnackBar(message, "Close", 3000, ["btn-danger","disabled"]);
   }
 
-  public openSucccessAlert(message: string) {
+  public openSuccessAlert(message: string) {
     this.openSnackBar(message, "Close", 1500, ["btn-success","disabled"]);
   }
 }

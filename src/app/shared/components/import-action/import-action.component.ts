@@ -51,7 +51,7 @@ export class ImportActionComponent implements OnInit {
       .subscribe(
          response => {
             this.isImporting = false;
-            this.alert.openSucccessAlert("インポートに成功しました。");
+            this.alert.openSuccessAlert("インポートに成功しました。");
             this.dialogRef.close(true);
          },
          err => {

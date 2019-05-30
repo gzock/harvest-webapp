@@ -134,7 +134,7 @@ export class SettingProjectComponent implements OnInit {
   }
 
   private openSuccessAlert(msg) {
-    this.alertService.openSucccessAlert(msg);
+    this.alertService.openSuccessAlert(msg);
   }
 
   private openErrorAlert(msg) {

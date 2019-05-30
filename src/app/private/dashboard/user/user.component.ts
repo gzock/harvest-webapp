@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
       .subscribe(
         loggedIn => {
           if(loggedIn) {
-            this.openSucccessAlert("パスワードの変更が完了しました。");
+            this.openSuccessAlert("パスワードの変更が完了しました。");
             console.log("password change success.")
           } else {
             this.openErrorAlert("パスワードの変更");
@@ -55,8 +55,8 @@ export class UserComponent implements OnInit {
       );
   }
 
-  private openSucccessAlert(msg) {
-    this.alert.openSucccessAlert(msg);
+  private openSuccessAlert(msg) {
+    this.alert.openSuccessAlert(msg);
   }
 
   private openErrorAlert(msg) {

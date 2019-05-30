@@ -30,7 +30,7 @@ export class JoinProjectComponent implements OnInit {
      .subscribe(
        res => {
          console.log(res);
-         this.alertService.openSucccessAlert("指定したプロジェクトへの参加希望を申請しました。");
+         this.alertService.openSuccessAlert("指定したプロジェクトへの参加希望を申請しました。");
          this.dialogRef.close();
        },
        err => {

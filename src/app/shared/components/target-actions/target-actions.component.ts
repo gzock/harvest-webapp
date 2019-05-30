@@ -110,7 +110,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             this.openSucccessAlert("場所の追加");
+             this.openSuccessAlert("場所の追加");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
@@ -126,7 +126,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             this.openSucccessAlert("撮影対象の追加");
+             this.openSuccessAlert("撮影対象の追加");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
@@ -155,7 +155,7 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
-           this.openSucccessAlert("名前の変更");
+           this.openSuccessAlert("名前の変更");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
@@ -183,7 +183,7 @@ export class TargetActionsComponent implements OnInit {
       .subscribe(
          response => {
            this.isUploading = false;
-           this.openSucccessAlert("写真のアップロード");
+           this.openSuccessAlert("写真のアップロード");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
@@ -235,7 +235,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             this.openSucccessAlert("写真の採用");
+             this.openSuccessAlert("写真の採用");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
@@ -268,7 +268,7 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
-           this.openSucccessAlert("削除");
+           this.openSuccessAlert("削除");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
@@ -289,7 +289,7 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
-             this.openSucccessAlert("写真の削除");
+             this.openSuccessAlert("写真の削除");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
@@ -321,8 +321,8 @@ export class TargetActionsComponent implements OnInit {
     event.preventDefault();
   }
 
-  private openSucccessAlert(msg) {
-    this.alert.openSucccessAlert(msg + "に成功しました。");
+  private openSuccessAlert(msg) {
+    this.alert.openSuccessAlert(msg + "に成功しました。");
   }
 
   private openErrorAlert(msg) {

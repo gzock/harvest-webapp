@@ -11,14 +11,7 @@ import { Project } from '../../../private/dashboard/projects/project';
 })
 export class CreateProjectComponent implements OnInit {
   public errMsg: string;
-  public newProject: Project = {
-    "name": "",
-    "project_id": "",
-    "created_at": "",
-    "updated_at": "",
-    "start_on": "",
-    "complete_on": ""
-  }
+  public newProject: Project = {} as Project;
 
   constructor(
     public dialogRef: MatDialogRef<CreateProjectComponent>

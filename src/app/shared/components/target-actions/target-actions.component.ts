@@ -17,6 +17,7 @@ import { TargetsService } from './../../services/targets/targets.service';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { PhotosService } from './../../services/photos/photos.service';
 import { AlertService } from './../../services/alert/alert.service';
+import { Permissions } from './../../services/projects/action-permissions/permissions/permissions';
 
 @Component({
   selector: 'app-target-actions',
@@ -35,6 +36,7 @@ export class TargetActionsComponent implements OnInit {
   public isPlace: boolean = false;
   public isRootPlace: boolean = false;
   public isUploading: boolean = false;
+  private permissions: Permissions = {} as Permissions;
 
   //TODO: 要リファクタリング
   public selectedFile:any;
@@ -96,6 +98,8 @@ export class TargetActionsComponent implements OnInit {
         this.isRootPlace = true;
       }
     }
+    this.permissions = this.projectsService.getCurrentPermissions();
+    console.log(this.permissions);
   }
 
   public onCreate(type, name, placeId = "") {

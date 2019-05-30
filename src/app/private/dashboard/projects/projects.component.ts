@@ -11,6 +11,7 @@ import { JoinProjectComponent } from './../../../shared/components/join-project/
 import { Project } from './project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
   selector: 'app-projects',
@@ -23,6 +24,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
+  private permissions: Permissions = {} as Permissions;
 
   constructor(
     public dialog: MatDialog,
@@ -39,6 +41,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.dataSource = new MatTableDataSource(this.projects);
             this.currentProject = projects[0];
             this.projectsService.select(this.currentProject);
+            this.permissions = this.projectsService.getCurrentPermissions();
+            console.log(this.permissions);
           }
         },
         err => {

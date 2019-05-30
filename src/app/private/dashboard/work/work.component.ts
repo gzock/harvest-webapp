@@ -18,6 +18,7 @@ import { TargetsService } from './../../../shared/services/targets/targets.servi
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { PhotosService } from './../../../shared/services/photos/photos.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
   selector: 'app-work',
@@ -35,6 +36,7 @@ export class WorkComponent implements OnInit, OnDestroy {
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
+  private permissions: Permissions = {} as Permissions;
 
   constructor(
     private bottomSheet: MatBottomSheet,
@@ -81,6 +83,7 @@ export class WorkComponent implements OnInit, OnDestroy {
             this.placesService.placeHistory.push(place);
             this.getPlaces(this.currentProject.project_id);
             this.targetsService.setPlaceId(place.place_id);
+            this.permissions = this.projectsService.getCurrentPermissions();
           }
         },
         error => {

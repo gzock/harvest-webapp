@@ -24,7 +24,7 @@ export class ProjectsService {
   public currentProject: Project = JSON.parse(localStorage.getItem('selectedProject'));
   public currentProjectSubject: BehaviorSubject<Project>;
   private actionPermissions: ActionPermissions;;
-  private permissions: Permissions;
+  private permissions: Permissions = {} as Permissions;
 
   constructor(private http: HttpClient) { 
     this.joinedProjectsSubject = new BehaviorSubject<Project[]>(this.joinedProjects);
@@ -46,7 +46,9 @@ export class ProjectsService {
   }
 
   public getCurrentProject(): Project {
-    return this.currentProject || JSON.parse(localStorage.getItem('selectedProject'));
+    let project = this.currentProject || JSON.parse(localStorage.getItem('selectedProject'));
+    this.permissions = this.actionPermissions.permissions(project.role);
+    return project;
   }
 
   public getCurrentPermissions(): Permissions {

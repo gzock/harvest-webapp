@@ -5,7 +5,7 @@
     </div>
     
       <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
-        <mat-tab *ngIf="isPlace">
+        <mat-tab *ngIf="permissions.work.create && isPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">add</mat-icon>
@@ -38,7 +38,7 @@
           </div>
         </mat-tab>
       
-        <mat-tab *ngIf="!isRootPlace">
+        <mat-tab *ngIf="permissions.work.update && !isRootPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">edit</mat-icon>
@@ -58,7 +58,7 @@
           </div>
         </mat-tab>
       
-        <mat-tab *ngIf="!isRootPlace">
+        <mat-tab *ngIf="permissions.work.delete && !isRootPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
@@ -73,7 +73,7 @@
           <button mat-raised-button color="warn" (click)="onDelete()">削除する</button>
         </mat-tab>
       
-        <mat-tab *ngIf="isTarget">
+        <mat-tab *ngIf="permissions.photo.create && isTarget">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
@@ -148,14 +148,14 @@
 
             <hr />
 
-            <div class="col-2">
+            <div class="col justify-content-start">
               <button mat-raised-button class="mat-elevation-z6" 
                   (click)="onGetBackPhoto()" 
                   [disabled]="isPhotoIndexMin()">
                 <mat-icon class="material-icons md-dark" color="accent">chevron_left</mat-icon>
               </button>
             </div>
-            <div class="col-4">
+            <div class="col justify-content-center" *ngIf="permissions.photo.update">
               <button mat-raised-button
                   class="btn-success mat-elevation-z6" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'
@@ -168,14 +168,14 @@
                 <mat-icon class="material-icons md-dark" color="accent">star</mat-icon>
               </button>
             </div>
-            <div class="col-4">
+            <div class="col justify-content-center" *ngIf="permissions.photo.delete">
               <button mat-raised-button 
                   class="btn-default mat-elevation-z6" (click)="openConfirmDeleteDialog(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
               </button>
             </div>
-            <div class="col-2">
+            <div class="col justify-content-end">
               <button mat-raised-button class="mat-elevation-z6" 
                   (click)="onGetNextPhoto()" 
                   [disabled]="isPhotoIndexMax()">

@@ -48,7 +48,7 @@
       <mat-spinner class=""></mat-spinner>
     </div>
 
-    <mat-card class="mat-elevation-z4 col-12 init-action" *ngIf="(!places.length && !targets.length) && !isLoading">
+    <mat-card class="mat-elevation-z4 col-12 init-action" *ngIf="permissions.work?.create && (!places.length && !targets.length) && !isLoading">
       <mat-card-header>
         <mat-card-title>この階層には何も存在しません。</mat-card-title>
         <mat-card-subtitle>何か追加しますか？</mat-card-subtitle>

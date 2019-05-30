@@ -12,6 +12,7 @@ import { GenerateService } from './../../../shared/services/generate/generate.se
 import { Order } from './order';
 import { Template } from './template';
 import { Generated } from './generated';
+import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
   selector: 'app-generate',
@@ -29,6 +30,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public secondFormGroup: FormGroup;
   public generateType: string;
   public checked: any;
+  private permissions: Permissions = {} as Permissions;
 
   public order: Order = {
     "type": "",
@@ -54,6 +56,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
         project => {
           if(project) {
             this.currentProject = project;
+            this.permissions = this.projectsService.getCurrentPermissions();
           }
         },
         error => {

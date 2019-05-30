@@ -18,7 +18,7 @@
       </mat-form-field>
     </div>
     -->
-    <div class="col-12 col-md-5 text-center project-action">
+    <div class="col-12 col-md-5 text-right project-action">
       <button mat-raised-button color="primary" (click)="openCreateProjectDialog()">新規作成</button>
       <button mat-raised-button (click)="openJoinProjectDialog()" 
           matTooltip="他のプロジェクトに参加" 
@@ -30,6 +30,7 @@
           matTooltip="選択したプロジェクトを編集" 
           [matTooltipPosition]="'above'" 
           [disabled]="projects.length == 0"
+          *ngIf="permissions.project?.update"
       >
         設定
       </button>

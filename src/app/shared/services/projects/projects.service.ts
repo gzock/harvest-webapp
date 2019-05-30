@@ -62,9 +62,19 @@ export class ProjectsService {
             projects => {
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);
+              this.renewSelectedProject();
             }
           )
         );
+  }
+
+  private renewSelectedProject() {
+    const newProject = this.joinedProjects.find(
+      project => project.project_id === this.currentProject.project_id
+    );
+    if(newProject.name !== this.currentProject.name || newProject.role !== this.currentProject.role) {
+      this.select(newProject);
+    }
   }
 
   public show(projectId): Observable<any> {

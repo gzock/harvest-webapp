@@ -5,9 +5,9 @@ import { PhotoActions } from './../actions/photo-actions';
 import { GenerateActions } from './../actions/generate-actions';
 
 export interface Permissions {
-  "project": ProjectActions;
-  "user": ProjectUserActions;
-  "work": WorkActions;
-  "photo": PhotoActions;
-  "generate": GenerateActions;
+  readonly "project": ProjectActions;
+  readonly "user": ProjectUserActions;
+  readonly "work": WorkActions;
+  readonly "photo": PhotoActions;
+  readonly "generate": GenerateActions;
 }

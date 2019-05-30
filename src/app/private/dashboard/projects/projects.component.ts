@@ -24,6 +24,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
+  public isLoading: boolean = false;
   public permissions: Permissions = {} as Permissions;
 
   constructor(
@@ -33,6 +34,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
         projects => {
@@ -41,11 +43,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.dataSource = new MatTableDataSource(this.projects);
             this.currentProject = this.projectsService.getCurrentProject();
             this.permissions = this.projectsService.getCurrentPermissions();
+            this.isLoading = false;
           }
         },
         err => {
           console.log("error: " + err);
           this.openErrorAlert("プロジェクト一覧の取得");
+          this.isLoading = false;
         }
       );
   }
@@ -67,6 +71,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   public onCreateProject(project: Project) {
+    this.isLoading = true;
     this.projectsService.create(project)
       .pipe(
          catchError(error => throwError(error))
@@ -74,10 +79,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       .subscribe(
          response => {
             this.projectsService.list().subscribe();
+            this.openSucccessAlert("プロジェクトの作成");
+            this.isLoading = false;
          },
          err => {
            console.log("error: " + err);
            this.openErrorAlert("プロジェクトの作成");
+            this.isLoading = false;
          }
       );
   }
@@ -106,6 +114,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  private openSucccessAlert(msg) {
+    this.alert.openSucccessAlert(msg + "に成功しました。");
   }
 
   private openErrorAlert(msg) {

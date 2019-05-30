@@ -9,6 +9,7 @@ import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
+import { Permissions } from './../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
     selector: 'app-dashboard',
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private currentProjectSubscription: Subscription;
   private joinedProjectsSubscription: Subscription;
   public isMobile: boolean = false;
+  public permissions: Permissions = {} as Permissions;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -74,6 +76,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         project => {
           if(project) {
             this.currentProjectName = project.name;
+            this.permissions = this.projectsService.getCurrentPermissions();
           }
         },
         error => {

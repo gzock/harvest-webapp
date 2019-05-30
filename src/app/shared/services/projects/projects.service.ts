@@ -52,7 +52,7 @@ export class ProjectsService {
   }
 
   public getCurrentPermissions(): Permissions {
-    return this.permissions;
+    return Object.keys(this.permissions).length ? this.permissions : this.actionPermissions.permissions(this.currentProject.role);
   }
 
   public list(): Observable<any> {

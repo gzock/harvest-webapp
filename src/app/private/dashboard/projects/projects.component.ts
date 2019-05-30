@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
+import { ChangeDetectorRef } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material';
@@ -28,6 +29,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef,
     public projectsService: ProjectsService,
     public alert: AlertService
   ) { }
@@ -42,6 +44,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.currentProject = projects[0];
             this.projectsService.select(this.currentProject);
             this.permissions = this.projectsService.getCurrentPermissions();
+            this.changeDetectorRef.detectChanges();
             console.log(this.permissions);
           }
         },

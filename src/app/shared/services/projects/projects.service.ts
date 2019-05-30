@@ -17,7 +17,6 @@ export class ProjectsService {
   private projectUrl = environment.base_url + '/projects';  // URL to web api
 
   private userId: string;
-  private currentProjectRole: string;
   public project: Project;
   public joinedProjects: Project[];
   public joinedProjectsSubject: BehaviorSubject<Project[]>;
@@ -38,7 +37,6 @@ export class ProjectsService {
 
   public select(project) {
     this.currentProject = project;
-    this.currentProjectRole = project.role;
     this.permissions = this.actionPermissions.permissions(project.role);
 
     localStorage.setItem('selectedProject', JSON.stringify(project));

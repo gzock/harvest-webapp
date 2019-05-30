@@ -63,7 +63,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
         .subscribe(
           projects => {
-             this.projects = projects;
+            this.projects = projects;
+            this.currentProject = this.projectsService.getCurrentProject();
+            this.currentProjectName = this.currentProject.name;
+            this.permissions = this.projectsService.getCurrentPermissions();
           },
           err => {
             console.log("error: " + err);
@@ -74,10 +77,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
         project => {
-          if(project) {
-            this.currentProjectName = project.name;
-            this.permissions = this.projectsService.getCurrentPermissions();
-          }
+          this.currentProject = project;
+          this.currentProjectName = project.name;
+          this.permissions = this.projectsService.getCurrentPermissions();
         },
         error => {
           console.log(error);

@@ -32,7 +32,7 @@ export class WorkerPermissions implements Permissions {
   }
 
   public generate: GenerateActions = {
-    "zip": false,
-    "excel": false
+    "execute": true,
+    "manage": true
   }
 }

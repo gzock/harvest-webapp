@@ -32,7 +32,7 @@ export class OwnerPermissions implements Permissions {
   }
 
   public generate: GenerateActions = {
-    "zip": true,
-    "excel": true
+    "execute": true,
+    "manage": true
   }
 }

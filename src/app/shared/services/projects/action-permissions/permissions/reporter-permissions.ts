@@ -32,7 +32,7 @@ export class ReporterPermissions implements Permissions {
   }
 
   public generate: GenerateActions = {
-    "execute": true,
-    "manage": true
+    "execute": false,
+    "manage": false
   }
 }

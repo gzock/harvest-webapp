@@ -52,8 +52,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
            catchError(error => throwError(error))
         )
         .subscribe(
-           response => {
-             this.projects = response;
+           (response: Project[]) => {
+              this.projects = response;
            },
            err => {
              console.log("error: " + err);

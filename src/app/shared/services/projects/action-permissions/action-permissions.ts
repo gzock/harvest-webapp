@@ -4,6 +4,7 @@ import { OwnerPermissions } from './permissions/owner-permissions';
 import { AdminPermissions } from './permissions/admin-permissions';
 import { WorkerPermissions } from './permissions/worker-permissions';
 import { ReporterPermissions } from './permissions/reporter-permissions';
+import { GuestPermissions } from './permissions/guest-permissions';
 
 export class ActionPermissions {
   private role: string;
@@ -38,6 +39,10 @@ export class ActionPermissions {
 
       case "reporter":
         permissions = new ReporterPermissions();
+        break;
+
+      default:
+        permissions = new GuestPermissions();
         break;
     }
     return permissions;

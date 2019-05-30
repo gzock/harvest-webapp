@@ -44,6 +44,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.currentProject = this.projectsService.getCurrentProject();
             this.permissions = this.projectsService.getCurrentPermissions();
             this.isLoading = false;
+
+          } else if(projects instanceof Array && projects.length == 0) {
+            this.isLoading = false;
           }
         },
         err => {

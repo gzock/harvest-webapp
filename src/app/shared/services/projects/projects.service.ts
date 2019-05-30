@@ -20,7 +20,8 @@ export class ProjectsService {
   public project: Project;
   public joinedProjects: Project[];
   public joinedProjectsSubject: BehaviorSubject<Project[]>;
-  public currentProject: Project = JSON.parse(localStorage.getItem('selectedProject'));
+  //public currentProject: Project = JSON.parse(localStorage.getItem('selectedProject')) as Project;
+  public currentProject: Project = {} as Project;
   public currentProjectSubject: BehaviorSubject<Project>;
   private actionPermissions: ActionPermissions;;
   private permissions: Permissions = {} as Permissions;
@@ -45,7 +46,9 @@ export class ProjectsService {
 
   public getCurrentProject(): Project {
     let project = this.currentProject || JSON.parse(localStorage.getItem('selectedProject'));
-    this.permissions = this.actionPermissions.permissions(project.role);
+    if(project) {
+      this.permissions = this.actionPermissions.permissions(project.role);
+    }
     return project;
   }
 
@@ -57,7 +60,7 @@ export class ProjectsService {
     return this.http.get(this.projectUrl)
         .pipe(
           tap(
-            projects => {
+            (projects: Project[]) => {
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);
               this.renewSelectedProject();
@@ -67,11 +70,13 @@ export class ProjectsService {
   }
 
   private renewSelectedProject() {
-    const newProject = this.joinedProjects.find(
+    const newProject: Project = this.joinedProjects.find(
       project => project.project_id === this.currentProject.project_id
     );
-    if(newProject.name !== this.currentProject.name || newProject.role !== this.currentProject.role) {
-      this.select(newProject);
+    if(newProject && this.currentProject) {
+      if(newProject.name !== this.currentProject.name || newProject.role !== this.currentProject.role) {
+        this.select(newProject);
+      }
     }
   }
 

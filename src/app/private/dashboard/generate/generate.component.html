@@ -6,7 +6,7 @@
     </p>
 
     <mat-tab-group mat-align-tabs="center" class="col-12 row text-center" *ngIf="currentProject">
-      <mat-tab>
+      <mat-tab *ngIf="permissions.generate?.execute">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
           生成とダウンロード
@@ -129,7 +129,7 @@
         </mat-vertical-stepper>
 
       </mat-tab>
-      <mat-tab>
+      <mat-tab *ngIf="permissions.generate?.manage">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
           テンプレート管理

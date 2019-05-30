@@ -30,7 +30,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public secondFormGroup: FormGroup;
   public generateType: string;
   public checked: any;
-  private permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = {} as Permissions;
 
   public order: Order = {
     "type": "",

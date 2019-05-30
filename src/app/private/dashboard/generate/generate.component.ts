@@ -42,7 +42,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
   public templates: Template[];
 
-  @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
+  @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
 
   constructor(
     public projectsService: ProjectsService,

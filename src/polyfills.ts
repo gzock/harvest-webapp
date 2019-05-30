@@ -88,5 +88,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * Support For iOS 10 Safari
  */
-import 'core-js/es7/object';
+//import 'core-js/es7/object';
 import 'whatwg-fetch';

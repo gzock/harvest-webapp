@@ -1,4 +1,4 @@
-/deep/ .mat-bottom-sheet-container-large {
+::ng-deep .mat-bottom-sheet-container-large {
   width: 60vw;
   max-width: 60vw;
 }
@@ -66,7 +66,7 @@ button {
   height: 100%;
 }
 
-:host /deep/ .mat-tab-label {
+:host ::ng-deep .mat-tab-label {
   padding: 0 0px;
   min-width: 10vw;
 }
@@ -87,7 +87,7 @@ hr {
 .uploading-spinner {
   width: 24px !important;
   height: 24px !important;
-  /deep/ svg {
+  ::ng-deep svg {
     width: 24px !important;
     height: 24px !important;
   }

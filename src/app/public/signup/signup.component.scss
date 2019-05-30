@@ -18,7 +18,7 @@ input:-webkit-autofill {
   margin: 6px;
 }
 
-/deep/ .mat-card-header-text {
+::ng-deep .mat-card-header-text {
   width: 70%;
 }
 

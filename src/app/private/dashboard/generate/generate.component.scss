@@ -21,7 +21,7 @@ table {
   text-align: center;
 }
 
-/deep/ .mat-bottom-sheet-container {
+::ng-deep .mat-bottom-sheet-container {
   max-height: 95vh !important;
 }
 
@@ -56,7 +56,7 @@ table {
 .progress-spinner {
   width: 5vw !important;
   height: 5vw !important;
-  /deep/ svg {
+  ::ng-deep svg {
     width: 5vw !important;
     height: 5vw !important;
   }

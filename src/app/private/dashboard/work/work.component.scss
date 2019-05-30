@@ -16,7 +16,7 @@ table {
   width: 100%;
   padding: 0px 16px 0px 16px;
 
-  /deep/ .mat-card-header-text {
+  ::ng-deep .mat-card-header-text {
     margin: auto;
   }
 }
@@ -45,7 +45,7 @@ table {
   text-align: center;
 }
 
-/deep/ .mat-bottom-sheet-container {
+::ng-deep .mat-bottom-sheet-container {
   max-height: 85vh !important;
 }
 

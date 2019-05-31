@@ -48,8 +48,11 @@ export class ProjectsService {
     let project = Object.keys(this.currentProject).length ? this.currentProject : JSON.parse(localStorage.getItem('selectedProject'));
     if(project) {
       this.permissions = this.actionPermissions.permissions(project.role);
+      return project;
+
+    } else {
+      return;
     }
-    return project;
   }
 
   public getCurrentPermissions(): Permissions {

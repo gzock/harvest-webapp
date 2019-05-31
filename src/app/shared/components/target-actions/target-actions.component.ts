@@ -36,7 +36,7 @@ export class TargetActionsComponent implements OnInit {
   public isPlace: boolean = false;
   public isRootPlace: boolean = false;
   public isUploading: boolean = false;
-  private permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = {} as Permissions;
 
   //TODO: 要リファクタリング
   public selectedFile:any;

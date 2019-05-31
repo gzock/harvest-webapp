@@ -21,7 +21,7 @@ export class SettingProjectComponent implements OnInit {
   public joinedUsers: ProjectJoinUser[] = [];
   public requestedUsers: ProjectJoinUser[] = [];
   public rejectedUsers: ProjectJoinUser[] = [];
-  private currentProject: Project;
+  public currentProject: Project;
   public isLoading: boolean = true;
   public myUserData: any;
 

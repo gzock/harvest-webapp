@@ -64,11 +64,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .subscribe(
           projects => {
             this.projects = projects;
-            this.currentProject = this.projectsService.getCurrentProject();
-            if(this.currentProject) {
-              this.currentProjectName = this.currentProject.name;
-              this.permissions = this.projectsService.getCurrentPermissions();
-            }
           },
           err => {
             console.log("error: " + err);

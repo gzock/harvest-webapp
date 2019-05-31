@@ -27,6 +27,11 @@ export class ProjectsService {
   private permissions: Permissions = {} as Permissions;
 
   constructor(private http: HttpClient) { 
+    let savedProject = localStorage.getItem('selectedProject');
+    if(savedProject) {
+      this.currentProject = JSON.parse(savedProject);
+    }
+
     this.joinedProjectsSubject = new BehaviorSubject<Project[]>(this.joinedProjects);
     this.currentProjectSubject = new BehaviorSubject<Project>(this.currentProject);
     this.actionPermissions = new ActionPermissions();
@@ -59,28 +64,32 @@ export class ProjectsService {
     return Object.keys(this.permissions).length ? this.permissions : this.actionPermissions.permissions(this.currentProject.role);
   }
 
-  public list(): Observable<any> {
+  public list(): Observable<Project[]> {
     return this.http.get(this.projectUrl)
         .pipe(
           tap(
             (projects: Project[]) => {
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);
-              this.renewSelectedProject();
+            }
+          ),
+          map(
+            (projects: Project[]) => {
+              if(projects.length == 1) {
+                projects[0].selected = true;
+                this.select(projects[0]);
+
+              } else if(projects.length > 1) {
+                projects.map( project => {
+                  if(project.project_id === this.currentProject.project_id) {
+                    project.selected = true;
+                    this.select(project);
+                  }
+                });
+              }
             }
           )
         );
-  }
-
-  private renewSelectedProject() {
-    const newProject: Project = this.joinedProjects.find(
-      project => project.project_id === this.currentProject.project_id
-    );
-    if(newProject && this.currentProject) {
-      if(newProject.name !== this.currentProject.name || newProject.role !== this.currentProject.role) {
-        this.select(newProject);
-      }
-    }
   }
 
   public show(projectId): Observable<any> {

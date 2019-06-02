@@ -51,7 +51,8 @@ export class ProjectsService {
 
   public getCurrentProject(): Project {
     let project = Object.keys(this.currentProject).length ? this.currentProject : JSON.parse(localStorage.getItem('selectedProject'));
-    if(Object.keys(project).length ) {
+    if(project && Object.keys(project).length ) {
+    //if(Object.keys(project).length ) {
       this.permissions = this.actionPermissions.permissions(project.role);
       return project;
     }
@@ -71,10 +72,12 @@ export class ProjectsService {
                 if(project) {
                   localStorage.removeItem('selectedProject');
                 }
-              } else if(projects.length == 1) {
+
+              } else if(projects.length == 1 || Object.keys(this.currentProject).length == 0) {
                 this.renewSelectedProject(projects[0]);
 
               } else if(projects.length > 1) {
+                console.log(this.currentProject);
                 projects.map( project => {
                   if(project.project_id === this.currentProject.project_id) {
                     this.renewSelectedProject(project);

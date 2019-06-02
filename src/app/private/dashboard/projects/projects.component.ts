@@ -24,6 +24,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
+  private currentProjectSubscription: Subscription;
   public isLoading: boolean = false;
   public permissions: Permissions = {} as Permissions;
 
@@ -55,11 +56,26 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         }
       );
+    this.currentProjectSubscription = this.projectsService.currentProjectSubject
+      .subscribe(
+        project => {
+          if(project) {
+            this.currentProject = project;
+          }
+        },
+        err => {
+          console.log("error: " + err);
+        }
+      );
+
   }
 
   ngOnDestroy() {
     if (this.joinedProjectsSubscription) {
       this.joinedProjectsSubscription.unsubscribe();
+    }
+    if (this.currentProjectSubscription) {
+      this.currentProjectSubscription.unsubscribe();
     }
   }
 

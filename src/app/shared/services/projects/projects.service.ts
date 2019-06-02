@@ -72,13 +72,11 @@ export class ProjectsService {
                   localStorage.removeItem('selectedProject');
                 }
               } else if(projects.length == 1) {
-                projects[0].selected = true;
                 this.renewSelectedProject(projects[0]);
 
               } else if(projects.length > 1) {
                 projects.map( project => {
                   if(project.project_id === this.currentProject.project_id) {
-                    project.selected = true;
                     this.renewSelectedProject(project);
                   }
                 });

@@ -66,8 +66,12 @@ export class ProjectsService {
         .pipe(
           tap(
             (projects: Project[]) => {
-
-              if(projects.length == 1) {
+              if(projects.length == 0) {
+                let project = JSON.parse(localStorage.getItem('selectedProject'));
+                if(project) {
+                  localStorage.removeItem('selectedProject');
+                }
+              } else if(projects.length == 1) {
                 projects[0].selected = true;
                 this.renewSelectedProject(projects[0]);
 

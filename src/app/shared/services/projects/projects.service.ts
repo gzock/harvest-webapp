@@ -51,12 +51,9 @@ export class ProjectsService {
 
   public getCurrentProject(): Project {
     let project = Object.keys(this.currentProject).length ? this.currentProject : JSON.parse(localStorage.getItem('selectedProject'));
-    if(project) {
+    if(Object.keys(project).length ) {
       this.permissions = this.actionPermissions.permissions(project.role);
       return project;
-
-    } else {
-      return;
     }
   }
 
@@ -64,33 +61,38 @@ export class ProjectsService {
     return Object.keys(this.permissions).length ? this.permissions : this.actionPermissions.permissions(this.currentProject.role);
   }
 
-  public list(): Observable<Project[]> {
+  public list(): Observable<any> {
     return this.http.get(this.projectUrl)
         .pipe(
           tap(
             (projects: Project[]) => {
-              this.joinedProjects = projects;
-              this.joinedProjectsSubject.next(projects);
-            }
-          ),
-          map(
-            (projects: Project[]) => {
+
               if(projects.length == 1) {
                 projects[0].selected = true;
-                this.select(projects[0]);
+                this.renewSelectedProject(projects[0]);
 
               } else if(projects.length > 1) {
                 projects.map( project => {
                   if(project.project_id === this.currentProject.project_id) {
                     project.selected = true;
-                    this.select(project);
+                    this.renewSelectedProject(project);
                   }
                 });
               }
+              this.joinedProjects = projects;
+              this.joinedProjectsSubject.next(projects);
             }
           )
         );
   }
+
+ private renewSelectedProject(project: Project) {
+   if(project && this.currentProject) {
+     if(project.name !== this.currentProject.name || project.role !== this.currentProject.role) {
+       this.select(project);
+     }
+   }
+ }
 
   public show(projectId): Observable<any> {
     return this.http.get(this.projectUrl + "/" + projectId);

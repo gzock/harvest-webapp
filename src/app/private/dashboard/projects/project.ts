@@ -7,4 +7,5 @@ export interface Project {
   start_on: string;
   complete_on: string;
   role: string;
+  selected?: boolean
 }

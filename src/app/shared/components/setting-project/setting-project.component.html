@@ -4,31 +4,34 @@
     <div class="row">
 
     <mat-tab-group class="col-12">
-      <!--
       <mat-tab class="row" label="設定">
-        <div class="col-sm-12">
+        <div class="col-12">
           <mat-form-field>
-            <input matInput placeholder="プロジェクト名" required>
+            <input matInput placeholder="プロジェクト名" [(ngModel)]="updateProject.name">
           </mat-form-field>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-12">
           <mat-form-field>
-            <input matInput [matDatepicker]="start" placeholder="開始予定日">
+            <input matInput [matDatepicker]="start" placeholder="開始予定日" (dateChange)="onDateChange('start', $event)">
             <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
             <mat-datepicker #start></mat-datepicker>
           </mat-form-field>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-12">
           <mat-form-field>
-            <input matInput [matDatepicker]="end" placeholder="終了予定日">
+            <input matInput [matDatepicker]="end" placeholder="終了予定日" (dateChange)="onDateChange('complete', $event)">
             <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
             <mat-datepicker #end></mat-datepicker>
           </mat-form-field>
         </div>
+
+        <div class="col-12">
+          <button class="btn-block" mat-raised-button color="primary" (click)="onUpdateProject(updateProject)" [disabled]="isLoading">保存</button>
+        </div>
+
       </mat-tab>
-      -->
 
       <mat-tab label="ユーザー管理">
         <mat-card>

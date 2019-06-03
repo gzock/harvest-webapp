@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import { Observable, of, merge, throwError, Subject, BehaviorSubject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
@@ -24,6 +25,7 @@ export class SettingProjectComponent implements OnInit {
   public currentProject: Project;
   public isLoading: boolean = true;
   public myUserData: any;
+  public updateProject: Project = {} as Project;
 
   constructor(
     private dialogRef: MatDialogRef<SettingProjectComponent>,
@@ -135,6 +137,21 @@ export class SettingProjectComponent implements OnInit {
 
   private openSuccessAlert(msg) {
     this.alertService.openSuccessAlert(msg);
+  }
+
+  public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    switch(type) {
+      case "start":
+        this.updateProject.start_on = event.value.toISOString();
+        break;
+      case "complete":
+        this.updateProject.complete_on = event.value.toISOString();
+        break;
+    }
+  }
+
+  public onUpdateProject(project: Project) {
+    console.log(project);
   }
 
   private openErrorAlert(msg) {

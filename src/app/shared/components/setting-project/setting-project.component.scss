@@ -65,11 +65,11 @@ mat-expansion-panel-header {
   float: left;
   width: 85%;
   @media (max-width: 321px) { 
-    font-size: 11px;
+    font-size: 10.5px;
     padding: 2px;
   }
   @media (min-width: 322px) and (max-width: 420px) { 
-    font-size: 13px;
+    font-size: 12.5px;
   }
 }
 

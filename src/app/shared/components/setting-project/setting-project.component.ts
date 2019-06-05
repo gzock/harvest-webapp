@@ -141,18 +141,33 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
-    switch(type) {
-      case "start":
-        this.updateProject.start_on = event.value.toISOString();
-        break;
-      case "complete":
-        this.updateProject.complete_on = event.value.toISOString();
-        break;
+    if(event.value) {
+      switch(type) {
+        case "start":
+          this.updateProject.start_on = event.value.toISOString();
+          break;
+        case "complete":
+          this.updateProject.complete_on = event.value.toISOString();
+          break;
+      }
     }
   }
 
   public onUpdateProject(project: Project) {
     console.log(project);
+    this.isLoading = true;
+    this.projectsService.update(this.currentProject.project_id, project)
+     .subscribe(
+       res => {
+         this.openSuccessAlert("プロジェクトの設定を変更しました。");
+         this.dialogRef.close(true);
+       },
+       err => {
+         this.openErrorAlert("プロジェクトの設定");
+         this.isLoading = false;
+         console.log(err);
+       }
+     );
   }
 
   private openErrorAlert(msg) {

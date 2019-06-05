@@ -108,8 +108,23 @@ export class ProjectsService {
     return this.http.post(this.projectUrl, project);
   }
 
-  public update(projectId, name): Observable<any> {
-    return this.http.put(this.projectUrl + "/" + projectId, { "name": name });
+  public update(projectId, project: Project): Observable<any> {
+    if(! project.name) {
+      project.name = this.currentProject.name;
+    }
+    if(! project.start_on) {
+      project.start_on = this.currentProject.start_on;
+    }
+    if(! project.complete_on) {
+      project.complete_on = this.currentProject.complete_on;
+    }
+    const project = {
+      name: project.name,
+      start_on: project.start_on,
+      complete_on: project.complete_on
+    }
+    console.log(project);
+    return this.http.put(this.projectUrl + "/" + projectId, project);
   }
 
   public delete(projectId): Observable<any> {

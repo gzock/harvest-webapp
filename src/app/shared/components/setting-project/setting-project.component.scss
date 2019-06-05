@@ -88,9 +88,14 @@ mat-expansion-panel-header {
   }
 }
 
-.project-settings {
+.project-settings-form {
   padding-top: 6px;
   .mat-form-field {
     width: 100%;
   }
+}
+
+.project-delete-form {
+  width: 100%;
+  margin: 16px 0px;
 }

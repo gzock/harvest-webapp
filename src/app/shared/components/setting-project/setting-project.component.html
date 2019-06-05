@@ -1,17 +1,17 @@
-<h2 mat-dialog-title>プロジェクト設定</h2>
+<h3 mat-dialog-title>プロジェクト設定: {{ currentProject.name }}</h3>
 <mat-dialog-content class="mat-typography">
   <div class="container">
     <div class="row">
 
     <mat-tab-group class="col-12">
-      <mat-tab class="row" label="設定" *ngIf="permissions.project.update">
-        <div class="col-12 project-settings">
+      <mat-tab class="row" label="設定変更" *ngIf="permissions.project.update">
+        <div class="col-12 project-settings-form">
           <mat-form-field>
             <input matInput placeholder="プロジェクト名" [(ngModel)]="updateProject.name">
           </mat-form-field>
         </div>
 
-        <div class="col-12 project-settings">
+        <div class="col-12 project-settings-form">
           <mat-form-field>
             <input matInput [matDatepicker]="start" placeholder="開始予定日" value="{{ updateProject.start_on }}" (focus)="start.open()" (dateChange)="onDateChange('start', $event)">
             <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
@@ -19,7 +19,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-12 project-settings">
+        <div class="col-12 project-settings-form">
           <mat-form-field>
             <input matInput [matDatepicker]="end" placeholder="終了予定日" value="{{ updateProject.complete_on }}" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)">
             <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
@@ -124,6 +124,21 @@
           </mat-accordion>
         </div>
     
+      </mat-tab>
+
+      <mat-tab label="削除" *ngIf="permissions.project.delete">
+        <mat-card>
+          <p class="small text-danger">
+            プロジェクトを削除すると、撮影した写真も含めて全てのデータが削除されます。元に戻すことは出来ません。本当に削除する場合は、確認のために以下のフォームにプロジェクト名を入力し、"プロジェクトを削除"を実行して下さい。
+          </p>
+        </mat-card>
+        <form #formCheck="ngForm">
+          <mat-form-field class="project-delete-form">
+            <input type="text" matInput name="project-delete-confirm" placeholder="プロジェクト名を入力" [(ngModel)]="tmp" pattern="^{{ currentProject.name }}$" required>
+          </mat-form-field>
+        </form>
+        <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteProject()" [disabled]="formCheck.invalid || isLoading">プロジェクトを削除</button>
+        <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
       </mat-tab>
     </mat-tab-group>
 

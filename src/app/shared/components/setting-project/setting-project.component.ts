@@ -173,6 +173,22 @@ export class SettingProjectComponent implements OnInit {
      );
   }
 
+  public onDeleteProject() {
+    this.isLoading = true;
+    this.projectsService.delete(this.currentProject.project_id)
+     .subscribe(
+       res => {
+         this.openSuccessAlert("プロジェクトを削除しました。");
+         this.dialogRef.close(true);
+       },
+       err => {
+         this.openErrorAlert("プロジェクトの削除");
+         this.isLoading = false;
+         console.log(err);
+       }
+     );
+  }
+
   private openErrorAlert(msg) {
     this.alertService.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }

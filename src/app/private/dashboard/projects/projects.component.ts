@@ -120,7 +120,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     });
   }
   openSettingProjectDialog() {
-    const dialogRef = this.dialog.open(SettingProjectComponent);
+    const dialogRef = this.dialog.open(SettingProjectComponent, { width: "550px" });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

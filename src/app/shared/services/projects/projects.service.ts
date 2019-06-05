@@ -77,7 +77,6 @@ export class ProjectsService {
                 this.renewSelectedProject(projects[0]);
 
               } else if(projects.length > 1) {
-                console.log(this.currentProject);
                 projects.map( project => {
                   if(project.project_id === this.currentProject.project_id) {
                     this.renewSelectedProject(project);
@@ -123,7 +122,6 @@ export class ProjectsService {
       start_on: project.start_on,
       complete_on: project.complete_on
     }
-    console.log(project);
     return this.http.put(this.projectUrl + "/" + projectId, project);
   }
 

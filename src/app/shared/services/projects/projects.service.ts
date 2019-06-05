@@ -107,20 +107,20 @@ export class ProjectsService {
     return this.http.post(this.projectUrl, project);
   }
 
-  public update(projectId, project: Project): Observable<any> {
-    if(! project.name) {
-      project.name = this.currentProject.name;
+  public update(projectId, updateProject: Project): Observable<any> {
+    if(! updateProject.name) {
+      updateProject.name = this.currentProject.name;
     }
-    if(! project.start_on) {
-      project.start_on = this.currentProject.start_on;
+    if(! updateProject.start_on) {
+      updateProject.start_on = this.currentProject.start_on;
     }
-    if(! project.complete_on) {
-      project.complete_on = this.currentProject.complete_on;
+    if(! updateProject.complete_on) {
+      updateProject.complete_on = this.currentProject.complete_on;
     }
     const project = {
-      name: project.name,
-      start_on: project.start_on,
-      complete_on: project.complete_on
+      name: updateProject.name,
+      start_on: updateProject.start_on,
+      complete_on: updateProject.complete_on
     }
     return this.http.put(this.projectUrl + "/" + projectId, project);
   }

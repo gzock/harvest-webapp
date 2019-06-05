@@ -38,7 +38,7 @@ export class SettingProjectComponent implements OnInit {
 
   ngOnInit() {
     this.currentProject = this.projectsService.getCurrentProject();
-    this.updateProject = this.currentProject;
+    this.updateProject =  JSON.parse(JSON.stringify(this.currentProject));
     this.permissions = this.projectsService.getCurrentPermissions();
     this.projectsService.listUsers(this.currentProject.project_id)
       .subscribe(
@@ -157,7 +157,6 @@ export class SettingProjectComponent implements OnInit {
   }
 
   public onUpdateProject(project: Project) {
-    console.log(project);
     this.isLoading = true;
     this.projectsService.update(this.currentProject.project_id, project)
      .subscribe(

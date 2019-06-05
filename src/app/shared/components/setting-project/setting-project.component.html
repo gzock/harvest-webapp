@@ -30,6 +30,7 @@
         <div class="col-12">
           <button class="btn-block" mat-raised-button color="primary" (click)="onUpdateProject(updateProject)" [disabled]="isLoading">保存</button>
         </div>
+        <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 
       </mat-tab>
 

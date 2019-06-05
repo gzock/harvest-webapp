@@ -5,23 +5,23 @@
 
     <mat-tab-group class="col-12">
       <mat-tab class="row" label="設定">
-        <div class="col-12">
+        <div class="col-12 project-settings">
           <mat-form-field>
             <input matInput placeholder="プロジェクト名" [(ngModel)]="updateProject.name">
           </mat-form-field>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 project-settings">
           <mat-form-field>
-            <input matInput [matDatepicker]="start" placeholder="開始予定日" (focus)="start.open()" (dateChange)="onDateChange('start', $event)">
+            <input matInput [matDatepicker]="start" placeholder="開始予定日" value="{{ updateProject.start_on }}" (focus)="start.open()" (dateChange)="onDateChange('start', $event)">
             <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
             <mat-datepicker #start></mat-datepicker>
           </mat-form-field>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 project-settings">
           <mat-form-field>
-            <input matInput [matDatepicker]="end" placeholder="終了予定日" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)">
+            <input matInput [matDatepicker]="end" placeholder="終了予定日" value="{{ updateProject.complete_on }}" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)">
             <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
             <mat-datepicker #end></mat-datepicker>
           </mat-form-field>

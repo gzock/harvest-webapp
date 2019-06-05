@@ -36,6 +36,7 @@ export class SettingProjectComponent implements OnInit {
 
   ngOnInit() {
     this.currentProject = this.projectsService.getCurrentProject();
+    this.updateProject = this.currentProject;
     this.projectsService.listUsers(this.currentProject.project_id)
       .subscribe(
         users => {
@@ -157,5 +158,4 @@ export class SettingProjectComponent implements OnInit {
   private openErrorAlert(msg) {
     this.alertService.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
-
 }

@@ -8,7 +8,7 @@ import { GenerateActions } from './../actions/generate-actions';
 export class AdminPermissions implements Permissions {
   public project: ProjectActions = {
     "create": true,
-    "update": true,
+    "update": false,
     "delete": false
   }
 

@@ -10,6 +10,7 @@ import { ProjectJoinUser } from './project-join-user';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
 import { AuthService } from './../../../shared/services/auth/auth.service';
+import { Permissions } from './../../services/projects/action-permissions/permissions/permissions';
 
 @Component({
   selector: 'app-setting-project',
@@ -26,6 +27,7 @@ export class SettingProjectComponent implements OnInit {
   public isLoading: boolean = true;
   public myUserData: any;
   public updateProject: Project = {} as Project;
+  public permissions: Permissions = {} as Permissions;
 
   constructor(
     private dialogRef: MatDialogRef<SettingProjectComponent>,
@@ -37,6 +39,7 @@ export class SettingProjectComponent implements OnInit {
   ngOnInit() {
     this.currentProject = this.projectsService.getCurrentProject();
     this.updateProject = this.currentProject;
+    this.permissions = this.projectsService.getCurrentPermissions();
     this.projectsService.listUsers(this.currentProject.project_id)
       .subscribe(
         users => {

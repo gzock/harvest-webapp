@@ -4,7 +4,7 @@
     <div class="row">
 
     <mat-tab-group class="col-12">
-      <mat-tab class="row" label="設定">
+      <mat-tab class="row" label="設定" *ngIf="permissions.project.update">
         <div class="col-12 project-settings">
           <mat-form-field>
             <input matInput placeholder="プロジェクト名" [(ngModel)]="updateProject.name">

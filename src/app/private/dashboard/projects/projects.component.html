@@ -33,7 +33,7 @@
           matTooltip="選択したプロジェクトを編集" 
           [matTooltipPosition]="'above'" 
           [disabled]="isLoading || projects.length == 0"
-          *ngIf="permissions.project?.update"
+          *ngIf="permissions.project?.update || permissions.user?.update"
       >
         設定
       </button>

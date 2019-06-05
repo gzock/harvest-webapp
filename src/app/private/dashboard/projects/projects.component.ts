@@ -48,6 +48,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
           } else if(projects instanceof Array && projects.length == 0) {
             this.isLoading = false;
+            this.projects = [] as Project[];
+            this.dataSource = null;
+            this.currentProject = {} as Project;
+            this.permissions = {} as Permissions;
           }
         },
         err => {

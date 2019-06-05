@@ -77,11 +77,12 @@ export class ProjectsService {
                 this.renewSelectedProject(projects[0]);
 
               } else if(projects.length > 1) {
-                projects.map( project => {
-                  if(project.project_id === this.currentProject.project_id) {
-                    this.renewSelectedProject(project);
-                  }
-                });
+                let project: Project[] = projects.filter( project => project.project_id === this.currentProject.project_id )
+                if(project.length) {
+                  this.renewSelectedProject(project[0]);
+                } else {
+                  this.select(projects[0]);
+                }
               }
               this.joinedProjects = projects;
               this.joinedProjectsSubject.next(projects);

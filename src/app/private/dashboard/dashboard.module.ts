@@ -44,6 +44,7 @@ import { ProjectsService } from './../../shared/services/projects/projects.servi
 import { PlacesService } from './../../shared/services/places/places.service';
 import { TargetsService } from './../../shared/services/targets/targets.service';
 import { PhotosService } from './../../shared/services/photos/photos.service';
+import { NotificationsService } from './../../shared/services/notifications/notifications.service';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
@@ -109,6 +110,7 @@ import { UserComponent } from './user/user.component';
     ProjectsService,
     PlacesService,
     TargetsService,
+    NotificationsService,
     PhotosService,
     AlertService,
     GenerateService,

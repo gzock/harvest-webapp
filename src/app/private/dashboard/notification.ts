@@ -1,4 +1,4 @@
-export interface Project {
+export interface Notification {
   user_id: string;
   notification_id: string;
   project_id: string;

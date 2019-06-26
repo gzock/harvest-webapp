@@ -9,6 +9,8 @@ import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
+import { Notification } from './notification';
+import { NotificationsService } from './../../shared/services/notifications/notifications.service';
 import { Permissions } from './../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
@@ -18,6 +20,7 @@ import { Permissions } from './../../shared/services/projects/action-permissions
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public projects: Project[];
+  public notifications: Notification[];
   private currentProject: Project;
   public currentProjectName: string;
   private currentProjectSubscription: Subscription;
@@ -36,7 +39,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public platform: Platform,
     private projectsService: ProjectsService,
     private authService: AuthService,
-    public alert: AlertService
+    public alert: AlertService,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -70,18 +74,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.openErrorAlert("プロジェクト一覧の取得");
           }
         );
+      this.currentProjectSubscription = this.projectsService.currentProjectSubject
+        .subscribe(
+          project => {
+            this.currentProject = project;
+            this.currentProjectName = project.name;
+            this.permissions = this.projectsService.getCurrentPermissions();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      this.notificationsService.list()
+        .pipe(
+           catchError(error => throwError(error))
+        )
+        .subscribe(
+           (response: Notification[]) => {
+              this.notifications = response;
+           },
+           err => {
+             console.log("error: " + err);
+             this.openErrorAlert("通知一覧の取得");
+           }
+        );
     }
-    this.currentProjectSubscription = this.projectsService.currentProjectSubject
-      .subscribe(
-        project => {
-          this.currentProject = project;
-          this.currentProjectName = project.name;
-          this.permissions = this.projectsService.getCurrentPermissions();
-        },
-        error => {
-          console.log(error);
-        }
-      );
   }
 
   ngOnDestroy() {

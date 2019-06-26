@@ -3,10 +3,6 @@ export interface Target {
   target_id: string;
   parent_place_id: string;
   name: string;
-  created_at: string;
-  updated_at: string;
-  created_by: string;
-  updated_by: string;
   photos: {
     adopt: {
       before: string;
@@ -14,5 +10,9 @@ export interface Target {
     }
     before: [string];
     after: [string];
-  }
+  };
+  created_at?: string;
+  updated_at?: string;
+  created_by?: string;
+  updated_by?: string;
 }

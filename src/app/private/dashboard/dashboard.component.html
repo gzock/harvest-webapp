@@ -50,8 +50,19 @@
       </mat-form-field>
 
       <span class="spacer"></span>
-      <!--<mat-icon class="material-icons md-light">payment</mat-icon>-->
-      <mat-icon class="material-icons md-light">notifications</mat-icon>
+
+      <mat-icon class="material-icons md-light" [matMenuTriggerFor]="notificationsSummary"
+          matBadge="{{ notifications.length || 0 }}" matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small">
+        notifications
+      </mat-icon>
+      <mat-menu #notificationsSummary="matMenu">
+        <div *ngFor="let notification of notifications">
+          <!--<button mat-menu-item>{{ notification.message }}</button>-->
+          <p class="notification-message-summary" mat-menu-item>{{ notification.message }}</p>
+        </div>
+        <button mat-menu-item *ngIf="notifications.length == 0">通知は存在しません</button>
+      </mat-menu>
+
       <mat-icon class="material-icons md-light" [matMenuTriggerFor]="menu">account_circle</mat-icon>
       <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="user">ユーザー設定</button>

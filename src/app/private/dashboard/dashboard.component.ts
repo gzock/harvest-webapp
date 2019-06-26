@@ -20,7 +20,7 @@ import { Permissions } from './../../shared/services/projects/action-permissions
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public projects: Project[];
-  public notifications: Notification[];
+  public notifications: Notification[] = [] as Notification[];
   private currentProject: Project;
   public currentProjectName: string;
   private currentProjectSubscription: Subscription;

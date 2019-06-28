@@ -53,6 +53,7 @@ import { AlertService } from './../../shared/services/alert/alert.service';
 import { GenerateComponent } from './generate/generate.component';
 import { GenerateService } from './../../shared/services/generate/generate.service';
 import { UserComponent } from './user/user.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { UserComponent } from './user/user.component';
     PhotoCanvasComponent,
     GenerateComponent,
     UserComponent,
+    NotificationsComponent,
     ConfirmDeleteComponent,
     CautionComponent,
     ImportActionComponent

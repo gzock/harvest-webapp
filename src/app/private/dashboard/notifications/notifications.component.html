@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 user-info">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>ユーザー情報</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="email" matInput placeholder="登録メールアドレス" [(ngModel)]="email" disabled>
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="text" matInput placeholder="ユーザー名" [(ngModel)]="username" disabled>
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="accountType" matInput placeholder="アカウントタイプ" [(ngModel)]="accountType" disabled>
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="text" matInput placeholder="お支払い方法" [(ngModel)]="billing" disabled>
+            </mat-form-field>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 change-password">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>パスワード変更</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="password" matInput placeholder="現在のパスワード" [(ngModel)]="oldPassword">
+            </mat-form-field>
+          </section>
+          <section class="example-section">
+            <mat-form-field>
+              <input type="password" matInput placeholder="新しいパスワード" [(ngModel)]="newPassword">
+            </mat-form-field>
+          </section>
+        </mat-card-content>
+
+        <mat-card-actions class="text-center">
+          <button mat-button (click)="onChangePassword(oldPassword, newPassword)">変更</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

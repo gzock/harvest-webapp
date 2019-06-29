@@ -59,6 +59,7 @@
         <div *ngFor="let notification of notifications; let i = index">
           <!--<button mat-menu-item>{{ notification.message }}</button>-->
           <p class="notification-message-summary" mat-menu-item *ngIf="i < 10">{{ notification.message }}</p>
+          <mat-divider></mat-divider>
         </div>
         <a mat-menu-item class="notification-link-button" *ngIf="notifications.length > 0" routerLink="notifications">全ての通知を確認する</a>
         <button mat-menu-item *ngIf="notifications.length == 0">通知は存在しません</button>

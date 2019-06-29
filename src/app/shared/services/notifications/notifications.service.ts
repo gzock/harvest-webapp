@@ -6,7 +6,7 @@ import { Observable, of, merge, concat, throwError, Subject, Subscription, Behav
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
 
 import { AuthService } from './../auth/auth.service';
-import { Notification } from "./../../../private/dashboard/notification";
+import { Notification } from "./../../../private/dashboard/notifications/notification";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,8 @@ export class NotificationsService {
 
   private userId: string;
   private notificationId: string;
-  public notification: Notification;
+  public notifications: Notification[];
+  public notificationsSubject: BehaviorSubject<Notification[]>;
 
   constructor(
     private authService: AuthService,
@@ -29,6 +30,7 @@ export class NotificationsService {
           this.notificationsUrl += `${userData.username}/notifications`;
         }
       )
+    this.notificationsSubject = new BehaviorSubject<Notification[]>(this.notifications);
   }
 
   public show(notificationId: string): Observable<any> {
@@ -36,15 +38,39 @@ export class NotificationsService {
   }
 
   public list(): Observable<any> {
-    return this.http.get(this.notificationsUrl);
+    return this.http.get(this.notificationsUrl)
+        .pipe(
+          tap(
+            (notifications: Notification[]) => {
+              if(notifications.length > 0) {
+                this.notifications = notifications;
+                this.notificationsSubject.next(notifications);
+              }
+            }
+          )
+        );
   }
 
   public update(notificationId: string, read: boolean): Observable<any> {
     return this.http.put(this.notificationsUrl + "/" + notificationId, {"read": read});
   }
 
+  public read(notificationId: string): Observable<any> {
+    return this.update(notificationId, true);
+  }
+
+  public reads(notificationIds: string[]): Observable<any> {
+    console.log(notificationIds);
+    return this.http.put(this.notificationsUrl, {"read": true, "notification_ids": notificationIds});
+  }
+
   public delete(notificationId: string): Observable<any> {
     return this.http.delete(this.notificationsUrl + "/" + notificationId);
+  }
+
+  public deletes(notificationIds: string[]): Observable<any> {
+    console.log(notificationIds);
+    return this.http.delete(this.notificationsUrl, {"notification_ids": notificationIds});
   }
 
 }

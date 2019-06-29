@@ -9,7 +9,7 @@ import { Project } from './projects/project';
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
-import { Notification } from './notification';
+import { Notification } from './notifications/notification';
 import { NotificationsService } from './../../shared/services/notifications/notifications.service';
 import { Permissions } from './../../shared/services/projects/action-permissions/permissions/permissions';
 

@@ -76,6 +76,10 @@ mat-icon {
   line-height: 18px;
 }
 
+::ng-deep .mat-menu-content:not(:empty) {
+  padding-bottom: 0px !important;
+}
+
 /*
 .material-icons.md-light {
   color: rgba(255, 255, 255, 1);

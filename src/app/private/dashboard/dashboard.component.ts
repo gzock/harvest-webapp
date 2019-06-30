@@ -122,4 +122,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
+  public formatDate(date: string) {
+    if(date) {
+      let _date: Date = new Date(date);
+      _date.setTime(_date.getTime() + 1000*60*60*9);
+      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
+    }
+  }
+
 }

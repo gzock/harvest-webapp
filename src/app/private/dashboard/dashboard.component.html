@@ -56,9 +56,12 @@
         notifications
       </mat-icon>
       <mat-menu #notificationsSummary="matMenu">
-        <div *ngFor="let notification of notifications; let i = index">
+        <div *ngFor="let notification of notifications; let i = index" class="notification-message-summary">
           <!--<button mat-menu-item>{{ notification.message }}</button>-->
-          <p class="notification-message-summary" mat-menu-item *ngIf="i < 10">{{ notification.message }}</p>
+          <!--<p class="notification-message-summary" mat-menu-item *ngIf="i < 10">-->
+            {{ formatDate(notification.created_at) }}  <br>
+            {{ notification.message }}
+          <!--</p>-->
           <mat-divider></mat-divider>
         </div>
         <a mat-menu-item class="notification-link-button" *ngIf="notifications.length > 0" routerLink="notifications">全ての通知を確認する</a>

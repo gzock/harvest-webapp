@@ -19,7 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  public notifications: Notification[] = [] as Notificaton[];
+  public notifications: Notification[] = [] as Notification[];
   private notificationsSubscription: Subscription;
   public selection = new SelectionModel<Notification>(true, []);
 
@@ -37,7 +37,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getUserData();
     this.notificationsSubscription = this.notificationsService.notificationsSubject
       .subscribe(
         (notifications: Notification[]) => {
@@ -69,17 +68,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getUserData() {
-    this.auth.getToken()
-      .subscribe(
-        user => {
-          this.email = user.idToken.payload.email;
-          this.username = user.idToken.payload.preferred_username;
-          this.accountType = "Standard";
-        }
-      );
-  }
-
   public onReadNotifications(notifications: Notification[]) {
     this.notificationsService.reads(notifications.map(item => item.notification_id))
       .subscribe(
@@ -93,15 +81,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteNotifications(notifications: Notification[]) {
-    this.notificationsService.deletes(notifications.map(item => item.notification_id))
-      .subscribe(
-        response => {
-          console.log(response);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+  //TODO: 何とかobservable.mergeでdeleteをまとめてsubscribeできないか
+    this.notificationsService.deletes(notifications.map(item => item.notification_id));
+    //  .subscribe(
+    //    response => {
+    //      console.log(response);
+    //    },
+    //    err => {
+    //      console.log(err);
+    //    }
+    //  );
   }
 
   public isAllSelected() {
@@ -118,11 +107,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   /** The label for the checkbox on the passed row */
-  public checkboxLabel(row?: PeriodicElement): string {
+  public checkboxLabel(row?: Notification): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.notification_id}`;
   }
 
   private openSuccessAlert(msg) {
@@ -136,6 +125,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   public formatDate(date: string) {
     if(date) {
       let _date: Date = new Date(date);
+      _date.setTime(_date.getTime() + 1000*60*60*9);
       return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
     }
   }

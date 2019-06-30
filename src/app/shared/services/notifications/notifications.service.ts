@@ -68,9 +68,12 @@ export class NotificationsService {
     return this.http.delete(this.notificationsUrl + "/" + notificationId);
   }
 
-  public deletes(notificationIds: string[]): Observable<any> {
+  //public deletes(notificationIds: string[]): Observable<any> {
+  public deletes(notificationIds: string[]) {
     console.log(notificationIds);
-    return this.http.delete(this.notificationsUrl, {"notification_ids": notificationIds});
+    for(let id of notificationIds) {
+      this.http.delete(this.notificationsUrl + "/" + id).subscribe();
+    }
   }
 
 }

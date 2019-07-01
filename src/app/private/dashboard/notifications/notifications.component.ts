@@ -26,8 +26,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ["select", "created_at", "message"];
   dataSource: MatTableDataSource<Notification>;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  //@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  //@ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private auth: AuthService,
@@ -43,7 +43,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           if(notifications instanceof Array && notifications.length) {
             this.notifications = notifications;
             this.dataSource = new MatTableDataSource(this.notifications);
-            this.dataSource.paginator = this.paginator;
+            //this.dataSource.paginator = this.paginator;
             //this.dataSource.sort = this.sort;
           }
         },

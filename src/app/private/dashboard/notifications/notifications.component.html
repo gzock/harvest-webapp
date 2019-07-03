@@ -4,12 +4,13 @@
     <mat-card class="col-12 mat-elevation-z4 notification-actions">
       <div class="row align-items-center">
       
-        <div class="col-8">
+        <div class="col-12 col-md-8">
           <mat-form-field class="notification-filter-field">
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="フィルタ">
           </mat-form-field>
         </div>
       
+        <!--
         <div class="col-2 text-right">
           <button mat-stroked-button class="btn-block" color="primary" (click)="onReadNotifications(selection.selected)" [disabled]="!selection.selected.length">既読</button>
         </div>
@@ -17,6 +18,20 @@
         <div class="col-2 text-right">
           <button mat-stroked-button class="btn-block" color="warn" (click)="onDeleteNotifications(selection.selected)" [disabled]="!selection.selected.length">削除</button>
         </div>
+        -->
+        <div class="col-6 col-md-2 text-right">
+          <button mat-stroked-button class="btn-block" color="primary" [disabled]="true">既読</button>
+        </div>
+
+        <div class="col-6 col-md-2 text-right">
+          <button mat-stroked-button class="btn-block" color="warn" [disabled]="true">削除</button>
+        </div>
+
+        <div class="col-12 caution-message">
+          ※ 既読/削除機能は現在使用できません。7月中に機能開放予定です。 <br>
+          ※ 通知は二週間経過すると自動的に削除されます。
+        </div>
+
       </div>
     </mat-card>
     

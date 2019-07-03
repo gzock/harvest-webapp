@@ -37,7 +37,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "template": "basic_1.xlsx",
     "by_name": true,
     "has_hierarchy": false,
-    "force_download": false
+    "force_download": false,
+    "char_enc": "shift_jis"
   };
 
   public templates: Template[];

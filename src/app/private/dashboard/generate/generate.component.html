@@ -42,6 +42,15 @@
               </section>
 
               <section class="example-section">
+                <mat-form-field>
+                  <mat-select placeholder="ファイル名の文字コード" [(ngModel)]="order.char_enc">
+                    <mat-option value="shift_jis">Shift-JIS</mat-option>
+                    <mat-option value="utf_8">UTF-8</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+
+              <section class="example-section">
                 <mat-checkbox class="example-margin" disabled>
                   採用画像だけでなく全ての撮影画像を含める
                 </mat-checkbox>

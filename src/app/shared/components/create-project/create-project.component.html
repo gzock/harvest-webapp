@@ -1,33 +1,34 @@
 <h2 mat-dialog-title>プロジェクト新規作成</h2>
 <mat-dialog-content class="mat-typography">
-  <div class="col-sm-6">
-    <mat-form-field>
-      <input matInput placeholder="プロジェクト名" [(ngModel)]="newProject.name" required>
-    </mat-form-field>
-  </div>
+  <form #formCheck="ngForm">
+    <div class="col-12">
+      <mat-form-field>
+        <input matInput name="projectName" placeholder="プロジェクト名" [(ngModel)]="newProject.name" required>
+      </mat-form-field>
+    </div>
 
-  <div class="col-sm-6">
-    <mat-form-field>
-      <input matInput [matDatepicker]="start" placeholder="開始予定日" (focus)="start.open()" (dateChange)="onDateChange('start', $event)" required>
-      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
-      <mat-datepicker #start></mat-datepicker>
-    </mat-form-field>
-  </div>
+    <div class="col-12">
+      <mat-form-field>
+        <input matInput name="startOn" [matDatepicker]="start" placeholder="開始予定日" [max]="newProject.complete_on" (focus)="start.open()" (dateChange)="onDateChange('start', $event)" required>
+        <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+        <mat-datepicker #start></mat-datepicker>
+      </mat-form-field>
+    </div>
 
-  <div class="col-sm-6">
-    <mat-form-field>
-      <input matInput [matDatepicker]="end" placeholder="終了予定日" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)" required>
-      <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
-      <mat-datepicker #end></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <p class="small text-danger">
-    {{ errMsg }}
-  </p>
+    <div class="col-12">
+      <mat-form-field>
+        <input matInput name="completeOn" [matDatepicker]="end" placeholder="終了予定日" [min]="newProject.start_on" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)" required>
+        <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+        <mat-datepicker #end></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <p class="small text-danger">
+      {{ errMsg }}
+    </p>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>キャンセル</button>
-  <button mat-button (click)="onCreateProject(newProject)" cdkFocusInitial>作成</button>
-  <!--<button mat-button [mat-dialog-close]="newProject" cdkFocusInitial>作成</button>-->
+  <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
+  <button mat-button (click)="onCreateProject(newProject)" [disabled]="formCheck.invalid">作成</button>
 </mat-dialog-actions>

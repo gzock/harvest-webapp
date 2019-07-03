@@ -24,7 +24,11 @@ export class CreateProjectComponent implements OnInit {
     this.errMsg = "";
     console.log("event fired create project.")
     if(newProject.name && newProject.start_on && newProject.complete_on) {
-      this.dialogRef.close(newProject);
+      if(newProject.start_on < newProject.complete_on) {
+        this.dialogRef.close(newProject);
+      } else {
+        this.errMsg = "エラー: 終了予定日は開始予定日よりも後の日付にしてください。";
+      }
     } else {
       this.errMsg = "エラー: 全ての項目を指定してください。";
     }

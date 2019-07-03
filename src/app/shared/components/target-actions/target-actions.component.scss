@@ -64,6 +64,7 @@ button {
 
 .photo-canvas {
   height: 100%;
+  width: 100%;
 }
 
 :host ::ng-deep .mat-tab-label {
@@ -96,4 +97,9 @@ hr {
 .caution {
   display: flex;
   align-items: center;
+}
+
+.photo-action-button {
+  padding: 0px;
+  margin: 0px;
 }

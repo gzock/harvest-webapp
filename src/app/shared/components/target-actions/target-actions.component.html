@@ -149,7 +149,7 @@
             <hr />
 
             <div class="col justify-content-start">
-              <button mat-raised-button class="mat-elevation-z6" 
+              <button mat-raised-button class="mat-elevation-z6 photo-action-button" 
                   (click)="onGetBackPhoto()" 
                   [disabled]="isPhotoIndexMin()">
                 <mat-icon class="material-icons md-dark" color="accent">chevron_left</mat-icon>
@@ -157,26 +157,26 @@
             </div>
             <div class="col justify-content-center" *ngIf="permissions.photo.update">
               <button mat-raised-button
-                  class="btn-success mat-elevation-z6" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
+                  class="btn-success mat-elevation-z6 photo-action-button" (click)="onAdoptPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'
                   *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] !== selectedTarget["photos"]["adopt"][selectedPhotoType]'>
                 <mat-icon class="material-icons" color="accent">star_border</mat-icon>
               </button>
               <button mat-raised-button
-                  class="btn-default" 
+                  class="btn-default photo-action-button" 
                   *ngIf='selectedTarget["photos"][selectedPhotoType][photoIndex] === selectedTarget["photos"]["adopt"][selectedPhotoType]'>
                 <mat-icon class="material-icons md-dark" color="accent">star</mat-icon>
               </button>
             </div>
             <div class="col justify-content-center" *ngIf="permissions.photo.delete">
               <button mat-raised-button 
-                  class="btn-default mat-elevation-z6" (click)="openConfirmDeleteDialog(selectedPhotoType, photoIndex)"
+                  class="btn-default mat-elevation-z6 photo-action-button" (click)="openConfirmDeleteDialog(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 <mat-icon class="material-icons md-dark" color="accent">clear</mat-icon>
               </button>
             </div>
             <div class="col justify-content-end">
-              <button mat-raised-button class="mat-elevation-z6" 
+              <button mat-raised-button class="mat-elevation-z6 photo-action-button" 
                   (click)="onGetNextPhoto()" 
                   [disabled]="isPhotoIndexMax()">
                 <mat-icon class="material-icons md-dark" color="accent">chevron_right</mat-icon>

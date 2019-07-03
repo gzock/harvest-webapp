@@ -13,7 +13,7 @@
 
         <div class="col-12 project-settings-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="start" placeholder="開始予定日" value="{{ updateProject.start_on }}" (focus)="start.open()" (dateChange)="onDateChange('start', $event)">
+            <input matInput [matDatepicker]="start" placeholder="開始予定日" [max]="updateProject.complete_on" value="{{ updateProject.start_on }}" (focus)="start.open()" (dateChange)="onDateChange('start', $event)">
             <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
             <mat-datepicker #start></mat-datepicker>
           </mat-form-field>
@@ -21,7 +21,7 @@
 
         <div class="col-12 project-settings-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="end" placeholder="終了予定日" value="{{ updateProject.complete_on }}" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)">
+            <input matInput [matDatepicker]="end" placeholder="終了予定日" [min]="updateProject.start_on" value="{{ updateProject.complete_on }}" (focus)="end.open()" (dateChange)="onDateChange('complete', $event)">
             <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
             <mat-datepicker #end></mat-datepicker>
           </mat-form-field>

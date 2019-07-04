@@ -43,8 +43,8 @@
 
               <section class="example-section">
                 <mat-form-field>
-                  <mat-select placeholder="ファイル名の文字コード" [(ngModel)]="order.char_enc">
-                    <mat-option value="shift_jis">Shift-JIS</mat-option>
+                  <mat-select placeholder="ファイル名の文字コード" [(ngModel)]="order.char_enc" disabled>
+                    <mat-option value="shift_jis">Shift-JIS (Windows用)</mat-option>
                     <mat-option value="utf_8">UTF-8</mat-option>
                   </mat-select>
                 </mat-form-field>

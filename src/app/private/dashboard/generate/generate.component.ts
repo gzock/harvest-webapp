@@ -37,7 +37,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "type": "",
     "template": "basic_1.xlsx",
     "by_name": true,
-    "has_hierarchy": false,
+    "needs_include_hierarchy": false,
+    "needs_make_dir": true,
     "force_download": false,
     "char_enc": "shift_jis"
   };

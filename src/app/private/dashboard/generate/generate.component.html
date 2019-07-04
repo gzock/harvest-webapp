@@ -51,14 +51,23 @@
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" disabled>
-                  採用画像だけでなく全ての撮影画像を含める
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="!order.by_name">
+                  ファイル名に場所の階層構造を含める
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.has_hierarchy" disabled>
-                  ファイル名に場所の階層構造を含める
+                <mat-form-field>
+                  <mat-select placeholder="場所の階層構造の表現方法" [(ngModel)]="order.needs_make_dir" [disabled]="!order.needs_include_hierarchy">
+                    <mat-option [value]="true">ディレクトリ</mat-option>
+                    <mat-option [value]="false">"_"で連結してファイル名に付与</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox class="example-margin" disabled>
+                  採用画像だけでなく全ての撮影画像を含める
                 </mat-checkbox>
               </section>
 

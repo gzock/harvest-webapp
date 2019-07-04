@@ -36,6 +36,7 @@ export class TargetActionsComponent implements OnInit {
   public isPlace: boolean = false;
   public isRootPlace: boolean = false;
   public isUploading: boolean = false;
+  public isLoading: boolean = false;
   public permissions: Permissions = {} as Permissions;
 
   //TODO: 要リファクタリング
@@ -103,6 +104,7 @@ export class TargetActionsComponent implements OnInit {
   }
 
   public onCreate(type, name, placeId = "") {
+    this.isLoading = true;
     if(type === "place") {
       this.placesService.create(name, placeId)
         .pipe(
@@ -110,10 +112,12 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
+             this.isLoading = false;
              this.openSuccessAlert("場所の追加");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
+             this.isLoading = false;
              console.log("error: " + err);
             this.openErrorAlert("場所の追加");
            }
@@ -126,18 +130,21 @@ export class TargetActionsComponent implements OnInit {
         )
         .subscribe(
            response => {
+             this.isLoading = false;
              this.openSuccessAlert("撮影対象の追加");
              this.bottomSheetRef.dismiss(true);
            },
            err => {
+             this.isLoading = false;
              console.log("error: " + err);
-            this.openErrorAlert("撮影対象の追加");
+             this.openErrorAlert("撮影対象の追加");
            }
         );
     }
   }
 
   public onUpdateName(name) {
+    this.isLoading = true;
     let service: any;
     let id: string; 
 
@@ -155,10 +162,12 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
+           this.isLoading = false;
            this.openSuccessAlert("名前の変更");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
+           this.isLoading = false;
            console.log("error: " + err);
            this.openErrorAlert("名前の変更");
          }
@@ -247,6 +256,7 @@ export class TargetActionsComponent implements OnInit {
   }
 
   public onDelete() {
+    this.isLoading = true;
     let service: any;
     let id: string; 
 
@@ -268,10 +278,12 @@ export class TargetActionsComponent implements OnInit {
       )
       .subscribe(
          response => {
+           this.isLoading = false;
            this.openSuccessAlert("削除");
            this.bottomSheetRef.dismiss(true);
          },
          err => {
+           this.isLoading = false;
            console.log("error: " + err);
            this.openErrorAlert("削除");
          }

@@ -26,7 +26,8 @@
               </mat-form-field>
             </div>
             <div class="col-12 col-md-3" *ngIf="new.type === 'target' || this.placesService.placeHistory.length < 6">
-              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, selectedPlace.place_id)">
+              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onCreate(new.type, new.name, selectedPlace.place_id)" [disabled]="isLoading">
+                <mat-icon *ngIf="isLoading"><mat-spinner class="processing-spinner"></mat-spinner></mat-icon>
                 作成
               </button>
             </div>
@@ -44,14 +45,15 @@
               <mat-icon class="material-icons md-dark" color="accent">edit</mat-icon>
             </button>
           </ng-template>
-          <div class="col-12 row add">
-            <div class="col-9 col-md-6">
+          <div class="col-12 row update-action-name-container">
+            <div class="col-12 col-md-9">
               <mat-form-field class="update-action-name">
                 <input matInput [(ngModel)]="new.name" placeholder="新しい名前を入力">
               </mat-form-field>
             </div>
-            <div class="col-3 col-md-3">
-              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onUpdateName(new.name)">
+            <div class="col-12 col-md-3">
+              <button mat-raised-button class="btn-block mat-elevation-z6 add-action-submit" (click)="onUpdateName(new.name)" [disabled]="isLoading">
+                <mat-icon *ngIf="isLoading"><mat-spinner class="processing-spinner"></mat-spinner></mat-icon>
                 編集
               </button>
             </div>
@@ -70,7 +72,10 @@
           <p class="text-danger" *ngIf="isPlace">
             削除条件: "場所"は配下に何も存在しない状態でなければ削除することはできません。
           </p>
-          <button mat-raised-button color="warn" (click)="onDelete()">削除する</button>
+          <button mat-raised-button class="delete-action-button" color="warn" (click)="onDelete()" [disabled]="isLoading">
+            <mat-icon *ngIf="isLoading"><mat-spinner class="processing-spinner"></mat-spinner></mat-icon>
+            削除する
+          </button>
         </mat-tab>
       
         <mat-tab *ngIf="permissions.photo.create && isTarget">

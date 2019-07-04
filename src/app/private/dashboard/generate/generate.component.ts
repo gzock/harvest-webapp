@@ -8,6 +8,7 @@ import { MatVerticalStepper } from '@angular/material';
 import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { GenerateService } from './../../../shared/services/generate/generate.service';
+import { AlertService } from './../../../shared/services/alert/alert.service';
 
 import { Order } from './order';
 import { Template } from './template';
@@ -48,6 +49,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   constructor(
     public projectsService: ProjectsService,
     public generateService: GenerateService,
+    private alert: AlertService,
     private _formBuilder: FormBuilder
   ) { }
 
@@ -98,6 +100,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
          err => {
            this.isProgress = false;
            console.log("error: " + err);
+           this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
          }
       );
   }

@@ -88,6 +88,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  public applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    //if (this.dataSource.paginator) {
+    //  this.dataSource.paginator.firstPage();
+    //}
+  }
+
   public onSelectProject(project: Project) {
     this.projectsService.select(project);
     this.permissions = this.projectsService.getCurrentPermissions();

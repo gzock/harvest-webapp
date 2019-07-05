@@ -84,16 +84,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   displayedColumns: string[] = ['project_id', 'name', 'start_on', 'complete_on'];
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   public applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    //if (this.dataSource.paginator) {
-    //  this.dataSource.paginator.firstPage();
-    //}
   }
 
   public onSelectProject(project: Project) {

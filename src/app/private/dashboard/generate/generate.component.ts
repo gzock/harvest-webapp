@@ -77,7 +77,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}];
+    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
   }
 
   ngOnDestroy() {

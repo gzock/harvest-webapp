@@ -89,8 +89,8 @@
             <div class="step-2-settings" *ngIf="order.type === 'excel'">
               <section class="example-section">
                 <mat-form-field>
-                  <mat-select placeholder="テンプレートを選択" *ngFor="let template of templates" [(ngModel)]="order.template">
-                    <mat-option value="{{ template.name }}">{{ template.name }}</mat-option>
+                  <mat-select placeholder="テンプレートを選択" [(ngModel)]="order.template">
+                    <mat-option *ngFor="let template of templates" value="{{ template.name }}">{{ template.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </section>

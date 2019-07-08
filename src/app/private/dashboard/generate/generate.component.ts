@@ -40,6 +40,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "needs_include_hierarchy": false,
     "needs_make_dir": true,
     "needs_all_photos": false,
+    "needs_date": false,
     "force_download": false,
     "char_enc": "shift_jis"
   };

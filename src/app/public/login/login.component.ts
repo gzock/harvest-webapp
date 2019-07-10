@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
     public email: string;
     public password: string;
     public isSaveEmail: boolean = true;
+    public isDisplayPassword: boolean = false;
+    public formType: string = "password";
 
     constructor(
       public router: Router,
@@ -48,5 +50,9 @@ export class LoginComponent implements OnInit {
             console.log(error);
             this.errorMsg = "ログインに失敗しました。メールアドレスあるいはパスワードをご確認ください。";
           });
+    }
+
+    public onSwitchDisplayPassword() {
+      this.formType = this.isDisplayPassword ? "password" : "text";
     }
 }

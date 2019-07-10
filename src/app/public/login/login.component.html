@@ -13,16 +13,21 @@
                       </div>
 
                       <div class="form-group">
-                          <input type="password" [(ngModel)]="password" name="password" class="form-control input-underline" id="password" placeholder="パスワード">
+                          <input type="{{ formType }}" [(ngModel)]="password" name="password" class="form-control input-underline" id="password" placeholder="パスワード">
                       </div>
                   </div>
-                  <button class="btn btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
-                  <!-- <a class="btn btn-outline-danger" (click)="onLoggedin()"> Login </a> -->
+                  <button class="btn btn-block btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
               </form>
 
-              <section class="option-check small">
+              <section class="option-save-email small">
                 <mat-checkbox class="small" [(ngModel)]="isSaveEmail">
                   メールアドレスを記憶
+                </mat-checkbox>
+              </section>
+
+              <section class="option-display-password small">
+                <mat-checkbox class="small" [(ngModel)]="isDisplayPassword" (click)="onSwitchDisplayPassword()">
+                  パスワードを表示
                 </mat-checkbox>
               </section>
 

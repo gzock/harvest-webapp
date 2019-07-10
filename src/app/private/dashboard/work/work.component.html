@@ -7,20 +7,30 @@
     <mat-card class="mat-elevation-z4 col-12">
       <div class="row align-items-center">
       
-        <div class="col-2">
+        <div class="col-2 col-md-2">
           <button mat-stroked-button color="accent" (click)="backwardPlace()" *ngIf="placesService.placeHistory.length > 1">
             <mat-icon class="material-icons md-dark">arrow_back</mat-icon>
           </button>
         </div>
       
-        <div class="col-5 col-md-6">
+        <div class="col-3 col-md-2" *ngIf="!isMobile">
           <mat-form-field>
-            <input matInput placeholder="検索 (本機能はまだ使用できません)" disabled>
+            <mat-label>フィルタ対象</mat-label>
+            <mat-select [(ngModel)]="filterDatasource" (selectionChange)="applyFilter(filterValue)">
+              <mat-option value="place">場所</mat-option>
+              <mat-option value="target">撮影対象</mat-option>
+              <mat-option value="all">場所と撮影対象</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-6 col-md-5">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="filterValue" placeholder="フィルタ">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
       
-        <div class="col-5 col-md-4 text-right">
+        <div class="col-4 col-md-3 text-right">
           <!--<button mat-stroked-button class="action-button">
             <mat-icon class="material-icons md-dark" color="accent" (click)="openBottomSheet(placesService.getCurrentPlace())" >build</mat-icon>
           </button>-->

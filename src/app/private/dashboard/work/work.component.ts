@@ -33,6 +33,8 @@ export class WorkComponent implements OnInit, OnDestroy {
   public targets: Target[] = [];
   public isMobile: boolean = false;
   public isLoading: boolean = false;
+  public filterDatasource: string = "place";
+  public filterValue: strings;
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
@@ -52,6 +54,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(this.platform.ANDROID || this.platform.IOS) {
       this.isMobile = true;
+      this.filterDatasource = "all";
     }
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
@@ -178,6 +181,24 @@ export class WorkComponent implements OnInit, OnDestroy {
         this.refresh();
       }
     });
+  }
+
+  public applyFilter(filterValue: string) {
+    this.filterValue = filterValue;
+    switch(this.filterDatasource) {
+      case "place":
+        this.placeDataSource.filter = filterValue.trim().toLowerCase();
+        this.targetDataSource.filter = "";
+        break;
+      case "target":
+        this.targetDataSource.filter = filterValue.trim().toLowerCase();
+        this.placeDataSource.filter = "";
+        break;
+      case "all":
+        this.placeDataSource.filter = filterValue.trim().toLowerCase();
+        this.targetDataSource.filter = filterValue.trim().toLowerCase();
+        break;
+    }
   }
 
 }

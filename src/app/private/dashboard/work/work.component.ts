@@ -34,7 +34,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   public isMobile: boolean = false;
   public isLoading: boolean = false;
   public filterDatasource: string = "place";
-  public filterValue: strings;
+  public filterValue: string;
 
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;

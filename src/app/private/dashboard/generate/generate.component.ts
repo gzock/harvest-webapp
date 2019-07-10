@@ -125,6 +125,10 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
   public onReset() {
     this.downloadUrl = "";
+    this.order.needs_include_hierarchy = false;
+    this.order.needs_make_dir = true;
+    this.order.needs_all_photos = false;
+    this.order.needs_date = false;
     this.stepper.reset();
   }
 }

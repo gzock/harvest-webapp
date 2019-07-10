@@ -108,7 +108,8 @@
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="order.template !== 'basic_2.xlsx'">
+                <!--<mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="order.template !== 'basic_2.xlsx'">-->
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="true">
                   ファイル名に撮影日時を付与(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>

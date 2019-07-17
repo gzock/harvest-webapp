@@ -6,6 +6,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { WorkComponent } from './work/work.component';
 import { GenerateComponent } from './generate/generate.component';
 import { UserComponent } from './user/user.component';
+import { CorporationComponent } from './corporation/corporation.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
         children: [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'user', component: UserComponent },
+            { path: 'corporation', component: CorporationComponent },
             { path: 'notifications', component: NotificationsComponent },
             { path: 'projects', component: ProjectsComponent },
             { path: 'work', component: WorkComponent },

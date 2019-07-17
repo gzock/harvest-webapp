@@ -46,6 +46,7 @@ import { PlacesService } from './../../shared/services/places/places.service';
 import { TargetsService } from './../../shared/services/targets/targets.service';
 import { PhotosService } from './../../shared/services/photos/photos.service';
 import { NotificationsService } from './../../shared/services/notifications/notifications.service';
+import { CorporationService } from './../../shared/services/corporation/corporation.service';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
@@ -54,6 +55,7 @@ import { AlertService } from './../../shared/services/alert/alert.service';
 import { GenerateComponent } from './generate/generate.component';
 import { GenerateService } from './../../shared/services/generate/generate.service';
 import { UserComponent } from './user/user.component';
+import { CorporationComponent } from './corporation/corporation.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
@@ -69,6 +71,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     PhotoCanvasComponent,
     GenerateComponent,
     UserComponent,
+    CorporationComponent,
     NotificationsComponent,
     ConfirmDeleteComponent,
     CautionComponent,
@@ -118,6 +121,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     PhotosService,
     AlertService,
     GenerateService,
+    CorporationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MatTableDataSource } from '@angular/material';
+
 import { AuthService } from './../../../shared/services/auth/auth.service';
 import { CorporationService } from './../../../shared/services/corporation/corporation.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+
+import { CorporationData } from './corporation-data';
 
 @Component({
   selector: 'app-user',
@@ -17,6 +21,8 @@ export class CorporationComponent implements OnInit {
   public accountType: string;
   public billing: string;
   public corpData: any;
+  public dataSource: MatTableDataSource<CorporationData>;
+  public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
 
   constructor(
     private auth: AuthService,
@@ -45,6 +51,7 @@ export class CorporationComponent implements OnInit {
       .subscribe(
         corpData => {
           this.corpData = corpData;
+          this.dataSource = corpData.users;
         }
       );
   }
@@ -74,6 +81,13 @@ export class CorporationComponent implements OnInit {
 
   private openErrorAlert(msg) {
     this.alert.openErrorAlert(msg + "に失敗しました。内容をご確認の上、再度お試しください。");
+  }
+
+  public formatDate(date: string) {
+    if(date) {
+      let _date: Date = new Date(date);
+      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
+    }
   }
 
 }

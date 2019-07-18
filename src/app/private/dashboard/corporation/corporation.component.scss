@@ -1,7 +1,7 @@
 
-.change-password, .user-info {
+.change-password, .user-info, .corporation-data {
   margin: 16px auto;
-  mat-form-field {
+  table, mat-form-field {
     width: 100%;
   }
   @media screen and (max-width:768px) { 

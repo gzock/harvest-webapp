@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
 .change-password, .user-info, .corporation-data {
   margin: 16px auto;
   table, mat-form-field {
@@ -19,6 +22,7 @@
 .spacer {
   flex: 1 1 auto;
 }
+
 mat-icon {
   padding: 0px;
   margin: 0 3px;
@@ -27,4 +31,32 @@ mat-icon {
 
 .mat-menu-item {
     outline: none
+}
+
+.display-billing-info {
+  width: 220px;
+  height: 160px;
+  margin-top: 32px;
+  padding: 8px;
+  text-align: center;
+
+  mat-card-header ::ng-deep .mat-card-header-text {
+    margin: 0px auto;
+  }
+
+  .mat-card-content {
+    margin-top: 8px;
+  }
+
+  .user-account-count-value {
+    font-size: 48px;
+  }
+
+  .biling-price-value {
+    font-size: 48px;
+  }
+
+  .biling-cycle-value {
+    font-size: 26px;
+  }
 }

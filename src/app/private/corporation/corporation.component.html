@@ -21,7 +21,55 @@
 </mat-sidenav-container>
 
 <div class="container">
-  <div class="row">
+  <div class="row" *ngIf="corpData">
+
+    <div class="col-12 col-md-4">
+      <mat-card class="display-billing-info background accent">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>people</mat-icon>
+            ユーザー数
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h1 class="user-account-count-value">
+            {{ corpData.users.length }}
+          </h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-4 col-md-4">
+      <mat-card class="display-billing-info">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>credit_card</mat-icon>
+            請求金額
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h1 class="billing-price-value">
+            &yen; {{ corpData.billing.price }}
+          </h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-4 col-md-4">
+      <mat-card class="display-billing-info">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>date_range</mat-icon>
+            請求日
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h1 class="billing-cycle-value">
+            {{ formatDate(corpData.billing.cycle) }}
+          </h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
     <div class="col-12 corporation-data">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

@@ -20,7 +20,7 @@ export class CorporationComponent implements OnInit {
   public username: string;
   public accountType: string;
   public billing: string;
-  public corpData: any;
+  public corpData: CorporationData[];
   public dataSource: MatTableDataSource<CorporationData>;
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
 

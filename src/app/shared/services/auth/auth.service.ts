@@ -83,6 +83,26 @@ export class AuthService {
       );
   }
 
+  /** 法人ユーザかどうかを判定 */
+  public isCorporationUser(): Observable<boolean> {
+    return from(Auth.currentAuthenticatedUser())
+      .pipe(
+        map(result => {
+          if(result.attributes["custom:user_type"] === "corporation") {
+            this.loggedIn.next(true);
+            return true;
+          } else {
+            this.loggedIn.next(false);
+            return false;
+          }
+        }),
+        catchError(error => {
+          this.loggedIn.next(false);
+          return of(false);
+        })
+      );
+  }
+
   /** ログインユーザ情報の取得 */
   public getData(): Observable<any> {
     return from(Auth.currentAuthenticatedUser());

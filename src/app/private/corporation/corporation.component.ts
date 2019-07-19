@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material';
 
-import { AuthService } from './../../../shared/services/auth/auth.service';
-import { CorporationService } from './../../../shared/services/corporation/corporation.service';
-import { AlertService } from './../../../shared/services/alert/alert.service';
+import { AuthService } from './../../shared/services/auth/auth.service';
+import { CorporationService } from './../../shared/services/corporation/corporation.service';
+import { AlertService } from './../../shared/services/alert/alert.service';
 
 import { CorporationData } from './corporation-data';
 
@@ -89,5 +89,10 @@ export class CorporationComponent implements OnInit {
       return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
     }
   }
+
+  public onLogout() {
+    this.auth.signOut();
+  }
+
 
 }

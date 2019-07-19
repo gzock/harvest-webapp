@@ -27,59 +27,25 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard.component';
-import { SidenavComponent } from './../../shared/components/sidenav/sidenav.component';
-import { ProjectsComponent } from './projects/projects.component';
-import { WorkComponent } from './work/work.component';
-import { CreateProjectComponent } from './../../shared/components/create-project/create-project.component';
-import { SettingProjectComponent } from './../../shared/components/setting-project/setting-project.component';
-import { JoinProjectComponent } from './../../shared/components/join-project/join-project.component';
-import { TargetActionsComponent } from './../../shared/components/target-actions/target-actions.component';
-import { PhotoCanvasComponent } from './../../shared/components/photo-canvas/photo-canvas.component';
-import { ConfirmDeleteComponent } from './../../shared/components/confirm-delete/confirm-delete.component';
-import { CautionComponent } from './../../shared/components/caution/caution.component';
-import { ImportActionComponent } from './../../shared/components/import-action/import-action.component';
-
-import { ProjectsService } from './../../shared/services/projects/projects.service';
-import { PlacesService } from './../../shared/services/places/places.service';
-import { TargetsService } from './../../shared/services/targets/targets.service';
-import { PhotosService } from './../../shared/services/photos/photos.service';
-import { NotificationsService } from './../../shared/services/notifications/notifications.service';
+import { CorporationRoutingModule } from './corporation-routing.module';
+import { CorporationService } from './../../shared/services/corporation/corporation.service';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
 import { AlertService } from './../../shared/services/alert/alert.service';
 
-import { GenerateComponent } from './generate/generate.component';
-import { GenerateService } from './../../shared/services/generate/generate.service';
-import { UserComponent } from './user/user.component';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { CorporationComponent } from './corporation.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    SidenavComponent,
-    ProjectsComponent,
-    WorkComponent,
-    CreateProjectComponent,
-    SettingProjectComponent,
-    JoinProjectComponent,
-    TargetActionsComponent,
-    PhotoCanvasComponent,
-    GenerateComponent,
-    UserComponent,
-    NotificationsComponent,
-    ConfirmDeleteComponent,
-    CautionComponent,
-    ImportActionComponent
+    CorporationComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DashboardRoutingModule,
+    CorporationRoutingModule,
     MatToolbarModule,
     MatPaginatorModule,
     MatButtonModule,
@@ -111,13 +77,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
-    ProjectsService,
-    PlacesService,
-    TargetsService,
-    NotificationsService,
-    PhotosService,
     AlertService,
-    GenerateService,
+    CorporationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -127,13 +88,6 @@ import { NotificationsComponent } from './notifications/notifications.component'
   exports: [
   ],
   entryComponents: [
-    CreateProjectComponent,
-    SettingProjectComponent,
-    JoinProjectComponent,
-    TargetActionsComponent,
-    ConfirmDeleteComponent,
-    CautionComponent,
-    ImportActionComponent
   ]
 })
-export class DashboardModule { }
+export class CorporationModule { }

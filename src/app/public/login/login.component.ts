@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-//import { routerTransition } from '../router.animations';
-//import { LoginService } from './login.service';
+
+import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject, from } from "rxjs";
+import { map, mergeMap, tap, catchError } from "rxjs/operators";
+import { concatMap, flatMap, takeLast } from 'rxjs/operators';
+
 import { LoginUser } from './login';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
@@ -32,6 +35,16 @@ export class LoginComponent implements OnInit {
             if (loggedIn) {
               this.router.navigate(['/dashboard/projects']);
             }
+            this.authService.isCorporationUser()
+              .subscribe(
+                result => {
+                  if(result) { 
+                    this.router.navigate(['/corporation']);
+                  } else {
+                    this.router.navigate(['/dashboard/projects']);
+                  }
+                }
+              ) 
           }
         );
       this.email = localStorage.getItem('email');
@@ -42,6 +55,18 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('email', email);
       }
       this.authService.signIn(email, password)
+        .pipe(
+          tap(
+            result => {
+              this.authService.isCorporationUser()
+                .subscribe(
+                  result => {
+                    if(result) this.router.navigate(['/corporation']);
+                  }
+                ) 
+            }
+          )
+        )
         .subscribe(
           result => {
             this.router.navigate(['/dashboard/projects']);

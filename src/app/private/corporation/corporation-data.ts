@@ -1,4 +1,4 @@
-import { UserData } from './../user/user-data';
+import { UserData } from './../dashboard/user/user-data';
 
 export interface CorporationData {
   users: [ UserData ]

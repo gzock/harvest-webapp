@@ -1,3 +1,25 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="sidenav.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+  
+      <span class="spacer"></span>
+
+      <mat-icon class="material-icons md-light" [matMenuTriggerFor]="menu">account_circle</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onLogout()">ログアウト</button>
+      </mat-menu>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
 <div class="container">
   <div class="row">
 

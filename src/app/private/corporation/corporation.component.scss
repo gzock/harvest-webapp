@@ -64,3 +64,23 @@ mat-icon {
     font-size: 26px;
   }
 }
+
+.users-action-menu {
+  padding: 0px 12px;
+  margin: 18px auto;
+  max-width: 90%;
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+}
+
+.action-button {
+  min-width: 42px;
+  max-width: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  padding: 0px;
+  margin: 0px 6px;
+}

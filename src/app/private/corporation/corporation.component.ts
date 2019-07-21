@@ -6,6 +6,7 @@ import { AuthService } from './../../shared/services/auth/auth.service';
 import { CorporationService } from './../../shared/services/corporation/corporation.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
 
+import { UserData } from './../dashboard/user/user-data';
 import { CorporationData } from './corporation-data';
 
 @Component({
@@ -21,8 +22,9 @@ export class CorporationComponent implements OnInit {
   public accountType: string;
   public billing: string;
   public corpData: CorporationData[];
-  public dataSource: MatTableDataSource<CorporationData>;
+  public dataSource: MatTableDataSource<UserData>;
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
+  public filterValue: string;
 
   constructor(
     private auth: AuthService,
@@ -51,7 +53,7 @@ export class CorporationComponent implements OnInit {
       .subscribe(
         corpData => {
           this.corpData = corpData;
-          this.dataSource = corpData.users;
+          this.dataSource = new MatTableDataSource(corpData.users);
         }
       );
   }
@@ -94,5 +96,8 @@ export class CorporationComponent implements OnInit {
     this.auth.signOut();
   }
 
+  public applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim();
+  }
 
 }

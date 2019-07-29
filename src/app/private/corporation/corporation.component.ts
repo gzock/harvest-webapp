@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
 
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { CorporationService } from './../../shared/services/corporation/corporation.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
+
+import { CreateUserComponent } from './../../shared/components/create-user/create-user.component';
 
 import { UserData } from './../dashboard/user/user-data';
 import { CorporationData } from './corporation-data';
@@ -27,6 +30,7 @@ export class CorporationComponent implements OnInit {
   public filterValue: string;
 
   constructor(
+    public dialog: MatDialog,
     private auth: AuthService,
     private corp: CorporationService,
     private alert: AlertService
@@ -58,6 +62,17 @@ export class CorporationComponent implements OnInit {
       );
   }
 
+  openCreateUserDialog() {
+    const dialogRef = this.dialog.open(CreateUserComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log("Dialog result: " + JSON.stringify(result));
+      if(result) {
+        this.getCorporationData();
+      }
+    });
+  }
+
   public onChangePassword(oldPassword: string, newPassword: string) {
     this.auth.changePassword(oldPassword, newPassword)
       .subscribe(
@@ -73,6 +88,15 @@ export class CorporationComponent implements OnInit {
         error => {
           this.openErrorAlert("パスワードの変更");
           console.log(error);
+        }
+      );
+  }
+
+  public onCreateUser(username: string, kana_username: string, email: string, password: string) {
+    this.corp.createUser(username, kana_username, email, password)
+      .subscribe(
+        res => {
+          console.log(res)
         }
       );
   }

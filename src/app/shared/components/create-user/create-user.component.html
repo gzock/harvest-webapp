@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>新規ユーザー作成</h1>
+
+<div mat-dialog-content class="create-user-content">
+  <form #formCheck="ngForm">
+    <section class="example-section">
+      <mat-form-field class="input-email">
+        <input type="email" matInput name="input-email" placeholder="メールアドレス" [(ngModel)]="userData.email" pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
+        <mat-hint>ユーザーIDとしても使用されます</mat-hint>
+      </mat-form-field>
+    </section>
+    <section class="example-section">
+      <mat-form-field>
+        <input type="text" matInput name="input-last-name" placeholder="姓" [(ngModel)]="userData.lastName" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput name="input-first-name" placeholder="名" [(ngModel)]="userData.firstName" required>
+      </mat-form-field>
+    </section>
+    <section class="example-section">
+      <mat-form-field>
+        <input type="text" matInput name="input-kana-last-name" placeholder="姓(カナ)" [(ngModel)]="userData.kanaLastName" pattern="^[ァ-ヶー　]+$" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput name="input-kana-first-name" placeholder="名(カナ)" [(ngModel)]="userData.kanaFirstName" pattern="^[ァ-ヶー　]+$" required>
+      </mat-form-field>
+    </section>
+    <section class="example-section">
+      <mat-form-field>
+        <input type="password" matInput name="input-password" placeholder="パスワード" [(ngModel)]="userData.password" pattern="^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}$" required>
+        <mat-hint>英小文字/英大文字/数字それぞれ1文字を含む8文字以上</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword" pattern="^{{ userData.password }}$" required>
+      </mat-form-field>
+    </section>
+  </form>
+  <p class="text-danger small" *ngIf="errMsg">
+    {{ errMsg }}
+  </p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="primary" class="btn-block" (click)="onCreateUser(userData)" [disabled]="formCheck.invalid">作成</button>
+</div>

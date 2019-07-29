@@ -88,9 +88,9 @@
             </div>
           
             <div class="col-12 col-md-3 text-right">
-              <button mat-stroked-button class="action-button" [disabled]="true">
+              <button mat-stroked-button class="action-button" (click)="openCreateUserDialog()">
                 <mat-icon class="material-icons md-dark" color="accent" 
-                    matTooltip="ユーザーを新たに追加する(まだ使用できません)" 
+                    matTooltip="ユーザーを新たに追加する" 
                     [matTooltipPosition]="'above'"
                 >
                   person_add

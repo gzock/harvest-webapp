@@ -34,11 +34,14 @@ import { AuthService } from './../../shared/services/auth/auth.service';
 import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
 import { AlertService } from './../../shared/services/alert/alert.service';
 
+import { CreateUserComponent } from './../../shared/components/create-user/create-user.component';
+
 import { CorporationComponent } from './corporation.component';
 
 @NgModule({
   declarations: [
-    CorporationComponent
+    CorporationComponent,
+    CreateUserComponent
   ],
   imports: [
     CommonModule,
@@ -88,6 +91,7 @@ import { CorporationComponent } from './corporation.component';
   exports: [
   ],
   entryComponents: [
+    CreateUserComponent
   ]
 })
 export class CorporationModule { }

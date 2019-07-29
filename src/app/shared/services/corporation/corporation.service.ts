@@ -20,4 +20,14 @@ export class CorporationService {
     return this.http.get(this.corporationUrl)
   }
 
+  public createUser(userName: string, kanaUserName: string, email: string, password: string): Observable<any> {
+    const body = {
+      "username": userName,
+      "kana_username": kanaUserName,
+      "email": email,
+      "password": password
+    }
+    return this.http.post(this.corporationUrl + "/users", body);
+  }
+
 }

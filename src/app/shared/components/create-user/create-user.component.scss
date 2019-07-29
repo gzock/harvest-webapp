@@ -1,0 +1,52 @@
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 999px white inset !important;
+  -webkit-box-shadow: 0 0 0px 999px white inset !important;
+}
+
+.mat-form-field {
+  margin: 6px;
+}
+
+.create-user-content {
+  height: 360px;
+}
+
+//::ng-deep .mat-card-header-text {
+//  width: 70%;
+//}
+//
+//.mat-card-actions {
+//  text-align: center;
+//}
+//
+//@media screen and (max-width:768px) { 
+//  .signup-contents {
+//    margin: 2.5vh auto;
+//  }
+//}
+//
+//@media screen and (min-width:769px) {
+//  .signup-contents {
+//    max-width: 70vw;
+//    max-height: 80vh;
+//    margin: 10vh auto;
+//  }
+//}
+//  
+//@media screen and (min-width:1000px) {
+//  .signup-contents {
+//    max-width: 60vw;
+//    max-height: 80vh;
+//    margin: 10vh auto;
+//  }
+//}
+//
+//.input-email {
+//  //width: 200px;
+//}
+//
+//.to-login {
+//  text-align: right;
+//  margin: 3px;
+//  width: 50%;
+//}

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
+import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
@@ -29,7 +32,13 @@ export class CorporationComponent implements OnInit {
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
   public filterValue: string;
 
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  .pipe(
+    map(result => result.matches)
+  );
+
   constructor(
+    private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
     private auth: AuthService,
     private corp: CorporationService,

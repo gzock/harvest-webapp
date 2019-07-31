@@ -39,7 +39,7 @@
       </mat-card>
     </div>
 
-    <div class="col-4 col-md-4">
+    <div class="col-12 col-md-4">
       <mat-card class="display-billing-info">
         <mat-card-header>
           <mat-card-title>
@@ -52,20 +52,25 @@
             &yen; {{ corpData.billing.price }}
           </h1>
         </mat-card-content>
+        <mat-card-footer>
+          <p class="text-danger">
+            {{ corpData.billing.status === 'pending' ? "未確定" : "確定"}}
+          </p>
+        </mat-card-footer>
       </mat-card>
     </div>
 
-    <div class="col-4 col-md-4">
+    <div class="col-12 col-md-4">
       <mat-card class="display-billing-info">
         <mat-card-header>
           <mat-card-title>
             <mat-icon>date_range</mat-icon>
-            請求日
+            締め日
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <h1 class="billing-cycle-value">
-            {{ formatDate(corpData.billing.cycle) }}
+            {{ formatDate(corpData.billing.closed_on) }}
           </h1>
         </mat-card-content>
       </mat-card>
@@ -87,7 +92,7 @@
               </mat-form-field>
             </div>
           
-            <div class="col-12 col-md-3 text-right">
+            <div class="col-12 col-md-3 text-center">
               <button mat-stroked-button class="action-button" (click)="openCreateUserDialog()">
                 <mat-icon class="material-icons md-dark" color="accent" 
                     matTooltip="ユーザーを新たに追加する" 
@@ -161,29 +166,72 @@
 
         <div class="col-12 user-info">
           <mat-card class="example-card">
+            <mat-card-title>
+              <h4>法人情報</h4>
+            </mat-card-title>
             <mat-card-content>
               <section class="example-section">
                 <mat-form-field>
-                  <input type="email" matInput placeholder="登録メールアドレス" [(ngModel)]="email" disabled>
+                  <input type="email" matInput placeholder="メールアドレス" [(ngModel)]="email" disabled>
                 </mat-form-field>
               </section>
               <section class="example-section">
                 <mat-form-field>
-                  <input type="text" matInput placeholder="ユーザー名" [(ngModel)]="username" disabled>
-                </mat-form-field>
-              </section>
-              <section class="example-section">
-                <mat-form-field>
-                  <input type="accountType" matInput placeholder="アカウントタイプ" [(ngModel)]="accountType" disabled>
-                </mat-form-field>
-              </section>
-              <section class="example-section">
-                <mat-form-field>
-                  <input type="text" matInput placeholder="お支払い方法" [(ngModel)]="billing" disabled>
+                  <input type="text" matInput placeholder="法人名" [(ngModel)]="username" disabled>
                 </mat-form-field>
               </section>
             </mat-card-content>
           </mat-card>
+        </div>
+
+        <div class="col-12 user-info">
+          <mat-card class="example-card">
+            <mat-card-title>
+              <h4>請求先情報</h4>
+            </mat-card-title>
+            <mat-card-content>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="accountType" matInput placeholder="郵便番号" [(ngModel)]="corpData.billing.destination.postal_code" disabled>
+                </mat-form-field>
+              </section>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="accountType" matInput placeholder="住所" [(ngModel)]="corpData.billing.destination.address" disabled>
+                </mat-form-field>
+              </section>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="accountType" matInput placeholder="部署" [(ngModel)]="corpData.billing.destination.department" disabled>
+                </mat-form-field>
+              </section>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="accountType" matInput placeholder="担当者" [(ngModel)]="corpData.billing.destination.contact" disabled>
+                </mat-form-field>
+              </section>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="accountType" matInput placeholder="電話番号" [(ngModel)]="corpData.billing.destination.tel" disabled>
+                </mat-form-field>
+              </section>
+              <section class="example-section">
+                <mat-form-field>
+                  <input type="text" matInput placeholder="お支払い方法" [(ngModel)]="bill_type" disabled>
+                </mat-form-field>
+              </section>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          請求履歴
+        </ng-template>
+
+        <div class="col-12 text-center">
+          <p class="text-danger" *ngIf="corpData.billing.history.length == 0">請求履歴は存在しません</p>
         </div>
       </mat-tab>
 

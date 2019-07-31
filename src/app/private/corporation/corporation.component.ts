@@ -23,8 +23,8 @@ export class CorporationComponent implements OnInit {
   public email: string;
   public username: string;
   public accountType: string;
-  public billing: string;
-  public corpData: CorporationData[];
+  public bill_type: string = "請求書払い";
+  public corpData: CorporationData;
   public dataSource: MatTableDataSource<UserData>;
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
   public filterValue: string;

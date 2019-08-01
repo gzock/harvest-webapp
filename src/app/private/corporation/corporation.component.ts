@@ -31,6 +31,7 @@ export class CorporationComponent implements OnInit {
   public dataSource: MatTableDataSource<UserData>;
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
   public filterValue: string;
+  public isLoading: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -62,11 +63,17 @@ export class CorporationComponent implements OnInit {
   }
 
   public getCorporationData() {
+    this.isLoading = true;
     this.corp.show()
       .subscribe(
         corpData => {
           this.corpData = corpData;
           this.dataSource = new MatTableDataSource(corpData.users);
+          this.isLoading = false;
+        },
+        err => {
+          this.isLoading = false;
+          this.openErrorAlert("法人アカウント情報の取得に失敗しました。");
         }
       );
   }
@@ -115,7 +122,7 @@ export class CorporationComponent implements OnInit {
   }
 
   private openErrorAlert(msg) {
-    this.alert.openErrorAlert(msg + "に失敗しました。内容をご確認の上、再度お試しください。");
+    this.alert.openErrorAlert(msg);
   }
 
   public formatDate(date: string) {

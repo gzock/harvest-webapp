@@ -21,6 +21,7 @@
 </mat-sidenav-container>
 
 <div class="container">
+  <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
   <div class="row" *ngIf="corpData">
 
     <div class="col-12 col-md-4">
@@ -40,7 +41,10 @@
     </div>
 
     <div class="col-12 col-md-4">
-      <mat-card class="display-billing-info">
+      <mat-card class="display-billing-info"
+          matTooltip="内訳: 500 * ユーザー数 * 消費税" 
+          [matTooltipPosition]="'above'"
+      >
         <mat-card-header>
           <mat-card-title>
             <mat-icon>credit_card</mat-icon>

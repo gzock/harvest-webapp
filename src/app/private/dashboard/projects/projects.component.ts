@@ -5,6 +5,7 @@ import { filter, map, tap, catchError } from "rxjs/operators";
 import { Platform } from '@angular/cdk/platform';
 import { MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
@@ -33,6 +34,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public permissions: Permissions = {} as Permissions;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private platform: Platform,
@@ -55,6 +57,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.projects = projects;
             this.dataSource = new MatTableDataSource(this.projects);
             this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
             this.currentProject = this.projectsService.getCurrentProject();
             this.permissions = this.projectsService.getCurrentPermissions();
             this.isLoading = false;
@@ -99,6 +102,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   public applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   public onSelectProject(project: Project) {

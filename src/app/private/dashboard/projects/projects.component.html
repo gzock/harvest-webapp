@@ -41,7 +41,7 @@
 
     <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
   
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     
       <!-- project_id Column -->
       <ng-container matColumnDef="project_id">
@@ -59,7 +59,7 @@
     
       <!-- name Column-->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> プロジェクト名 </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> プロジェクト名 </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
     
@@ -82,6 +82,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator class="projects-paginator mat-elevation-z8" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
 </div>  

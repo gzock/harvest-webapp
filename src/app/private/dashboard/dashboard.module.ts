@@ -24,6 +24,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -82,6 +83,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     DashboardRoutingModule,
     MatToolbarModule,
     MatPaginatorModule,
+    MatSortModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,

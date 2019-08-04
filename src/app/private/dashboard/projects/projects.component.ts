@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
 import { Platform } from '@angular/cdk/platform';
 import { MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
 import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
@@ -31,6 +32,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public permissions: Permissions = {} as Permissions;
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   constructor(
     private platform: Platform,
     public dialog: MatDialog,
@@ -51,6 +54,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           if(projects instanceof Array && projects.length) {
             this.projects = projects;
             this.dataSource = new MatTableDataSource(this.projects);
+            this.dataSource.paginator = this.paginator;
             this.currentProject = this.projectsService.getCurrentProject();
             this.permissions = this.projectsService.getCurrentPermissions();
             this.isLoading = false;

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
 import { filter, map, tap, catchError } from "rxjs/operators";
 
+import { Platform } from '@angular/cdk/platform';
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
@@ -21,20 +22,28 @@ import { Permissions } from './../../../shared/services/projects/action-permissi
 export class ProjectsComponent implements OnInit, OnDestroy {
   public projects: Project[] = [];
   public currentProject: Project;
+  public displayedColumns: string[] = ['project_id', 'name', 'start_on', 'complete_on'];
   public dataSource: MatTableDataSource<Project>;
   public filterStatus: string;
   private joinedProjectsSubscription: Subscription;
   private currentProjectSubscription: Subscription;
+  public isMobile: boolean = false;
   public isLoading: boolean = false;
   public permissions: Permissions = {} as Permissions;
 
   constructor(
+    private platform: Platform,
     public dialog: MatDialog,
     public projectsService: ProjectsService,
     public alert: AlertService
   ) { }
 
   ngOnInit() {
+    if(this.platform.ANDROID || this.platform.IOS) {
+      this.isMobile = true;
+      this.displayedColumns.pop();
+      this.displayedColumns.pop();
+    }
     this.isLoading = true;
     this.joinedProjectsSubscription = this.projectsService.joinedProjectsSubject
       .subscribe(
@@ -83,7 +92,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayedColumns: string[] = ['project_id', 'name', 'start_on', 'complete_on'];
 
   public applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

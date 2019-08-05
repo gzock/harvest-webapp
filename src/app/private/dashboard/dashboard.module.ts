@@ -23,7 +23,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntlJa } from './../../shared/classes/mat-paginator-intl-ja/mat-paginator-intl-ja';
 import { MatSortModule } from '@angular/material/sort';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -112,7 +113,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     NgbModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
+    { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa },
     ProjectsService,
     PlacesService,
     TargetsService,

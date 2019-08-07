@@ -174,7 +174,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   }
 
   openImportActionDialog() {
-    const dialogRef = this.dialog.open(ImportActionComponent, { width: '600px' });
+    const dialogRef = this.dialog.open(ImportActionComponent, { disableClose: true, width: '600px' });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {

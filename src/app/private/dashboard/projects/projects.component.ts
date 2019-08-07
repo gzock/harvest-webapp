@@ -133,7 +133,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   openCreateProjectDialog() {
-    const dialogRef = this.dialog.open(CreateProjectComponent);
+    const dialogRef = this.dialog.open(CreateProjectComponent, { disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       //console.log("Dialog result: " + JSON.stringify(result));
@@ -143,7 +143,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     });
   }
   openSettingProjectDialog() {
-    const dialogRef = this.dialog.open(SettingProjectComponent, { width: "550px" });
+    const dialogRef = this.dialog.open(SettingProjectComponent, { disableClose: true, width: "550px" });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -154,7 +154,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   openJoinProjectDialog() {
-    const dialogRef = this.dialog.open(JoinProjectComponent);
+    const dialogRef = this.dialog.open(JoinProjectComponent, { disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
+
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
@@ -19,6 +21,7 @@ export class ImportActionComponent implements OnInit {
   private selectedFile: any;
   public fileSize: number;
   public isImporting: boolean = false;
+  private errorCode: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ImportActionComponent>,
@@ -47,6 +50,7 @@ export class ImportActionComponent implements OnInit {
   }
 
   private onImportExecute(csv) {
+    this.errMsg = "";
     this.projectsService.import(csv)
       .subscribe(
          response => {
@@ -59,6 +63,9 @@ export class ImportActionComponent implements OnInit {
             console.log("error: " + err);
             if(err.error.error) {
               this.errMsg = "エラー: " + err.error.error.message;
+              if(700 <= err.error.error.code && err.error.error.code <= 799) {
+                this.errorCode = err.error.error.code - 701;
+              }
             } else {
               this.errMsg = "エラー: タイムアウト";
             }

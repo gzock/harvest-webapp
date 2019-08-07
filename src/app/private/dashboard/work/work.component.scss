@@ -21,6 +21,21 @@ table {
   }
 }
 
+.display-breadcrumb {
+  margin: 6px !important;
+  padding-left: 6px;
+  text-align: left;
+  overflow: auto;
+
+  ::ng-deep mat-chip-list .mat-chip-list-wrapper {
+    flex-wrap: nowrap !important;
+  }
+  
+  ::ng-deep mat-chip {
+    flex-shrink: 0 !important;
+  }
+}
+
 .init-action {
   margin: 16px 0px;
   button {
@@ -64,3 +79,4 @@ table {
 .create-fab:hover {
   box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
 }
+

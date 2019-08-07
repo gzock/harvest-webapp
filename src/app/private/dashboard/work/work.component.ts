@@ -39,6 +39,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   public placeDataSource: MatTableDataSource<Place>;
   public targetDataSource:MatTableDataSource<Target>;
   public permissions: Permissions = {} as Permissions;
+  public placeHierarchy: any = [];
 
   constructor(
     private bottomSheet: MatBottomSheet,
@@ -130,6 +131,7 @@ export class WorkComponent implements OnInit, OnDestroy {
            
            this.currentProject = this.projectsService.getCurrentProject();
            this.placesService.setProjectId(this.currentProject.project_id);
+           this.getPlaceHierarchy();
          },
          err => {
            this.isLoading = false;
@@ -199,6 +201,16 @@ export class WorkComponent implements OnInit, OnDestroy {
         this.targetDataSource.filter = filterValue.trim().toLowerCase();
         break;
     }
+  }
+
+  public getPlaceHierarchy() {
+    let places = [];
+    for(let place of this.placesService.placeHistory) {
+      places.push(place.name);
+    }
+    places.shift();
+    console.log(places);
+    this.placeHierarchy = places;
   }
 
 }

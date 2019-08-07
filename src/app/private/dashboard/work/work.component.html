@@ -52,6 +52,17 @@
           </button>
         </div>
       </div>
+
+      <mat-divider *ngIf="placesService.placeHistory.length > 1"></mat-divider>
+
+      <div class="col-12 display-breadcrumb" *ngIf="placesService.placeHistory.length > 1">
+        <mat-chip-list class="">
+          <mat-chip class="" *ngFor="let placeName of placeHierarchy">
+            {{ placeName }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
     </mat-card>
 
     <div class="loading" *ngIf="isLoading">

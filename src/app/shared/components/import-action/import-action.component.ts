@@ -21,7 +21,7 @@ export class ImportActionComponent implements OnInit {
   private selectedFile: any;
   public fileSize: number;
   public isImporting: boolean = false;
-  private errorCode: number = 0;
+  public errorCode: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ImportActionComponent>,

@@ -209,7 +209,6 @@ export class WorkComponent implements OnInit, OnDestroy {
       places.push(place.name);
     }
     places.shift();
-    console.log(places);
     this.placeHierarchy = places;
   }
 

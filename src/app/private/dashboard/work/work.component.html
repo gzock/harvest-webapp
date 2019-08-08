@@ -55,9 +55,12 @@
 
       <mat-divider *ngIf="placesService.placeHistory.length > 1"></mat-divider>
 
-      <div class="col-12 display-breadcrumb" *ngIf="placesService.placeHistory.length > 1">
+      <div class="col-12 display-breadcrumb" *ngIf="placesService.placeHistory.length > 1" #breadcrumb [scrollLeft]="breadcrumb.scrollWidth">
         <mat-chip-list class="">
-          <mat-chip class="" *ngFor="let placeName of placeHierarchy">
+          <mat-chip class="" *ngFor="let placeName of placeHierarchy; let i = index" 
+            [selected]="i == placeHierarchy.length - 1 ? 'true' : 'false'"
+            [color]="i == placeHierarchy.length - 1 ? 'primary' : ''"
+          >
             {{ placeName }}
           </mat-chip>
         </mat-chip-list>

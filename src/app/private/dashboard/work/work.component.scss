@@ -29,6 +29,7 @@ table {
 
   ::ng-deep mat-chip-list .mat-chip-list-wrapper {
     flex-wrap: nowrap !important;
+    margin: 0px;
   }
   
   ::ng-deep mat-chip {

@@ -55,6 +55,8 @@ import { AlertService } from './../../shared/services/alert/alert.service';
 
 import { GenerateComponent } from './generate/generate.component';
 import { GenerateService } from './../../shared/services/generate/generate.service';
+import { TemplateService } from './../../shared/services/template/template.service';
+
 import { UserComponent } from './user/user.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
@@ -122,6 +124,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     PhotosService,
     AlertService,
     GenerateService,
+    TemplateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -8,10 +8,12 @@ import { MatVerticalStepper } from '@angular/material';
 import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { GenerateService } from './../../../shared/services/generate/generate.service';
+import { TemplateService } from './../../../shared/services/template/template.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
 
 import { Order } from './order';
 import { Template } from './template';
+import { TemplateConfig } from './template-config';
 import { Generated } from './generated';
 import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 
@@ -52,6 +54,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   constructor(
     public projectsService: ProjectsService,
     public generateService: GenerateService,
+    public templateService: TemplateService,
     private alert: AlertService,
     private _formBuilder: FormBuilder
   ) { }
@@ -79,6 +82,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
     // temp
     this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
+    this.onListTemplates();
   }
 
   ngOnDestroy() {
@@ -130,5 +134,19 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.order.needs_all_photos = false;
     this.order.needs_date = false;
     this.stepper.reset();
+  }
+
+  public onListTemplates() {
+    const projectId = this.currentProject.project_id;
+    this.templateService.list(projectId)
+      .subscribe(
+        templates => {
+          console.log(templates);
+        },
+        err => {
+           console.log("error: " + err);
+           this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
+        }
+      );
   }
 }

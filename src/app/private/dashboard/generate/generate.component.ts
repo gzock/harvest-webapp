@@ -34,6 +34,10 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public generateType: string;
   public checked: any;
   public permissions: Permissions = {} as Permissions;
+  public defaultTemplates: TemplateConfig;
+  public userTemplates: TemplateConfig;
+  public projectTemplates: TemplateConfig;
+  public isUploading: boolean = false;
 
   public order: Order = {
     "type": "",
@@ -142,11 +146,62 @@ export class GenerateComponent implements OnInit, OnDestroy {
       .subscribe(
         templates => {
           console.log(templates);
+          //this.defaultTemplates = templates.default;
+          //this.userTemplates = templates.user;
+          //this.projectTemplates = templates.project;
         },
         err => {
            console.log("error: " + err);
            this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
         }
       );
+  }
+
+  private onInputExcelTemplate(file): Observable<any> {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    return Observable.create(observer => {
+      reader.onload = data => {
+        observer.next(reader.result.toString());
+      }
+      reader.onerror = error => observer.error(error);
+    });
+  }
+
+  public onFileSelected(event) {
+    if(event.target.files) {
+      this.onInputExcelTemplate(event.target.files[0])
+        .subscribe(
+          data => {
+            this.isUploading = true;
+            this.onUpload( data.split(",")[1] );
+          }
+        );
+    }
+  }
+
+  private onUpload(file) {
+    let projectId = this.currentProject.project_id;
+    this.templateService.create(projectId, file)
+      .subscribe(
+         response => {
+            this.isUploading = false;
+            this.alert.openSuccessAlert("インポートに成功しました。");
+         },
+         err => {
+            this.isUploading = false;
+            console.log("error: " + err);
+            //if(err.error.error) {
+            //  this.errMsg = "エラー: " + err.error.error.message;
+            //  if(700 <= err.error.error.code && err.error.error.code <= 799) {
+            //    this.errorCode = err.error.error.code - 701;
+            //  }
+            //} else {
+            //  this.errMsg = "エラー: タイムアウト";
+            //}
+            this.alert.openErrorAlert("アップロードに失敗しました。");
+         }
+      )
   }
 }

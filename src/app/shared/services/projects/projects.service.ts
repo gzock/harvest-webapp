@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
+import { timeout } from 'rxjs/operators';
 
 import { Project } from "./../../../private/dashboard/projects/project";
 import { Permissions } from "./action-permissions/permissions/permissions";
@@ -14,6 +15,7 @@ import { ActionPermissions } from "./action-permissions/action-permissions";
 })
 export class ProjectsService {
 
+  private TIMEOUT: number = 150;
   private projectUrl = environment.base_url + '/projects';  // URL to web api
 
   private userId: string;
@@ -132,7 +134,7 @@ export class ProjectsService {
 
   public import(csv): Observable<any> {
     if(this.currentProject) {
-      return this.http.post(this.projectUrl + "/" + this.currentProject.project_id + "/import", { "csv": csv });
+      return this.http.post(this.projectUrl + "/" + this.currentProject.project_id + "/import", { "csv": csv }).pipe(timeout(this.TIMEOUT * 1000));
     }
   }
 

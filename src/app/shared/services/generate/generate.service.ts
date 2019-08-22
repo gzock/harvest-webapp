@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
 import { map, mergeMap, tap, catchError } from "rxjs/operators";
+import { timeout } from 'rxjs/operators';
 
 import { Order } from './../../../private/dashboard/generate/order';
 
@@ -11,6 +12,7 @@ import { Order } from './../../../private/dashboard/generate/order';
   providedIn: 'root'
 })
 export class GenerateService {
+  private TIMEOUT: number = 150;
   private generateUrl = environment.base_url + "/projects/";  // URL to web api
   private projectId: string;
 
@@ -18,7 +20,7 @@ export class GenerateService {
 
   public generateZip(projectId: string, order: Order) {
     let _generateUrl = this.generateUrl + projectId + "/generate/zip";
-    return this.http.post(_generateUrl, order);
+    return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
   }
 
   public generateExcelDoc(projectId: string, order: Order) {
@@ -26,7 +28,7 @@ export class GenerateService {
     //let needCustomTemplate = false;
 
     let _generateUrl = this.generateUrl + projectId + "/generate/excel-doc";
-    return this.http.post(_generateUrl, order);
+    return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
   }
 
   public generate(projectId: string, order: Order) {

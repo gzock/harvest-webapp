@@ -13,7 +13,6 @@ import { TemplateService } from './../../../shared/services/template/template.se
 import { AlertService } from './../../../shared/services/alert/alert.service';
 
 import { Order } from './order';
-import {DownloadUrlObject } from './download-url-object';
 import { Template } from './template';
 import { TemplateConfig } from './template-config';
 import { Generated } from './generated';
@@ -245,7 +244,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     let projectId = this.currentProject.project_id;
     this.generateService.generateDownloadUrl(projectId, filename)
       .subscribe(
-         (res: DownloadUrlObject) => {
+         (res: Generated) => {
            if(res.download_url) {
              console.log(res)
              let a = document.createElement('a');

@@ -248,7 +248,6 @@ export class GenerateComponent implements OnInit, OnDestroy {
       .subscribe(
          (res: Generated) => {
            if(res.download_url) {
-             console.log(res)
              let a = document.createElement('a');
              document.body.appendChild(a);
              a.setAttribute('style', 'display: none');

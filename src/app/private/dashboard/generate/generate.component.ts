@@ -226,7 +226,6 @@ export class GenerateComponent implements OnInit, OnDestroy {
             this.generateService.list(projectId)
               .subscribe(
                  res => {
-                   console.log(res)
                    this.generatedFiles = res;
                    //this.isProgress = false;
                    //this.downloadUrl = response.download_url;

@@ -102,6 +102,12 @@
               </section>
 
               <section class="example-section">
+                <mat-form-field>
+                  <input matInput placeholder="タイトル" [(ngModel)]="order.title" required>
+                </mat-form-field>
+              </section>
+
+              <section class="example-section">
                 <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="order.template !== 'basic_2.xlsx'">
                   場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>

@@ -43,6 +43,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public generatedFiles: any;
 
   public order: Order = {
+    "title": "",
     "type": "",
     "template": "basic_1.xlsx",
     "by_name": true,
@@ -74,6 +75,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
           if(project) {
             this.currentProject = project;
             this.permissions = this.projectsService.getCurrentPermissions();
+            this.order.title = project.name;
           }
         },
         error => {

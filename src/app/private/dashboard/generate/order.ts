@@ -1,4 +1,5 @@
 export interface Order {
+  title: string;
   type: string;
   template: string;
   by_name: boolean;

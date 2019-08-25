@@ -23,6 +23,11 @@ export class GenerateService {
     return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
   }
 
+  public list(projectId: string) {
+    let _generateUrl = this.generateUrl + projectId + "/generate";
+    return this.http.get(_generateUrl);
+  }
+
   public generateExcelDoc(projectId: string, order: Order) {
     //let template = order.template;
     //let needCustomTemplate = false;
@@ -38,5 +43,10 @@ export class GenerateService {
       case 'excel':
         return this.generateExcelDoc(projectId, order)
     }
+  }
+
+  public generateDownloadUrl(projectId: string, generatedFileName) {
+    let _generateUrl = this.generateUrl + projectId + "/generate/" + generatedFileName + "/download";
+    return this.http.put(_generateUrl, {});
   }
 }

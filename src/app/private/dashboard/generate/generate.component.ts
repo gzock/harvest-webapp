@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
-import { filter, map, tap, catchError } from "rxjs/operators";
+import { Observable, of, merge, throwError, timer, Subject, Subscription, TimeoutError } from "rxjs";
+import { timeout, filter, map, concatMap, tap, catchError } from "rxjs/operators";
 
 import { MatVerticalStepper } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
@@ -12,10 +13,12 @@ import { TemplateService } from './../../../shared/services/template/template.se
 import { AlertService } from './../../../shared/services/alert/alert.service';
 
 import { Order } from './order';
+import {DownloadUrlObject } from './download-url-object';
 import { Template } from './template';
 import { TemplateConfig } from './template-config';
 import { Generated } from './generated';
 import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
+import { CautionComponent } from './../../../shared/components/caution/caution.component';
 
 @Component({
   selector: 'app-generate',
@@ -24,7 +27,7 @@ import { Permissions } from './../../../shared/services/projects/action-permissi
 })
 export class GenerateComponent implements OnInit, OnDestroy {
   public currentProject: Project;
-  private currentProjectSubscription: Subscription;
+  private subscriptions: Subscription[] = [];
   public downloadUrl: string;
   public isProgress: boolean = false;
 
@@ -38,6 +41,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public userTemplates: TemplateConfig;
   public projectTemplates: TemplateConfig;
   public isUploading: boolean = false;
+  public generatedFiles: any;
 
   public order: Order = {
     "type": "",
@@ -60,11 +64,12 @@ export class GenerateComponent implements OnInit, OnDestroy {
     public generateService: GenerateService,
     public templateService: TemplateService,
     private alert: AlertService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.currentProjectSubscription = this.projectsService.currentProjectSubject
+    this.subscriptions.push(this.projectsService.currentProjectSubject
       .subscribe(
         project => {
           if(project) {
@@ -75,7 +80,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
         error => {
           console.log(error);
         }
-      );
+      )
+    )
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -87,11 +93,12 @@ export class GenerateComponent implements OnInit, OnDestroy {
     // temp
     this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
     this.onListTemplates();
+    this.onListGeneratedFiles();
   }
 
   ngOnDestroy() {
-    if (this.currentProjectSubscription) {
-      this.currentProjectSubscription.unsubscribe();
+    for(const subscription of this.subscriptions) {
+      subscription.unsubscribe();
     }
   }
 
@@ -101,6 +108,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
     this.generateService.generate(projectId, order)
       .pipe(
+        timeout(500),
          catchError(error => throwError(error))
       )
       .subscribe(
@@ -109,9 +117,13 @@ export class GenerateComponent implements OnInit, OnDestroy {
            this.downloadUrl = response.download_url;
          },
          err => {
+           if(err instanceof TimeoutError) {
+             this.onProcessingTooLongCaution();
+           } else {
+             this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
+           }
            this.isProgress = false;
            console.log("error: " + err);
-           this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
          }
       );
   }
@@ -203,5 +215,66 @@ export class GenerateComponent implements OnInit, OnDestroy {
             this.alert.openErrorAlert("アップロードに失敗しました。");
          }
       )
+  }
+
+  public onListGeneratedFiles() {
+    let projectId = this.currentProject.project_id;
+    this.subscriptions.push(timer(3000, 30000)
+      .subscribe(
+          () => {
+            this.generateService.list(projectId)
+              .subscribe(
+                 res => {
+                   console.log(res)
+                   this.generatedFiles = res;
+                   //this.isProgress = false;
+                   //this.downloadUrl = response.download_url;
+                 },
+                 err => {
+                   this.isProgress = false;
+                   console.log("error: " + err);
+                   this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
+                 }
+              )
+          }
+      )
+    );
+  }
+
+  public onDownload(filename) {
+    let projectId = this.currentProject.project_id;
+    this.generateService.generateDownloadUrl(projectId, filename)
+      .subscribe(
+         (res: DownloadUrlObject) => {
+           if(res.download_url) {
+             console.log(res)
+             let a = document.createElement('a');
+             document.body.appendChild(a);
+             a.setAttribute('style', 'display: none');
+             a.href = res.download_url;
+             a.setAttribute('download', '');
+             a.click();
+           }
+         },
+         err => {
+          this.isProgress = false;
+          console.log("error: " + err);
+          this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
+         }
+      );
+  }
+
+  private onProcessingTooLongCaution() {
+    this.dialog.open(
+      CautionComponent, 
+      { data: { message: "現在、生成処理を実行していますが、時間がかかっています。数分後、履歴からダウンロードしてください。" } }
+    );
+  }
+
+  public formatDate(date: string) {
+    if(date) {
+      let _date: Date = new Date(date);
+      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + (_date.getHours() + 9)+ ":" + _date.getMinutes();
+    }
   }
 }

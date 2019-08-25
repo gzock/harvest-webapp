@@ -40,7 +40,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public userTemplates: TemplateConfig;
   public projectTemplates: TemplateConfig;
   public isUploading: boolean = false;
-  public generatedFiles: any;
+  public generatedFiles: any = [];
 
   public order: Order = {
     "title": "",
@@ -219,6 +219,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onListGeneratedFiles() {
+    this.isProgress = true;
     let projectId = this.currentProject.project_id;
     this.subscriptions.push(timer(3000, 30000)
       .subscribe(
@@ -227,8 +228,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
               .subscribe(
                  res => {
                    this.generatedFiles = res;
-                   //this.isProgress = false;
-                   //this.downloadUrl = response.download_url;
+                   this.isProgress = false;
                  },
                  err => {
                    this.isProgress = false;
@@ -242,6 +242,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onDownload(filename) {
+    this.isProgress = true;
     let projectId = this.currentProject.project_id;
     this.generateService.generateDownloadUrl(projectId, filename)
       .subscribe(
@@ -254,6 +255,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
              a.setAttribute('download', '');
              a.click();
            }
+          this.isProgress = false;
          },
          err => {
           this.isProgress = false;

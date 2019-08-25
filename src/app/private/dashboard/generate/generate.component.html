@@ -174,13 +174,18 @@
 
         <mat-list>
           <h3 mat-subheader>過去1日分の履歴</h3>
+          <h5 *ngIf="generatedFiles.length == 0 && isProgress">読み込み中です...</h5>
+          <h5 *ngIf="generatedFiles.length == 0 && !isProgress">履歴は存在しません。</h5>
           <mat-list-item *ngFor="let file of generatedFiles">
             <mat-icon mat-list-icon *ngIf="file.type === 'zip'">folder</mat-icon>
             <mat-icon mat-list-icon *ngIf="file.type === 'excel-doc'">grid_on</mat-icon>
 
             <h4 mat-line>{{ file.name }}</h4>
             <p mat-line> {{ formatDate(file.created_at) }} </p>
-            <button class="btn btn-default" (click)="onReset(); onDownload(file.name)"> ダウンロード </button>
+            <button mat-icon-button (click)="onReset(); onDownload(file.name)" [disabled]="isProgress">
+              <mat-icon>cloud_download</mat-icon>
+            </button>
+            <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
       </mat-tab>

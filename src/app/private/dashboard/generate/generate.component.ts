@@ -275,7 +275,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public formatDate(date: string) {
     if(date) {
       let _date: Date = new Date(date);
-      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + (_date.getHours() + 9)+ ":" + _date.getMinutes();
+      _date.setTime(_date.getTime() + 1000 * 60 * 60 * 9);
+      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
     }
   }
 }

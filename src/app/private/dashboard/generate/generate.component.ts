@@ -92,7 +92,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
+    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "basic_3.xlsx"}];
     this.onListTemplates();
     this.onListGeneratedFiles();
   }
@@ -109,7 +109,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
     this.generateService.generate(projectId, order)
       .pipe(
-        timeout(500),
+        timeout(20000),
          catchError(error => throwError(error))
       )
       .subscribe(

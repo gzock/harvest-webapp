@@ -104,6 +104,7 @@
               <section class="example-section">
                 <mat-form-field>
                   <input matInput placeholder="タイトル" [(ngModel)]="order.title" required>
+                  <mat-hint>エクセルに差し込まれるタイトルを指定できます (デフォルト: プロジェクト名)</mat-hint>
                 </mat-form-field>
               </section>
 
@@ -137,19 +138,19 @@
             <ng-template matStepLabel>出力</ng-template>
             <div>
               <button mat-raised-button class="row step-3-execute">
-                <p *ngIf="!downloadUrl && !isProgress" (click)="onGenerate(order)">
+                <p *ngIf="!generatedFile && !isProgress" (click)="onGenerate(order)">
                   {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を開始<br>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'zip'">create_new_folder</mat-icon>
                   <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'excel'">grid_on</mat-icon>
                 </p>
-                <p *ngIf="!downloadUrl && isProgress" class="col-12">
+                <p *ngIf="!generatedFile && isProgress" class="col-12">
                   生成中…<br>
                   <mat-icon class="material-icons md-dark" color="accent">
                     <mat-spinner class="progress-spinner"></mat-spinner>
                   </mat-icon>
                 </p>
-                <p *ngIf="downloadUrl" matTooltip="ダウンロードは3分間のみ有効です" [matTooltipPosition]="'above'">
-                  <a mat-raseid-button download href="{{ downloadUrl }}" class="button step-3-execute">
+                <p *ngIf="generatedFile" matTooltip="ダウンロードは3分間のみ有効です" [matTooltipPosition]="'above'">
+                  <a mat-raseid-button download href="{{ generatedFile.download_url }}" class="button step-3-execute">
                     ダウンロード<br>
                     <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
                   </a>
@@ -182,7 +183,7 @@
 
             <h4 mat-line>{{ file.name }}</h4>
             <p mat-line> {{ formatDate(file.created_at) }} </p>
-            <button mat-icon-button (click)="onReset(); onDownload(file.name)" [disabled]="isLoading">
+            <button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
               <mat-icon>cloud_download</mat-icon>
             </button>
             <mat-divider></mat-divider>

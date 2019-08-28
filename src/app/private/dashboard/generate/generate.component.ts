@@ -27,7 +27,7 @@ import { CautionComponent } from './../../../shared/components/caution/caution.c
 export class GenerateComponent implements OnInit, OnDestroy {
   public currentProject: Project;
   private subscriptions: Subscription[] = [];
-  public downloadUrl: string;
+  public generatedFile: Generated;
   public isProgress: boolean = false;
   public isLoading: boolean = false;
 
@@ -110,13 +110,13 @@ export class GenerateComponent implements OnInit, OnDestroy {
 
     this.generateService.generate(projectId, order)
       .pipe(
-        timeout(20000),
-         catchError(error => throwError(error))
+        timeout(28000),
+        catchError(error => throwError(error))
       )
       .subscribe(
          (response: Generated) => {
            this.isProgress = false;
-           this.downloadUrl = response.download_url;
+           this.generatedFile = response;
          },
          err => {
            if(err instanceof TimeoutError) {
@@ -146,7 +146,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onReset() {
-    this.downloadUrl = "";
+    this.generatedFile = null;
     this.order.needs_include_hierarchy = false;
     this.order.needs_make_dir = true;
     this.order.needs_all_photos = false;
@@ -242,10 +242,10 @@ export class GenerateComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onDownload(filename) {
+  public onDownload(generatedFileId) {
     this.isLoading = true;
     let projectId = this.currentProject.project_id;
-    this.generateService.generateDownloadUrl(projectId, filename)
+    this.generateService.generateDownloadUrl(projectId, generatedFileId)
       .subscribe(
          (res: Generated) => {
            if(res.download_url) {

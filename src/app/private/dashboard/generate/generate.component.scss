@@ -25,19 +25,22 @@ table {
   max-height: 95vh !important;
 }
 
+section {
+  margin-bottom: 16px;
+}
 
 .step-1-type-select {
-  width: 15vw;
-  height: 15vw;
-  font-size: 2vw;
+  width: 180px;
+  height: 180px;
+  font-size: 32px;
   margin: 6px 32px;
 
   .mat-icon {
-    width: 5vw;
-    height: 5vw;
+    width: 76px;
+    height: 76px;
   }
   .material-icons {
-    font-size: 5vw;
+    font-size: 76px;
   }
 }
 
@@ -48,16 +51,17 @@ table {
 
 .step-3-execute {
   @extend .step-1-type-select;
-  width: 23vw;
-  height: 18vh;
+  width: 240px;
+  height: 180px;
   margin: 6px;
+  font-size: 28px;
 }
 
 .progress-spinner {
-  width: 5vw !important;
-  height: 5vw !important;
+  width: 76px !important;
+  height: 76px !important;
   ::ng-deep svg {
-    width: 5vw !important;
-    height: 5vw !important;
+    width: 76px !important;
+    height: 76px !important;
   }
 }

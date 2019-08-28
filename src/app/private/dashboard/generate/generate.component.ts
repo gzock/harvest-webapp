@@ -93,8 +93,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "basic_3.xlsx"}];
-    this.onListTemplates();
+    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
+    //this.onListTemplates();
     this.onListGeneratedFiles();
   }
 
@@ -131,6 +131,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onSetGenerateType(type: string) {
+    this.order.title = this.currentProject.name;
     this.order.type = type;
     this.onNext();
   }
@@ -151,6 +152,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.order.needs_make_dir = true;
     this.order.needs_all_photos = false;
     this.order.needs_date = false;
+    this.order.title = this.currentProject.name;
     this.stepper.reset();
   }
 

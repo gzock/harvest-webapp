@@ -18,31 +18,14 @@ export class GenerateService {
 
   constructor(private http: HttpClient) { }
 
-  public generateZip(projectId: string, order: Order) {
-    let _generateUrl = this.generateUrl + projectId + "/generate/zip";
-    return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
-  }
-
   public list(projectId: string) {
     let _generateUrl = this.generateUrl + projectId + "/generate";
     return this.http.get(_generateUrl);
   }
 
-  public generateExcelDoc(projectId: string, order: Order) {
-    //let template = order.template;
-    //let needCustomTemplate = false;
-
-    let _generateUrl = this.generateUrl + projectId + "/generate/excel-doc";
-    return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
-  }
-
   public generate(projectId: string, order: Order) {
-    switch(order.type) {
-      case 'zip':
-        return this.generateZip(projectId, order)
-      case 'excel':
-        return this.generateExcelDoc(projectId, order)
-    }
+    let _generateUrl = this.generateUrl + projectId + "/generate";
+    return this.http.post(_generateUrl, order).pipe(timeout(this.TIMEOUT * 1000));
   }
 
   public generateDownloadUrl(projectId: string, generatedFileName) {

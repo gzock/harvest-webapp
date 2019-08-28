@@ -179,7 +179,7 @@
           <h5 *ngIf="generatedFiles.length == 0 && !isLoading">履歴は存在しません。</h5>
           <mat-list-item *ngFor="let file of generatedFiles">
             <mat-icon mat-list-icon *ngIf="file.type === 'zip'">folder</mat-icon>
-            <mat-icon mat-list-icon *ngIf="file.type === 'excel-doc'">grid_on</mat-icon>
+            <mat-icon mat-list-icon *ngIf="file.type === 'excel'">grid_on</mat-icon>
 
             <h4 mat-line>{{ file.name }}</h4>
             <p mat-line> {{ formatDate(file.created_at) }} </p>
@@ -191,6 +191,7 @@
         </mat-list>
       </mat-tab>
 
+<!--
       <mat-tab *ngIf="permissions.generate?.manage">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
@@ -235,6 +236,7 @@
         </div>
 
       </mat-tab>
+      -->
     </mat-tab-group>
 
   </div>

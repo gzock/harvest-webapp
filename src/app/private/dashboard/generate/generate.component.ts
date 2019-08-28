@@ -29,6 +29,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   public downloadUrl: string;
   public isProgress: boolean = false;
+  public isLoading: boolean = false;
 
   public isLinear = false;
   public firstFormGroup: FormGroup;
@@ -219,7 +220,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onListGeneratedFiles() {
-    this.isProgress = true;
+    this.isLoading = true;
     let projectId = this.currentProject.project_id;
     this.subscriptions.push(timer(3000, 30000)
       .subscribe(
@@ -228,12 +229,12 @@ export class GenerateComponent implements OnInit, OnDestroy {
               .subscribe(
                  res => {
                    this.generatedFiles = res;
-                   this.isProgress = false;
+                   this.isLoading = false;
                  },
                  err => {
-                   this.isProgress = false;
+                   this.isLoading = false;
                    console.log("error: " + err);
-                   this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
+                   this.alert.openErrorAlert("履歴の取得に失敗。原因不明のエラーが発生しました。");
                  }
               )
           }
@@ -242,7 +243,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onDownload(filename) {
-    this.isProgress = true;
+    this.isLoading = true;
     let projectId = this.currentProject.project_id;
     this.generateService.generateDownloadUrl(projectId, filename)
       .subscribe(
@@ -255,10 +256,10 @@ export class GenerateComponent implements OnInit, OnDestroy {
              a.setAttribute('download', '');
              a.click();
            }
-          this.isProgress = false;
+          this.isLoading = false;
          },
          err => {
-          this.isProgress = false;
+          this.isLoading = false;
           console.log("error: " + err);
           this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
          }

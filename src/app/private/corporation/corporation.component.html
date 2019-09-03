@@ -237,6 +237,44 @@
         <div class="col-12 text-center">
           <p class="text-danger" *ngIf="corpData.billing.history.length == 0">請求履歴は存在しません</p>
         </div>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let item of corpData.billing.history">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                請求番号: {{ item.invoice_number }}, 請求日: {{ item.invoice_date }}
+              </mat-panel-title>
+              <mat-panel-description>
+                状況: {{ item.status === "pending" ? "未払い" : "支払い済"}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+        
+            <div class="col-12 billing-history">
+              <mat-card class="example-card">
+                <mat-card-content>
+                  <section class="example-section">
+                    <mat-form-field>
+                      <input type="accountType" matInput placeholder="対象期間" [(ngModel)]="item.billing_period" disabled>
+                    </mat-form-field>
+                  </section>
+                  <section class="example-section"
+                    matTooltip="税抜: {{ item.raw_price }}, 消費税: {{ item.tax }}" 
+                    [matTooltipPosition]="'above'"
+                  >
+                    <mat-form-field>
+                      <input type="accountType" matInput placeholder="請求金額" [(ngModel)]="item.price" disabled>
+                    </mat-form-field>
+                  </section>
+                  <section class="example-section">
+                    <mat-form-field>
+                      <input type="text" matInput placeholder="ユーザーアカウント数" [(ngModel)]="item.users_count" disabled>
+                    </mat-form-field>
+                  </section>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
       </mat-tab>
 
       <mat-tab>

@@ -191,7 +191,6 @@
         </mat-list>
       </mat-tab>
 
-<!--
       <mat-tab *ngIf="permissions.generate?.manage">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
@@ -200,6 +199,7 @@
         こちらの機能はまだ使用できません。<br>
         お好みのExcelテンプレートをアップロードし、画像の貼り付けを行える機能を提供予定です。
         <button (click)="onListTemplates()">test</button>
+        <button (click)="openUploadTemplateDialog()">open dialog</button>
 
         <mat-card class="mat-elevation-z4 col-12" *ngFor="let template of defaultTemplates">
           {{ template.created_at }}
@@ -236,7 +236,6 @@
         </div>
 
       </mat-tab>
-      -->
     </mat-tab-group>
 
   </div>

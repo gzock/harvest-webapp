@@ -42,6 +42,7 @@ import { PhotoCanvasComponent } from './../../shared/components/photo-canvas/pho
 import { ConfirmDeleteComponent } from './../../shared/components/confirm-delete/confirm-delete.component';
 import { CautionComponent } from './../../shared/components/caution/caution.component';
 import { ImportActionComponent } from './../../shared/components/import-action/import-action.component';
+import { UploadTemplateComponent } from './../../shared/components/upload-template/upload-template.component';
 
 import { ProjectsService } from './../../shared/services/projects/projects.service';
 import { PlacesService } from './../../shared/services/places/places.service';
@@ -76,7 +77,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     NotificationsComponent,
     ConfirmDeleteComponent,
     CautionComponent,
-    ImportActionComponent
+    ImportActionComponent,
+    UploadTemplateComponent
   ],
   imports: [
     CommonModule,
@@ -140,7 +142,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     TargetActionsComponent,
     ConfirmDeleteComponent,
     CautionComponent,
-    ImportActionComponent
+    ImportActionComponent,
+    UploadTemplateComponent
   ]
 })
 export class DashboardModule { }

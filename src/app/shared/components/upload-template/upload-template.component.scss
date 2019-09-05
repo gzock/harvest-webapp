@@ -1,0 +1,41 @@
+.csv-input {
+  margin: 0px;
+  padding: 16px 8px;
+
+  mat-icon {
+    vertical-align: middle;
+  }
+
+  input {
+    display:none;
+  }
+}
+
+.example-csv {
+}
+
+.example-error-description {
+  max-width: 100%;
+}
+
+.mat-tab-group {
+  margin: auto;
+}
+
+p {
+  margin: 0px
+}
+
+pre {
+  background-color: #e0e0e0;
+}
+
+.importing-spinner {
+  margin: auto;
+}
+
+mat-dialog-actions {
+  button {
+    margin: 0 0 0 auto;
+  }
+}

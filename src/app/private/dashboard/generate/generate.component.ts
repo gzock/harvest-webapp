@@ -18,6 +18,7 @@ import { TemplateConfig } from './template-config';
 import { Generated } from './generated';
 import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 import { CautionComponent } from './../../../shared/components/caution/caution.component';
+import { UploadTemplateComponent } from './../../../shared/components/upload-template/upload-template.component';
 
 @Component({
   selector: 'app-generate',
@@ -156,6 +157,23 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.stepper.reset();
   }
 
+  openUploadTemplateDialog() {
+    const dialogRef = this.dialog.open(
+      UploadTemplateComponent, 
+      { 
+        data: { projectId: this.currentProject.project_id },
+        disableClose: true, 
+        width: '600px' 
+      }
+    );
+
+    //dialogRef.afterClosed().subscribe(result => {
+    //  if(result) {
+    //    this.refresh();
+    //  }
+    //});
+  }
+
   public onListTemplates() {
     const projectId = this.currentProject.project_id;
     this.templateService.list(projectId)
@@ -224,7 +242,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public onListGeneratedFiles() {
     this.isLoading = true;
     let projectId = this.currentProject.project_id;
-    this.subscriptions.push(timer(3000, 30000)
+    //this.subscriptions.push(timer(3000, 30000)
+    this.subscriptions.push(timer(3000, 300000)
       .subscribe(
           () => {
             this.generateService.list(projectId)

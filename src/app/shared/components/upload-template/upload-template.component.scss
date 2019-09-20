@@ -39,3 +39,22 @@ mat-dialog-actions {
     margin: 0 0 0 auto;
   }
 }
+
+.select-template-type {
+  //display: flex;
+  //flex-direction: column;
+  //margin: 15px 0;
+}
+
+.select-template-radio {
+  margin: 12px;
+}
+
+::ng-deep .mat-tab-header, ::ng-deep .mat-tab-body-wrapper {
+  max-width: 100%;
+}
+
+.display-explanation-image {
+  cursor: pointer;
+  color: red;
+}

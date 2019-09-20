@@ -29,6 +29,8 @@ import { MatSortModule } from '@angular/material/sort';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { LightboxModule } from 'ngx-lightbox';
+
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SidenavComponent } from './../../shared/components/sidenav/sidenav.component';
@@ -114,7 +116,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     MatCheckboxModule,
     MatMenuModule,
     MatTooltipModule,
-    NgbModule
+    NgbModule,
+    LightboxModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },

@@ -20,6 +20,12 @@ import { Permissions } from './../../../shared/services/projects/action-permissi
 import { CautionComponent } from './../../../shared/components/caution/caution.component';
 import { UploadTemplateComponent } from './../../../shared/components/upload-template/upload-template.component';
 
+export interface AvailableTemplates {
+  default: TemplateConfig[];
+  user: TemplateConfig[];
+  project: TemplateConfig[];
+}
+
 @Component({
   selector: 'app-generate',
   templateUrl: './generate.component.html',
@@ -38,9 +44,9 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public generateType: string;
   public checked: any;
   public permissions: Permissions = {} as Permissions;
-  public defaultTemplates: TemplateConfig;
-  public userTemplates: TemplateConfig;
-  public projectTemplates: TemplateConfig;
+  public defaultTemplates: TemplateConfig[] = [] as TemplateConfig[];
+  public userTemplates: TemplateConfig[] = [] as TemplateConfig[];
+  public projectTemplates: TemplateConfig[] = [] as TemplateConfig[];
   public isUploading: boolean = false;
   public generatedFiles: any = [];
 
@@ -94,8 +100,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}];
-    //this.onListTemplates();
+    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}];
+    this.onListTemplates();
     this.onListGeneratedFiles();
   }
 
@@ -178,11 +184,11 @@ export class GenerateComponent implements OnInit, OnDestroy {
     const projectId = this.currentProject.project_id;
     this.templateService.list(projectId)
       .subscribe(
-        templates => {
+        (templates: AvailableTemplates) => {
           console.log(templates);
-          //this.defaultTemplates = templates.default;
-          //this.userTemplates = templates.user;
-          //this.projectTemplates = templates.project;
+          this.defaultTemplates = templates.default;
+          this.userTemplates = templates.user;
+          this.projectTemplates = templates.project;
         },
         err => {
            console.log("error: " + err);

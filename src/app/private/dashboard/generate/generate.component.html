@@ -196,44 +196,51 @@
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
           テンプレート管理
         </ng-template>
-        こちらの機能はまだ使用できません。<br>
-        お好みのExcelテンプレートをアップロードし、画像の貼り付けを行える機能を提供予定です。
-        <button (click)="onListTemplates()">test</button>
-        <button (click)="openUploadTemplateDialog()">open dialog</button>
+        <p>
+          エクセル生成時に指定するテンプレートを管理することができます。<br>
+          テンプレートはプロジェクト毎およびユーザー毎に5つまで保存することができます。<br>
+          テンプレートの作り方はこちらを参考にしてください。
+        </p>
+      
+        <!--<button (click)="onListTemplates()">test</button>-->
+        <button mat-raised-button class="upload-template-action-btn" (click)="openUploadTemplateDialog()">テンプレートを追加</button>
 
-        <mat-card class="mat-elevation-z4 col-12" *ngFor="let template of defaultTemplates">
-          {{ template.created_at }}
-          {{ template.name }}
-          {{ template.property_date }}
-          {{ template.property_hierarchy }}
-        </mat-card>
+        <mat-list>
+          <h3 mat-subheader>プロジェクト</h3>
+          <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
+          <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
-        <div class="step-2-settings">
+          <mat-list-item *ngFor="let template of projectTemplates">
+            <mat-icon mat-list-icon>grid_on</mat-icon>
 
-          <section class="example-section">
-            <mat-form-field>
-              <input matInput placeholder="テンプレート名" [(ngModel)]="new">
-            </mat-form-field>
-          </section>
+            <h4 mat-line>{{ template.name }}</h4>
+            <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
+            <h4 mat-line>{{ template.property_date }}</h4>
+            <h4 mat-line>{{ template.property_hierarchy }}</h4>
+            <!--<button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
+              <mat-icon>cloud_download</mat-icon>
+            </button>-->
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
 
-          <section class="example-section">
-            <mat-form-field>
-              <input matInput placeholder="説明" [(ngModel)]="new">
-            </mat-form-field>
-          </section>
+        <mat-list>
+          <h3 mat-subheader>ユーザー</h3>
+          <h5 *ngIf="userTemplates.length == 0 && isLoading">読み込み中です...</h5>
+          <h5 *ngIf="userTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+          <mat-list-item *ngFor="let template of userTemplates">
+            <mat-icon mat-list-icon>grid_on</mat-icon>
 
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="!order.by_name">
-              場所の階層構造を含める
-            </mat-checkbox>
-          </section>
-
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date">
-              ファイル名に撮影日時を付与
-            </mat-checkbox>
-          </section>
-        </div>
+            <h4 mat-line>{{ template.name }}</h4>
+            <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
+            <h4 mat-line>{{ template.property_date }}</h4>
+            <h4 mat-line>{{ template.property_hierarchy }}</h4>
+            <!--<button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
+              <mat-icon>cloud_download</mat-icon>
+            </button>-->
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
 
       </mat-tab>
     </mat-tab-group>

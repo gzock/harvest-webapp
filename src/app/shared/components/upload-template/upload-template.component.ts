@@ -1,8 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
+import { MatVerticalStepper } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+
+import { Lightbox } from 'ngx-lightbox';
 
 import { Observable, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
@@ -24,20 +27,31 @@ export class UploadTemplateComponent implements OnInit {
   public fileSize: number;
   public isUploading: boolean = false;
   public errorCode: number = 0;
-  public template: TemplateConfig = {
-    template_type: "user",
+  public newTemplate: TemplateConfig = {
+    template_type: "",
     template_data: "",
     name: "default",
     description: "test_template",
+    property_title: false,
     property_hierarchy: false,
     property_date: false
   };
+  private explanationImages = [
+    {
+      src: "/assets/icons/icon-512x512.png",
+      caption: "",
+      thumb: ""
+    }
+  ];
+
+  @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<UploadTemplateComponent>,
     public templateService: TemplateService,
-    private alert: AlertService
+    private alert: AlertService,
+    private lightbox: Lightbox
   ) { }
 
   ngOnInit() {
@@ -55,8 +69,8 @@ export class UploadTemplateComponent implements OnInit {
         .subscribe(
           data => {
             this.isUploading = true;
-            this.template.template_data = data.split(",")[1]
-            this.onUploadExecute(this.template);
+            this.newTemplate.template_data = data.split(",")[1]
+            this.onUploadExecute(this.newTemplate);
           }
         );
     }
@@ -97,6 +111,24 @@ export class UploadTemplateComponent implements OnInit {
       }
       reader.onerror = error => observer.error(error);
     });
+  }
+
+  public onNextStep() {
+    this.stepper.selected.completed = true;
+    //this.stepper.selected.editable = false;
+    this.stepper.next();
+  }
+
+  public onPreviousStep() {
+    this.stepper.previous();
+  }
+
+  public onResetStep() {
+    this.stepper.reset();
+  }
+
+  public openExplanationImages(index: number) {
+    this.lightbox.open(this.explanationImages, index);
   }
 
 }

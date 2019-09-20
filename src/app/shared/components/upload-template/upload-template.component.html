@@ -1,117 +1,241 @@
-<h2 mat-dialog-title>インポート</h2>
+<h2 mat-dialog-title>テンプレート管理</h2>
 <mat-dialog-content class="mat-typography">
-  <div class="row">
 
-    <div class="col-12 description">
-      <ul>
-        <li><a href="/assets/import_template.csv" download>テンプレート</a>をお使いください。</li>
-        <li>, (カンマ)区切りのCSVファイルのみサポートしています。</li>
-        <li>文字コードはUTF-8とSHIFT-JISのみをサポートしています。</li>
-        <li>"場所"と"撮影対象"をそれぞれ1つ以上指定してください。</li>
-        <li> 同じ"名前"の"場所"を指定しないでください。</li>
-        <li>"場所"は最大で5階層まで作成することができます。</li>
-        <li>存在しないparentを指定してもエラーになります。</li>
-        <li>同時にインポートできる最大数は300です。(順次拡大予定)</li>
-      </ul>
-    </div>
+    <mat-tab-group mat-align-tabs="center" class="row">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
+          アップロード
+        </ng-template>
+    
+        <mat-vertical-stepper [linear]="true" #stepper>
+          <mat-step [completed]="true">
+            <ng-template matStepLabel>テンプレートの割り当て先を選択</ng-template>
 
-    <div class="col-12 example-csv">
-      一行目にヘッダ行として、<code>parent,type,name</code>を指定して下さい。
-      <pre>
-        parent: 紐づく"場所"の名前を指定してください。
-        type: "場所"あるいは"撮影対象"を指定してください。
-        name: 任意の名前を指定してください。
-        ※parentに何も指定しない場合は、プロジェクト直下に作成されます。</pre>
+            <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (click)="onNextStep()">
+              <mat-radio-button class="select-template-radio" [value]="'project'">プロジェクト</mat-radio-button>
+              <mat-radio-button class="select-template-radio" [value]="'user'">ユーザー</mat-radio-button>
+            </mat-radio-group>
+          </mat-step>
 
-      CSVの例
-      <pre>
-        1.  parent,type,name
-        2.  ,場所,拠点1
-        3.  ,場所,拠点2
-        4.  拠点2,場所,部屋1
-        5.  拠点1,撮影対象,無線アクセスポイント1
-        6.  部屋1,撮影対象,無線アクセスポイント2</pre>
+          <mat-step [optional]="true">
+            <ng-template matStepLabel>プロパティ設定</ng-template>
+            
+            <p *ngIf="!newTemplate.template_type" class="text-danger">
+              エラー: 割り当て先が選択されていません
+            </p>
+                
+            <div class="step-2-settings" *ngIf="newTemplate.template_type">
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_title">
+                  タイトルを含める(テンプレートでの"{{ '{' }}title{{ '}' }}"変数指定も必要です)
+                </mat-checkbox>
+              </section>
 
-      このCSVを使用すると、下記のように作成されます。
-      <pre>
-        拠点1
-          + 無線アクセスポイント1
-        拠点2
-          + 部屋1
-              + 無線アクセスポイント2</pre>
-    </div>
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_hierarhy">
+                  場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
+                </mat-checkbox>
+              </section>
 
-    <mat-tab-group class="example-error-description" [selectedIndex]="errorCode">
-      <mat-tab label="エラー例1">
-        <code>同じ"名前"の"場所"を指定しないでください。</code>
-        <pre>
-          1.  parent,type,name
-          2.  ,場所,拠点1
-          3.  ,場所,拠点2
-          4.  拠点1,場所,部屋1 ← 同じ名前
-          5.  拠点2,場所,部屋1 ← 同じ名前
-          6.  部屋1,撮影対象,無線アクセスポイント</pre>
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_date">
+                  写真の撮影日時を含める(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
+                </mat-checkbox>
+              </section>
+            </div>
+
+            <div>
+              <button mat-button matStepperPrevious>戻る</button>
+              <button mat-button matStepperNext>次へ</button>
+            </div>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>アップロード</ng-template>
+            <div class="col-12 csv-input" *ngIf="!isImporting">
+              <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />
+              <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
+                <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
+                CSVをアップロード
+              </label>
+            </div>
+
+            <div>
+              <button mat-button (click)="onPreviousStep()">戻る</button>
+              <button mat-button (click)="onResetStep()">リセット</button>
+            </div>
+
+          </mat-step>
+        </mat-vertical-stepper>
       </mat-tab>
-      <mat-tab label="エラー例2">
-        <code>"場所"は最大で5階層まで作成することができます。</code>
-        <pre>
-          1.  parent,type,name
-          2.  ,場所,拠点1
-          3.  拠点1,場所,1号館
-          4.  1,場所,1F
-          5.  1F,場所,A側
-          6.  A側,場所,部屋1
-          7.  部屋1,場所,デスクA ← 6階層目
-          8.  部屋1,撮影対象,無線アクセスポイント</pre>
-      </mat-tab>
-      <mat-tab label="エラー例3">
-        <code>存在しないparentを指定してもエラーになります。</code>
-        <pre>
-          1.  parent,type,name
-          2.  ,場所,拠点1
-          3.  ,場所,拠点2
-          4.  拠点1,場所,部屋1 
-          5.  ビルA,場所,部屋2 ← ビルAは存在しない
-          6.  部屋1,撮影対象,無線アクセスポイント</pre>
-      </mat-tab>
-      <mat-tab label="エラー例4">
-        <code>下記のエラーが発生した場合、CSVファイルが日本語として正しく解釈されていません。</code>
-        <pre>エラー: decode csv content failed. this csv is not support char code.</pre>
-        <p>
-          CSVファイルを明示的にUTF-8で保存してください。
-          Windowsの場合、
-        </p>
-        <code>
-          CSVファイルをメモ帳で開き、ファイル > 名前を付けて保存する > 文字コード: UTF-8
-        </code>
-        <p>
-          と指定して保存してください。
-        </p>
-      </mat-tab>
-      <mat-tab label="エラー例5">
-        <code>下記のエラーが発生した場合、同時にインポートできる最大数(300)を超えています。</code>
-        <pre>max import count exceeded.</pre>
-        <p>
-          お手数ですが、300以内に調整しインポートを再実行してください。
-        </p>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
+          作り方
+        </ng-template>
+    
+        <div class="col-12 description">
+            <!--<li><a href="/assets/excel_template.csv" download>テンプレート</a>をお使いください。</li>-->
+            <ul>
+            	<li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
+            		<ul>
+            			<li>Office 2010以降のExcelのみサポートします。</li>
+            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしません</li>
+            		</ul>
+            	</li>
+            	<li>改ページに必ず1つあるいは2つの"改ページ"を設定してください
+            		<ul>
+            			<li>自動的にその改ページまでの行をコピーします</li>
+            			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
+            			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
+            		</ul>
+            	</li>
+            	<li>下記の文字列をセル内文字列として入力してください
+            		<table class="table table-striped">
+              		<thead>
+              		  <tr>
+              		    <th scope="col">文字列</th>
+              		    <th scope="col">埋め込まれる内容</th>
+               		    <th scope="col">必須</th>
+              		  </tr>
+              		</thead>
+              		<tbody>
+              		  <tr>
+              		    <td>{{ '{' }}title {{ '}' }}</td>
+              		    <td>生成するときに指定する任意の文字列(デフォルト: プロジェクト名)</td>
+              		    <td>x</td>
+              		  </tr>
+              		  <tr>
+              		    <td>{{ '{' }}name{{ '}' }}</td>
+              		    <td>場所名や撮影対象名</td>
+              		    <td>o</td>
+              		  </tr>
+              		  <tr>
+              		    <td>{{ '{' }}photo{{ '}' }}</td>
+              		    <td>写真(セルサイズに自動的にリサイズされる)</td>
+              		    <td>o</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}hierarchy{{ '}' }}</td>
+              		    <td>場所の階層構造</td>
+              		    <td>x</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}date{{ '}' }}</td>
+              		    <td>写真の撮影日時</td>
+              		    <td>x</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}index{{ '}' }}</td>
+              		    <td>通し番号</td>
+              		    <td>x</td>
+              		  </tr>
+              		</tbody>
+            		</table>
+              </li>
+            </ul>
+        </div>
+        <div class="col-12 example-csv">
+          
+          一行目にヘッダ行として、<code>parent,type,name</code>を指定して下さい。
+          <pre>
+            parent: 紐づく"場所"の名前を指定してください。
+            type: "場所"あるいは"撮影対象"を指定してください。
+            name: 任意の名前を指定してください。
+            ※parentに何も指定しない場合は、プロジェクト直下に作成されます。</pre>
+
+          CSVの例
+          <pre>
+            1.  parent,type,name
+            2.  ,場所,拠点1
+            3.  ,場所,拠点2
+            4.  拠点2,場所,部屋1
+            5.  拠点1,撮影対象,無線アクセスポイント1
+            6.  部屋1,撮影対象,無線アクセスポイント2</pre>
+
+          このCSVを使用すると、下記のように作成されます。
+          <pre>
+            拠点1
+              + 無線アクセスポイント1
+            拠点2
+              + 部屋1
+                  + 無線アクセスポイント2</pre>
+        </div>
+
+        <mat-tab-group class="example-error-description" [selectedIndex]="errorCode">
+          <mat-tab label="エラー例1">
+            <code>同じ"名前"の"場所"を指定しないでください。</code>
+            <pre>
+              1.  parent,type,name
+              2.  ,場所,拠点1
+              3.  ,場所,拠点2
+              4.  拠点1,場所,部屋1 ← 同じ名前
+              5.  拠点2,場所,部屋1 ← 同じ名前
+              6.  部屋1,撮影対象,無線アクセスポイント</pre>
+          </mat-tab>
+          <mat-tab label="エラー例2">
+            <code>"場所"は最大で5階層まで作成することができます。</code>
+            <pre>
+              1.  parent,type,name
+              2.  ,場所,拠点1
+              3.  拠点1,場所,1号館
+              4.  1,場所,1F
+              5.  1F,場所,A側
+              6.  A側,場所,部屋1
+              7.  部屋1,場所,デスクA ← 6階層目
+              8.  部屋1,撮影対象,無線アクセスポイント</pre>
+          </mat-tab>
+          <mat-tab label="エラー例3">
+            <code>存在しないparentを指定してもエラーになります。</code>
+            <pre>
+              1.  parent,type,name
+              2.  ,場所,拠点1
+              3.  ,場所,拠点2
+              4.  拠点1,場所,部屋1 
+              5.  ビルA,場所,部屋2 ← ビルAは存在しない
+              6.  部屋1,撮影対象,無線アクセスポイント</pre>
+          </mat-tab>
+          <mat-tab label="エラー例4">
+            <code>下記のエラーが発生した場合、CSVファイルが日本語として正しく解釈されていません。</code>
+            <pre>エラー: decode csv content failed. this csv is not support char code.</pre>
+            <p>
+              CSVファイルを明示的にUTF-8で保存してください。
+              Windowsの場合、
+            </p>
+            <code>
+              CSVファイルをメモ帳で開き、ファイル > 名前を付けて保存する > 文字コード: UTF-8
+            </code>
+            <p>
+              と指定して保存してください。
+            </p>
+          </mat-tab>
+          <mat-tab label="エラー例5">
+            <code>下記のエラーが発生した場合、同時にインポートできる最大数(300)を超えています。</code>
+            <pre>max import count exceeded.</pre>
+            <p>
+              お手数ですが、300以内に調整しインポートを再実行してください。
+            </p>
+          </mat-tab>
+        </mat-tab-group>
+
+        <div class="col-12 csv-input" *ngIf="!isImporting">
+          <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />
+          <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
+            <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
+            CSVをアップロード
+          </label>
+        </div>
+        <div class="col-12 text-center" *ngIf="isImporting">
+          <h3>実行中...しばらくお待ち下さい</h3>
+          <mat-spinner class="importing-spinner"></mat-spinner>
+        </div>
+        <div class="col-12 text-center" *ngIf="errMsg">
+          <h3 class="text-danger">{{ errMsg }}</h3>
+        </div>
       </mat-tab>
     </mat-tab-group>
-
-    <div class="col-12 csv-input" *ngIf="!isImporting">
-      <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />
-      <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
-        <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
-        CSVをアップロード
-      </label>
-    </div>
-    <div class="col-12 text-center" *ngIf="isImporting">
-      <h3>実行中...しばらくお待ち下さい</h3>
-      <mat-spinner class="importing-spinner"></mat-spinner>
-    </div>
-    <div class="col-12 text-center" *ngIf="errMsg">
-      <h3 class="text-danger">{{ errMsg }}</h3>
-    </div>
-  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="sent">

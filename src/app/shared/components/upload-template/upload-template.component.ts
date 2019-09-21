@@ -38,7 +38,17 @@ export class UploadTemplateComponent implements OnInit {
   };
   private explanationImages = [
     {
-      src: "/assets/icons/icon-512x512.png",
+      src: "/assets/explanation-images/explanation-image-1.png",
+      caption: "",
+      thumb: ""
+    },
+    {
+      src: "/assets/explanation-images/explanation-image-2.png",
+      caption: "",
+      thumb: ""
+    },
+    {
+      src: "/assets/explanation-images/explanation-image-3.png",
       caption: "",
       thumb: ""
     }

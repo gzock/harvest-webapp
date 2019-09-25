@@ -100,13 +100,13 @@ export class UploadTemplateComponent implements OnInit {
             console.log("error: " + err);
             if(err.error.error) {
               this.errMsg = "エラー: " + err.error.error.message;
-              if(700 <= err.error.error.code && err.error.error.code <= 799) {
-                this.errorCode = err.error.error.code - 701;
+              if(800 <= err.error.error.code && err.error.error.code <= 899) {
+                this.errorCode = err.error.error.code - 803;
               }
             } else {
               this.errMsg = "エラー: タイムアウト";
             }
-            this.alert.openErrorAlert("インポートに失敗しました。CSVファイルの内容をご確認ください。");
+            this.alert.openErrorAlert("アップロードに失敗しました。エクセルファイルの内容をご確認ください。");
          }
       )
   }

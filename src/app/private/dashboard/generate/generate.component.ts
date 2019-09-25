@@ -100,7 +100,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}];
+    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}, {"name": "merged_pagebreaks.xlsx"}];
     this.onListTemplates();
     this.onListGeneratedFiles();
   }

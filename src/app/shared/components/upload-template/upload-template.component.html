@@ -85,9 +85,10 @@
             			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしません</li>
             		</ul>
             	</li>
-            	<li>改ページに必ず1つあるいは2つの"改ページ"を設定してください
+            	<li>下記の参考画像のように改ページに必ず1つあるいは2つの"改ページ"を設定してください
             		<ul>
             			<li>自動的にその改ページまでの行をコピーします</li>
+            			<li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
             			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
             			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
             			<li class="display-explanation-image" (click)="openExplanationImages(2)">参考画像3</li>
@@ -136,8 +137,16 @@
               		</tbody>
             		</table>
               </li>
+            	<li>デフォルトテンプレートを下記のリンクからダウンロードすることができます。ご自身でテンプレートを作成する際の参考にしてください。
+            		<ul>
+            			<li><a href="/assets/templates/basic_1.xlsx">basic_1.xlsx</a></li>
+            			<li><a href="/assets/templates/basic_2.xlsx">basic_2.xlsx</a></li>
+            		</ul>
+            	</li>
             </ul>
         </div>
+
+        <!--
         <div class="col-12 example-csv">
           
           一行目にヘッダ行として、<code>parent,type,name</code>を指定して下さい。
@@ -164,21 +173,22 @@
               + 部屋1
                   + 無線アクセスポイント2</pre>
         </div>
+        -->
 
         <mat-tab-group class="example-error-description" [selectedIndex]="errorCode">
           <mat-tab label="エラー例1">
-            <code>同じ"名前"の"場所"を指定しないでください。</code>
-            <pre>
+            <code>指定したプロパティ設定は必ず含める必要があります。</code>
+            <!--<pre>
               1.  parent,type,name
               2.  ,場所,拠点1
               3.  ,場所,拠点2
               4.  拠点1,場所,部屋1 ← 同じ名前
               5.  拠点2,場所,部屋1 ← 同じ名前
-              6.  部屋1,撮影対象,無線アクセスポイント</pre>
+              6.  部屋1,撮影対象,無線アクセスポイント</pre>-->
           </mat-tab>
           <mat-tab label="エラー例2">
-            <code>"場所"は最大で5階層まで作成することができます。</code>
-            <pre>
+            <code>改ページ設定を必ず1つか2つ設定する必要があります。</code>
+            <!--<pre>
               1.  parent,type,name
               2.  ,場所,拠点1
               3.  拠点1,場所,1号館
@@ -186,38 +196,7 @@
               5.  1F,場所,A側
               6.  A側,場所,部屋1
               7.  部屋1,場所,デスクA ← 6階層目
-              8.  部屋1,撮影対象,無線アクセスポイント</pre>
-          </mat-tab>
-          <mat-tab label="エラー例3">
-            <code>存在しないparentを指定してもエラーになります。</code>
-            <pre>
-              1.  parent,type,name
-              2.  ,場所,拠点1
-              3.  ,場所,拠点2
-              4.  拠点1,場所,部屋1 
-              5.  ビルA,場所,部屋2 ← ビルAは存在しない
-              6.  部屋1,撮影対象,無線アクセスポイント</pre>
-          </mat-tab>
-          <mat-tab label="エラー例4">
-            <code>下記のエラーが発生した場合、CSVファイルが日本語として正しく解釈されていません。</code>
-            <pre>エラー: decode csv content failed. this csv is not support char code.</pre>
-            <p>
-              CSVファイルを明示的にUTF-8で保存してください。
-              Windowsの場合、
-            </p>
-            <code>
-              CSVファイルをメモ帳で開き、ファイル > 名前を付けて保存する > 文字コード: UTF-8
-            </code>
-            <p>
-              と指定して保存してください。
-            </p>
-          </mat-tab>
-          <mat-tab label="エラー例5">
-            <code>下記のエラーが発生した場合、同時にインポートできる最大数(300)を超えています。</code>
-            <pre>max import count exceeded.</pre>
-            <p>
-              お手数ですが、300以内に調整しインポートを再実行してください。
-            </p>
+              8.  部屋1,撮影対象,無線アクセスポイント</pre>-->
           </mat-tab>
         </mat-tab-group>
 

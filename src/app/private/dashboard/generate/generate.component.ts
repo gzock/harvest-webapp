@@ -59,6 +59,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "needs_make_dir": true,
     "needs_all_photos": false,
     "needs_date": false,
+    "needs_print_settings": true,
     "force_download": false,
     "char_enc": "shift_jis"
   };
@@ -159,6 +160,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.order.needs_make_dir = true;
     this.order.needs_all_photos = false;
     this.order.needs_date = false;
+    this.order.needs_print_settings = true;
     this.order.title = this.currentProject.name;
     this.stepper.reset();
   }
@@ -189,6 +191,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
           this.defaultTemplates = templates.default;
           this.userTemplates = templates.user;
           this.projectTemplates = templates.project;
+          this.templates = [...this.defaultTemplates, ...this.userTemplates, ...this.projectTemplates]
         },
         err => {
            console.log("error: " + err);

@@ -30,8 +30,8 @@ export class UploadTemplateComponent implements OnInit {
   public newTemplate: TemplateConfig = {
     template_type: "",
     template_data: "",
-    name: "default",
-    description: "test_template",
+    name: "",
+    description: "",
     property_title: false,
     property_hierarchy: false,
     property_date: false

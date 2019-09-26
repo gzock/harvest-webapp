@@ -18,6 +18,34 @@
             </mat-radio-group>
           </mat-step>
 
+          <mat-step>
+            <ng-template matStepLabel>名前・説明を入力</ng-template>
+            
+            <p *ngIf="!newTemplate.template_type" class="text-danger">
+              エラー: 割り当て先が選択されていません
+            </p>
+            <div class="step-2-settings">
+              <section class="example-section">
+                <mat-form-field>
+                  <input matInput placeholder="テンプレートの名前を入力" [(ngModel)]="newTemplate.name" required>
+                </mat-form-field>
+              </section>
+
+              <section class="example-section">
+                <mat-form-field>
+                  <input matInput maxlength="30" placeholder="説明・備考・メモ" [(ngModel)]="newTemplate.description" required>
+                  <mat-hint>ご自由に入力ください(30文字以内)</mat-hint>
+                </mat-form-field>
+              </section>
+            </div>
+
+            <div>
+              <button mat-button matStepperPrevious>戻る</button>
+              <button mat-button matStepperNext [disabled]="!newTemplate.name.length || !newTemplate.description.length">次へ</button>
+            </div>
+
+          </mat-step>
+                
           <mat-step [optional]="true">
             <ng-template matStepLabel>プロパティ設定</ng-template>
             
@@ -25,7 +53,7 @@
               エラー: 割り当て先が選択されていません
             </p>
                 
-            <div class="step-2-settings" *ngIf="newTemplate.template_type">
+            <div class="step-3-settings">
               <section class="example-section">
                 <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_title">
                   タイトルを含める(テンプレートでの"{{ '{' }}title{{ '}' }}"変数指定も必要です)
@@ -54,10 +82,10 @@
           <mat-step>
             <ng-template matStepLabel>アップロード</ng-template>
             <div class="col-12 csv-input" *ngIf="!isImporting">
-              <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />
+              <input type="file" id="csv-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileSelected($event)" />
               <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
                 <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
-                CSVをアップロード
+                アップロード
               </label>
             </div>
 

@@ -109,6 +109,12 @@
               </section>
 
               <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_print_settings">
+                  印刷時にヘッダーとしてタイトルが表示されるようにする
+                </mat-checkbox>
+              </section>
+
+              <section class="example-section">
                 <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="order.template !== 'basic_2.xlsx'">
                   場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
@@ -116,14 +122,8 @@
 
               <section class="example-section">
                 <!--<mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="order.template !== 'basic_2.xlsx'">-->
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="true">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date">
                   ファイル名に撮影日時を付与(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
-                </mat-checkbox>
-              </section>
-
-              <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.force_download" disabled>
-                  進捗率100%未満であっても強制的にダウンロードする
                 </mat-checkbox>
               </section>
             </div>
@@ -214,6 +214,7 @@
             <mat-icon mat-list-icon>grid_on</mat-icon>
 
             <h4 mat-line>{{ template.name }}</h4>
+            <h4 mat-line>{{ template.description }}</h4>
             <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
             <h4 mat-line>{{ template.property_date }}</h4>
             <h4 mat-line>{{ template.property_hierarchy }}</h4>
@@ -232,6 +233,7 @@
             <mat-icon mat-list-icon>grid_on</mat-icon>
 
             <h4 mat-line>{{ template.name }}</h4>
+            <h4 mat-line>{{ template.description }}</h4>
             <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
             <h4 mat-line>{{ template.property_date }}</h4>
             <h4 mat-line>{{ template.property_hierarchy }}</h4>

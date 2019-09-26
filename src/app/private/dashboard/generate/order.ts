@@ -7,6 +7,7 @@ export interface Order {
   needs_make_dir: boolean;
   needs_all_photos: boolean;
   needs_date: boolean;
+  needs_print_settings: boolean;
   force_download: boolean;
   char_enc: string;
 }

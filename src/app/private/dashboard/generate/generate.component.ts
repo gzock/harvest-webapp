@@ -65,7 +65,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   };
   public selectTemplate: TemplateConfig = {} as TemplateConfig;
 
-  public templates: Template[];
+  public templates: TemplateConfig[];
 
   @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
 

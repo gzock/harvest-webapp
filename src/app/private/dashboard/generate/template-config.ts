@@ -1,5 +1,6 @@
 export interface TemplateConfig {
-  template_type: string
+  template_id?: string;
+  template_type: string;
   template_data?: string;
   name: string;
   description: string;

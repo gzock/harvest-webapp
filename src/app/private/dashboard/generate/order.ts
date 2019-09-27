@@ -1,7 +1,7 @@
 export interface Order {
   title: string;
   type: string;
-  template: string;
+  template_id: string;
   by_name: boolean;
   needs_include_hierarchy: boolean;
   needs_make_dir: boolean;

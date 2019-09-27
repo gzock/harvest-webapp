@@ -101,7 +101,7 @@ export class UploadTemplateComponent implements OnInit {
             if(err.error.error) {
               this.errMsg = "エラー: " + err.error.error.message;
               if(800 <= err.error.error.code && err.error.error.code <= 899) {
-                this.errorCode = err.error.error.code - 803;
+                this.errorCode = err.error.error.code - 804;
               }
             } else {
               this.errMsg = "エラー: タイムアウト";

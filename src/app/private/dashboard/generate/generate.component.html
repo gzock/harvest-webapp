@@ -95,34 +95,34 @@
             <div class="step-2-settings" *ngIf="order.type === 'excel'">
               <section class="example-section">
                 <mat-form-field>
-                  <mat-select placeholder="テンプレートを選択" [(ngModel)]="order.template">
-                    <mat-option *ngFor="let template of templates" value="{{ template.name }}">{{ template.name }}</mat-option>
+                  <mat-select placeholder="テンプレートを選択" [(ngModel)]="selectTemplate">
+                    <mat-option *ngFor="let template of templates" [value]="template">{{ template.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </section>
 
               <section class="example-section">
                 <mat-form-field>
-                  <input matInput placeholder="タイトル" [(ngModel)]="order.title" required>
+                  <input matInput placeholder="タイトル" [(ngModel)]="order.title" [disabled]="selectTemplate.property_title === 'False'">
                   <mat-hint>エクセルに差し込まれるタイトルを指定できます (デフォルト: プロジェクト名)</mat-hint>
                 </mat-form-field>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_print_settings">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_print_settings" [disabled]="selectTemplate.property_title === 'False'">
                   印刷時にヘッダーとしてタイトルが表示されるようにする
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="order.template !== 'basic_2.xlsx'">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="selectTemplate.property_hierarchy === 'False'">
                   場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
                 <!--<mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="order.template !== 'basic_2.xlsx'">-->
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="selectTemplate.property_date === 'False'">
                   ファイル名に撮影日時を付与(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>

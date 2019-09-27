@@ -53,7 +53,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public order: Order = {
     "title": "",
     "type": "",
-    "template": "basic_1.xlsx",
+    "template_id": "basic_1.xlsx",
     "by_name": true,
     "needs_include_hierarchy": false,
     "needs_make_dir": true,
@@ -63,6 +63,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "force_download": false,
     "char_enc": "shift_jis"
   };
+  public selectTemplate: TemplateConfig = {} as TemplateConfig;
 
   public templates: Template[];
 
@@ -101,7 +102,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
 
     // temp
-    this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}, {"name": "merged_pagebreaks.xlsx"}];
+    //this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}, {"name": "merged_pagebreaks.xlsx"}];
     this.onListTemplates();
     this.onListGeneratedFiles();
   }
@@ -115,6 +116,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public onGenerate(order: Order) {
     let projectId = this.currentProject.project_id;
     this.isProgress = true;
+    this.order.template_id = this.selectTemplate.template_id
 
     this.generateService.generate(projectId, order)
       .pipe(
@@ -192,6 +194,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
           this.userTemplates = templates.user;
           this.projectTemplates = templates.project;
           this.templates = [...this.defaultTemplates, ...this.userTemplates, ...this.projectTemplates]
+          this.selectTemplate = this.templates[0];
         },
         err => {
            console.log("error: " + err);

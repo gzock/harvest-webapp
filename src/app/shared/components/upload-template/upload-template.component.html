@@ -61,7 +61,7 @@
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_hierarhy">
+                <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_hierarchy">
                   場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>
@@ -235,9 +235,9 @@
             CSVをアップロード
           </label>
         </div>
-        <div class="col-12 text-center" *ngIf="isImporting">
+        <div class="col-12 text-center" *ngIf="isUploading">
           <h3>実行中...しばらくお待ち下さい</h3>
-          <mat-spinner class="importing-spinner"></mat-spinner>
+          <mat-spinner class="uploading-spinner"></mat-spinner>
         </div>
         <div class="col-12 text-center" *ngIf="errMsg">
           <h3 class="text-danger">{{ errMsg }}</h3>

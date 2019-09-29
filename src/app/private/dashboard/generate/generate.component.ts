@@ -16,16 +16,11 @@ import { AlertService } from './../../../shared/services/alert/alert.service';
 import { Order } from './order';
 import { Template } from './template';
 import { TemplateConfig } from './template-config';
+import { AvailableTemplates } from './available-templates';
 import { Generated } from './generated';
 import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 import { CautionComponent } from './../../../shared/components/caution/caution.component';
 import { UploadTemplateComponent } from './../../../shared/components/upload-template/upload-template.component';
-
-export interface AvailableTemplates {
-  default: TemplateConfig[];
-  user: TemplateConfig[];
-  project: TemplateConfig[];
-}
 
 @Component({
   selector: 'app-generate',
@@ -179,7 +174,11 @@ export class GenerateComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(
       UploadTemplateComponent, 
       { 
-        data: { projectId: this.currentProject.project_id },
+        data: { 
+          projectId: this.currentProject.project_id,
+          projectTemplatesCount: this.projectTemplates.length,
+          userTemplatesCount: this.userTemplates.length,
+        },
         disableClose: true, 
         width: '600px' 
       }

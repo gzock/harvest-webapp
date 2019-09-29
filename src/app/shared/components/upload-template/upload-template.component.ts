@@ -36,6 +36,8 @@ export class UploadTemplateComponent implements OnInit {
     property_hierarchy: false,
     property_date: false
   };
+  public projectTemplatesCount: number = 5;
+  public userTemplatesCount: numbre = 5;
   private explanationImages = [
     {
       src: "/assets/explanation-images/explanation-image-1.png",
@@ -66,7 +68,8 @@ export class UploadTemplateComponent implements OnInit {
 
   ngOnInit() {
     this.projectId = this.data.projectId;
-    console.log(this.projectId);
+    this.projectTemplatesCount = this.data.projectTemplatesCount;
+    this.userTemplatesCount = this.data.userTemplatesCount;
   }
 
   public onAccept() {

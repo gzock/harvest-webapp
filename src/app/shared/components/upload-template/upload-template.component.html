@@ -13,8 +13,8 @@
             <ng-template matStepLabel>テンプレートの割り当て先を選択</ng-template>
 
             <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (click)="onNextStep()">
-              <mat-radio-button class="select-template-radio" [value]="'project'">プロジェクト</mat-radio-button>
-              <mat-radio-button class="select-template-radio" [value]="'user'">ユーザー</mat-radio-button>
+              <mat-radio-button class="select-template-radio" [value]="'project'" [disabled]="projectTemplatesCount >= 5">プロジェクト</mat-radio-button>
+              <mat-radio-button class="select-template-radio" [value]="'user'" [disabled]="userTemplatesCount >= 5">ユーザー</mat-radio-button>
             </mat-radio-group>
           </mat-step>
 

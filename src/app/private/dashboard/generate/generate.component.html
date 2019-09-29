@@ -205,7 +205,12 @@
           </mat-card-content>
         </mat-card>
       
-        <button mat-raised-button color="primary" class="upload-template-action-btn" (click)="openUploadTemplateDialog()">テンプレートを追加</button>
+        <button mat-raised-button color="primary" 
+          class="upload-template-action-btn" 
+          (click)="openUploadTemplateDialog()" 
+          [disabled]="this.projectTemplates.length >= 5 && this.userTemplates.length >= 5">
+          テンプレートを追加
+        </button>
 
         <div class="row manate-templates-wrapper">
         <mat-card class="col-5 manage-templates">

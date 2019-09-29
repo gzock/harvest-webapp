@@ -184,11 +184,11 @@ export class GenerateComponent implements OnInit, OnDestroy {
       }
     );
 
-    //dialogRef.afterClosed().subscribe(result => {
-    //  if(result) {
-    //    this.refresh();
-    //  }
-    //});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.onListTemplates()
+      }
+    });
   }
 
   public onListTemplates() {

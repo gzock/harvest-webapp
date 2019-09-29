@@ -81,7 +81,6 @@ export class UploadTemplateComponent implements OnInit {
       this.onUploadTemplate(event.target.files[0])
         .subscribe(
           data => {
-            this.isUploading = true;
             this.newTemplate.template_data = data.split(",")[1]
             this.onUploadExecute(this.newTemplate);
           }
@@ -90,11 +89,12 @@ export class UploadTemplateComponent implements OnInit {
   }
 
   private onUploadExecute(config: TemplateConfig) {
+    this.isUploading = true;
     this.errMsg = "";
     this.templateService.create(this.projectId, config)
       .subscribe(
          response => {
-            this.isUploading = true;
+            this.isUploading = false;
             this.alert.openSuccessAlert("アップロードに成功しました。");
             this.dialogRef.close(true);
          },

@@ -39,7 +39,7 @@
               </section>
             </div>
 
-            <div>
+            <div class="text-right">
               <button mat-button matStepperPrevious>戻る</button>
               <button mat-button matStepperNext [disabled]="!newTemplate.name.length || !newTemplate.description.length">次へ</button>
             </div>
@@ -73,7 +73,7 @@
               </section>
             </div>
 
-            <div>
+            <div class="text-right">
               <button mat-button matStepperPrevious>戻る</button>
               <button mat-button matStepperNext>次へ</button>
             </div>
@@ -81,15 +81,22 @@
 
           <mat-step>
             <ng-template matStepLabel>アップロード</ng-template>
-            <div class="col-12 csv-input" *ngIf="!isImporting">
+            <div class="col-12 csv-input" *ngIf="!isUploading">
               <input type="file" id="csv-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileSelected($event)" />
               <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
                 <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
                 アップロード
               </label>
             </div>
+            <div class="col-12 text-center" *ngIf="isUploading">
+              <h3>実行中...しばらくお待ち下さい</h3>
+              <mat-spinner class="uploading-spinner"></mat-spinner>
+            </div>
+            <div class="col-12 text-center" *ngIf="errMsg">
+              <h3 class="text-danger">{{ errMsg }}</h3>
+            </div>
 
-            <div>
+            <div class="text-right">
               <button mat-button (click)="onPreviousStep()">戻る</button>
               <button mat-button (click)="onResetStep()">リセット</button>
             </div>
@@ -227,21 +234,6 @@
               8.  部屋1,撮影対象,無線アクセスポイント</pre>-->
           </mat-tab>
         </mat-tab-group>
-
-        <div class="col-12 csv-input" *ngIf="!isImporting">
-          <input type="file" id="csv-input" accept="text/csv" (change)="onFileSelected($event)" />
-          <label for="csv-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic">
-            <mat-icon class="material-icons md-dark" color="accent">cloud_upload</mat-icon>
-            CSVをアップロード
-          </label>
-        </div>
-        <div class="col-12 text-center" *ngIf="isUploading">
-          <h3>実行中...しばらくお待ち下さい</h3>
-          <mat-spinner class="uploading-spinner"></mat-spinner>
-        </div>
-        <div class="col-12 text-center" *ngIf="errMsg">
-          <h3 class="text-danger">{{ errMsg }}</h3>
-        </div>
       </mat-tab>
     </mat-tab-group>
 </mat-dialog-content>

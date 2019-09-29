@@ -71,9 +71,14 @@ section {
   color: white;
 }
 
+.manate-templates-wrapper {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
 .manage-templates-description, .manage-templates {
   mat-card-content {
     padding: 12px;
   }
-  margin: 24px 0px;
+  margin: 24px auto;
 }

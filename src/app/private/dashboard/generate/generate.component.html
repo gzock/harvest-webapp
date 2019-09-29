@@ -196,53 +196,64 @@
           <mat-icon class="material-icons md-dark" color="accent">settings</mat-icon>
           テンプレート管理
         </ng-template>
-        <p>
-          エクセル生成時に指定するテンプレートを管理することができます。<br>
-          テンプレートはプロジェクト毎およびユーザー毎に5つまで保存することができます。<br>
-          テンプレートの作り方はこちらを参考にしてください。
-        </p>
+
+        <mat-card class="manage-templates-description">
+          <mat-card-content class="text-center">
+            エクセル生成時に指定するテンプレートを管理することができます。<br>
+            テンプレートはプロジェクト毎あるいはユーザー毎に5つまで保存することができます。<br>
+            それぞれのテンプレートの種類の違いについては<a routerLink="./" (click)="openExplanationImages(0)">こちらの参考画像</a>を参照してください。
+          </mat-card-content>
+        </mat-card>
       
-        <!--<button (click)="onListTemplates()">test</button>-->
-        <button mat-raised-button class="upload-template-action-btn" (click)="openUploadTemplateDialog()">テンプレートを追加</button>
+        <button mat-raised-button color="primary" class="upload-template-action-btn" (click)="openUploadTemplateDialog()">テンプレートを追加</button>
 
-        <mat-list>
-          <h3 mat-subheader>プロジェクト</h3>
-          <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
-          <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+        <mat-card class="manage-templates">
+          <mat-card-header class="text-center">
+            <mat-card-title>プロジェクト</mat-card-title>
+          </mat-card-header>
 
-          <mat-list-item *ngFor="let template of projectTemplates">
-            <mat-icon mat-list-icon>grid_on</mat-icon>
+          <mat-card-content class="text-center">
+            <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
+            <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
-            <h4 mat-line>{{ template.name }}</h4>
-            <h4 mat-line>{{ template.description }}</h4>
-            <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
-            <h4 mat-line>{{ template.property_date }}</h4>
-            <h4 mat-line>{{ template.property_hierarchy }}</h4>
-            <!--<button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
-              <mat-icon>cloud_download</mat-icon>
-            </button>-->
-            <mat-divider></mat-divider>
-          </mat-list-item>
-        </mat-list>
+            <mat-list>
+              <mat-list-item *ngFor="let template of projectTemplates">
+                <mat-icon mat-list-icon>grid_on</mat-icon>
 
-        <mat-list>
-          <h3 mat-subheader>ユーザー</h3>
-          <h5 *ngIf="userTemplates.length == 0 && isLoading">読み込み中です...</h5>
-          <h5 *ngIf="userTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
-          <mat-list-item *ngFor="let template of userTemplates">
-            <mat-icon mat-list-icon>grid_on</mat-icon>
+                <h4 mat-line>{{ template.name }}</h4>
+                <h4 mat-line>{{ template.description }}</h4>
+                <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
+                <h4 mat-line>{{ template.property_date }}</h4>
+                <h4 mat-line>{{ template.property_hierarchy }}</h4>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
 
-            <h4 mat-line>{{ template.name }}</h4>
-            <h4 mat-line>{{ template.description }}</h4>
-            <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
-            <h4 mat-line>{{ template.property_date }}</h4>
-            <h4 mat-line>{{ template.property_hierarchy }}</h4>
-            <!--<button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
-              <mat-icon>cloud_download</mat-icon>
-            </button>-->
-            <mat-divider></mat-divider>
-          </mat-list-item>
-        </mat-list>
+        <mat-card class="manage-templates">
+          <mat-card-header class="text-center">
+            <mat-card-title>ユーザー</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="text-center">
+            <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
+            <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+
+            <mat-list>
+              <mat-list-item *ngFor="let template of userTemplates">
+                <mat-icon mat-list-icon>grid_on</mat-icon>
+
+                <h4 mat-line>{{ template.name }}</h4>
+                <h4 mat-line>{{ template.description }}</h4>
+                <h4 mat-line>{{ formatDate(template.created_at) }}</h4>
+                <h4 mat-line>{{ template.property_date }}</h4>
+                <h4 mat-line>{{ template.property_hierarchy }}</h4>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
 
       </mat-tab>
     </mat-tab-group>

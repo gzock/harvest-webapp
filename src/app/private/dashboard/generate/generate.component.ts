@@ -5,6 +5,7 @@ import { timeout, filter, map, concatMap, tap, catchError } from "rxjs/operators
 
 import { MatVerticalStepper } from '@angular/material';
 import { MatDialog } from '@angular/material';
+import { Lightbox } from 'ngx-lightbox';
 
 import { Project } from './../projects/project';
 import { ProjectsService } from './../../../shared/services/projects/projects.service';
@@ -64,8 +65,14 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "char_enc": "shift_jis"
   };
   public selectTemplate: TemplateConfig = {} as TemplateConfig;
-
   public templates: TemplateConfig[];
+  private explanationImages = [
+    {
+      src: "/assets/explanation-images/explanation-image-0.png",
+      caption: "",
+      thumb: ""
+    }
+  ]
 
   @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
 
@@ -75,7 +82,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
     public templateService: TemplateService,
     private alert: AlertService,
     private _formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private lightbox: Lightbox
   ) { }
 
   ngOnInit() {
@@ -313,4 +321,9 @@ export class GenerateComponent implements OnInit, OnDestroy {
       return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
     }
   }
+
+  public openExplanationImages(index: number) {
+    this.lightbox.open(this.explanationImages, index);
+  }
+
 }

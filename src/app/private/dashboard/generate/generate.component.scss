@@ -68,4 +68,12 @@ section {
 
 .upload-template-action-btn {
   width: 320px;
+  color: white;
+}
+
+.manage-templates-description, .manage-templates {
+  mat-card-content {
+    padding: 12px;
+  }
+  margin: 24px 0px;
 }

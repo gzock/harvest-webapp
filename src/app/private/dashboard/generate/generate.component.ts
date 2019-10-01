@@ -222,40 +222,20 @@ export class GenerateComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onFileSelected(event) {
-    if(event.target.files) {
-      this.onInputExcelTemplate(event.target.files[0])
-        .subscribe(
-          data => {
-            this.isUploading = true;
-            this.onUpload( data.split(",")[1] );
-          }
-        );
-    }
-  }
-
-  private onUpload(file) {
-    let projectId = this.currentProject.project_id;
-    this.templateService.create(projectId, file)
+  public onDeleteTemplate(templateId: string) {
+    const projectId = this.currentProject.project_id;
+    this.templateService.delete(projectId, templateId)
       .subscribe(
-         response => {
-            this.isUploading = false;
-            this.alert.openSuccessAlert("インポートに成功しました。");
-         },
-         err => {
-            this.isUploading = false;
-            console.log("error: " + err);
-            //if(err.error.error) {
-            //  this.errMsg = "エラー: " + err.error.error.message;
-            //  if(700 <= err.error.error.code && err.error.error.code <= 799) {
-            //    this.errorCode = err.error.error.code - 701;
-            //  }
-            //} else {
-            //  this.errMsg = "エラー: タイムアウト";
-            //}
-            this.alert.openErrorAlert("アップロードに失敗しました。");
-         }
-      )
+        res => {
+          console.log(res);
+          this.alert.openSuccessAlert("テンプレートの削除に成功しました。");
+          this.onListTemplates();
+        },
+        err => {
+           console.log("error: " + err);
+           this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
+        }
+      );
   }
 
   public onListGeneratedFiles() {

@@ -232,6 +232,7 @@
                 <h4 mat-line>プロパティ-タイトル: {{ template.property_title === 'True' ? '有効' : '無効' }}</h4>
                 <h4 mat-line>プロパティ-場所の階層: {{ template.property_hierarchy  === 'True' ? '有効' : '無効' }}</h4>
                 <h4 mat-line>プロパティ-撮影日時: {{ template.property_date  === 'True' ? '有効' : '無効' }}</h4>
+                <button mat-raised-button color="primary" (click)="onDeleteTemplate(template.template_id)">delete</button>
                 <mat-divider></mat-divider>
               </mat-list-item>
             </mat-list>

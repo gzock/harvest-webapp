@@ -30,4 +30,9 @@ export class TemplateService {
     let _templateUrl = this.templateUrl + projectId + "/templates";
     return this.http.post(_templateUrl, config);
   }
+
+  public delete(projectId: string, templateId: string) {
+    let _templateUrl = this.templateUrl + projectId + "/templates/" + templateId;
+    return this.http.delete(_templateUrl);
+  }
 }

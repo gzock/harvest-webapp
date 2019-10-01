@@ -37,7 +37,7 @@ export class UploadTemplateComponent implements OnInit {
     property_date: false
   };
   public projectTemplatesCount: number = 5;
-  public userTemplatesCount: numbre = 5;
+  public userTemplatesCount: number = 5;
   private explanationImages = [
     {
       src: "/assets/explanation-images/explanation-image-1.png",

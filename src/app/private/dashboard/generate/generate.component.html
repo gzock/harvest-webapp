@@ -213,56 +213,53 @@
         </button>
 
         <div class="row manate-templates-wrapper">
-        <mat-card class="col-5 manage-templates">
-          <mat-card-header class="text-center">
-            <mat-card-title>プロジェクト</mat-card-title>
-          </mat-card-header>
+          <div class="col-5 manage-templates">
+            <h4>プロジェクト</h4>
 
-          <mat-card-content class="text-center">
             <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
             <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
-            <mat-list>
-              <mat-list-item *ngFor="let template of projectTemplates">
-                <mat-icon mat-list-icon>grid_on</mat-icon>
+            <mat-expansion-panel *ngFor="let template of projectTemplates">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ template.name }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ template.description }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+            
+              <mat-checkbox [checked]="template.property_title === 'True'" disabled>タイトル</mat-checkbox>
+              <mat-checkbox [checked]="template.property_hierarchy === 'True'" disabled>場所の階層構造</mat-checkbox>
+              <mat-checkbox [checked]="template.property_date === 'True'" disabled>撮影日時</mat-checkbox>
 
-                <h4 mat-line>テンプレート名: {{ template.name }}</h4>
-                <h4 mat-line>説明: {{ template.description }}</h4>
-                <h4 mat-line>アップロード日時: {{ formatDate(template.created_at) }}</h4>
-                <h4 mat-line>プロパティ-タイトル: {{ template.property_title === 'True' ? '有効' : '無効' }}</h4>
-                <h4 mat-line>プロパティ-場所の階層: {{ template.property_hierarchy  === 'True' ? '有効' : '無効' }}</h4>
-                <h4 mat-line>プロパティ-撮影日時: {{ template.property_date  === 'True' ? '有効' : '無効' }}</h4>
-                <button mat-raised-button color="primary" (click)="onDeleteTemplate(template.template_id)">delete</button>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
+              <button mat-raised-button class="btn-block" color="warn" (click)="onDeleteTemplate(template.template_id)">削除</button>
+            </mat-expansion-panel>
+          </div>
 
-        <mat-card class="col-5 manage-templates">
-          <mat-card-header class="text-center">
-            <mat-card-title>ユーザー</mat-card-title>
-          </mat-card-header>
+          <div class="col-5 manage-templates">
+            <h4>ユーザー</h4>
 
-          <mat-card-content class="text-center">
             <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
             <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
-            <mat-list>
-              <mat-list-item *ngFor="let template of userTemplates">
-                <mat-icon mat-list-icon>grid_on</mat-icon>
+            <mat-expansion-panel *ngFor="let template of userTemplates">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ template.name }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ template.description }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+            
+              <mat-checkbox [checked]="template.property_title === 'True'" disabled>タイトル</mat-checkbox>
+              <mat-checkbox [checked]="template.property_hierarchy === 'True'" disabled>場所の階層構造</mat-checkbox>
+              <mat-checkbox [checked]="template.property_date === 'True'" disabled>撮影日時</mat-checkbox>
 
-                <h4 mat-line>テンプレート名: {{ template.name }}</h4>
-                <h4 mat-line>説明: {{ template.description }}</h4>
-                <h4 mat-line>アップロード日時: {{ formatDate(template.created_at) }}</h4>
-                <h4 mat-line>プロパティ-タイトル: {{ template.property_title === 'True' ? '有効' : '無効' }}</h4>
-                <h4 mat-line>プロパティ-場所の階層: {{ template.property_hierarchy  === 'True' ? '有効' : '無効' }}</h4>
-                <h4 mat-line>プロパティ-撮影日時: {{ template.property_date  === 'True' ? '有効' : '無効' }}</h4>
-                <mat-divider></mat-divider>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
+              <button mat-raised-button class="btn-block" color="warn" (click)="onDeleteTemplate(template.template_id)">削除</button>
+            </mat-expansion-panel>
+          </div>
         </div>
 
       </mat-tab>

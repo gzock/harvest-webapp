@@ -5,6 +5,83 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
+          作り方
+        </ng-template>
+    
+        <div class="col-12 description">
+            <!--<li><a href="/assets/excel_template.csv" download>テンプレート</a>をお使いください。</li>-->
+            <ul>
+            	<li>デフォルトテンプレートを下記のリンクからダウンロードすることができます。ご自身でテンプレートを作成する際の参考にしてください。
+            		<ul>
+            			<li><a href="/assets/templates/basic_1.xlsx">basic_1.xlsx</a></li>
+            			<li><a href="/assets/templates/basic_2.xlsx">basic_2.xlsx</a></li>
+            		</ul>
+            	</li>
+            	<li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
+            		<ul>
+            			<li>Office 2010以降のExcelのみサポートします。</li>
+            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしません</li>
+            		</ul>
+            	</li>
+            	<li>下記の参考画像のように改ページに必ず1つあるいは2つの"改ページ"を設定してください
+            		<ul>
+            			<li>自動的にその改ページまでの行をコピーします</li>
+            			<li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
+            			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
+            			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
+            			<li class="display-explanation-image" (click)="openExplanationImages(2)">参考画像3</li>
+            		</ul>
+            	</li>
+            	<li>下記の文字列をセル内文字列として入力してください
+            		<table class="table table-striped">
+              		<thead>
+              		  <tr>
+              		    <th scope="col">文字列</th>
+              		    <th scope="col">埋め込まれる内容</th>
+               		    <th scope="col">必須</th>
+              		  </tr>
+              		</thead>
+              		<tbody>
+              		  <tr>
+              		    <td>{{ '{' }}title {{ '}' }}</td>
+              		    <td>生成するときに指定する任意の文字列(デフォルト: プロジェクト名)</td>
+              		    <td>x</td>
+              		  </tr>
+              		  <tr>
+              		    <td>{{ '{' }}name{{ '}' }}</td>
+              		    <td>場所名や撮影対象名</td>
+              		    <td>o</td>
+              		  </tr>
+              		  <tr>
+              		    <td>{{ '{' }}photo{{ '}' }}</td>
+              		    <td>写真(セルサイズに自動的にリサイズされる)</td>
+              		    <td>o</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}hierarchy{{ '}' }}</td>
+              		    <td>場所の階層構造</td>
+              		    <td>x</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}date{{ '}' }}</td>
+              		    <td>写真の撮影日時</td>
+              		    <td>x</td>
+              		  </tr>
+               		  <tr>
+              		    <td>{{ '{' }}index{{ '}' }}</td>
+              		    <td>通し番号</td>
+              		    <td>x</td>
+              		  </tr>
+              		</tbody>
+            		</table>
+              </li>
+            </ul>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
           アップロード
         </ng-template>
     
@@ -103,137 +180,6 @@
 
           </mat-step>
         </mat-vertical-stepper>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
-          作り方
-        </ng-template>
-    
-        <div class="col-12 description">
-            <!--<li><a href="/assets/excel_template.csv" download>テンプレート</a>をお使いください。</li>-->
-            <ul>
-            	<li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
-            		<ul>
-            			<li>Office 2010以降のExcelのみサポートします。</li>
-            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしません</li>
-            		</ul>
-            	</li>
-            	<li>下記の参考画像のように改ページに必ず1つあるいは2つの"改ページ"を設定してください
-            		<ul>
-            			<li>自動的にその改ページまでの行をコピーします</li>
-            			<li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(2)">参考画像3</li>
-            		</ul>
-            	</li>
-            	<li>下記の文字列をセル内文字列として入力してください
-            		<table class="table table-striped">
-              		<thead>
-              		  <tr>
-              		    <th scope="col">文字列</th>
-              		    <th scope="col">埋め込まれる内容</th>
-               		    <th scope="col">必須</th>
-              		  </tr>
-              		</thead>
-              		<tbody>
-              		  <tr>
-              		    <td>{{ '{' }}title {{ '}' }}</td>
-              		    <td>生成するときに指定する任意の文字列(デフォルト: プロジェクト名)</td>
-              		    <td>x</td>
-              		  </tr>
-              		  <tr>
-              		    <td>{{ '{' }}name{{ '}' }}</td>
-              		    <td>場所名や撮影対象名</td>
-              		    <td>o</td>
-              		  </tr>
-              		  <tr>
-              		    <td>{{ '{' }}photo{{ '}' }}</td>
-              		    <td>写真(セルサイズに自動的にリサイズされる)</td>
-              		    <td>o</td>
-              		  </tr>
-               		  <tr>
-              		    <td>{{ '{' }}hierarchy{{ '}' }}</td>
-              		    <td>場所の階層構造</td>
-              		    <td>x</td>
-              		  </tr>
-               		  <tr>
-              		    <td>{{ '{' }}date{{ '}' }}</td>
-              		    <td>写真の撮影日時</td>
-              		    <td>x</td>
-              		  </tr>
-               		  <tr>
-              		    <td>{{ '{' }}index{{ '}' }}</td>
-              		    <td>通し番号</td>
-              		    <td>x</td>
-              		  </tr>
-              		</tbody>
-            		</table>
-              </li>
-            	<li>デフォルトテンプレートを下記のリンクからダウンロードすることができます。ご自身でテンプレートを作成する際の参考にしてください。
-            		<ul>
-            			<li><a href="/assets/templates/basic_1.xlsx">basic_1.xlsx</a></li>
-            			<li><a href="/assets/templates/basic_2.xlsx">basic_2.xlsx</a></li>
-            		</ul>
-            	</li>
-            </ul>
-        </div>
-
-        <!--
-        <div class="col-12 example-csv">
-          
-          一行目にヘッダ行として、<code>parent,type,name</code>を指定して下さい。
-          <pre>
-            parent: 紐づく"場所"の名前を指定してください。
-            type: "場所"あるいは"撮影対象"を指定してください。
-            name: 任意の名前を指定してください。
-            ※parentに何も指定しない場合は、プロジェクト直下に作成されます。</pre>
-
-          CSVの例
-          <pre>
-            1.  parent,type,name
-            2.  ,場所,拠点1
-            3.  ,場所,拠点2
-            4.  拠点2,場所,部屋1
-            5.  拠点1,撮影対象,無線アクセスポイント1
-            6.  部屋1,撮影対象,無線アクセスポイント2</pre>
-
-          このCSVを使用すると、下記のように作成されます。
-          <pre>
-            拠点1
-              + 無線アクセスポイント1
-            拠点2
-              + 部屋1
-                  + 無線アクセスポイント2</pre>
-        </div>
-        -->
-
-        <mat-tab-group class="example-error-description" [selectedIndex]="errorCode">
-          <mat-tab label="エラー例1">
-            <code>指定したプロパティ設定は必ず含める必要があります。</code>
-            <!--<pre>
-              1.  parent,type,name
-              2.  ,場所,拠点1
-              3.  ,場所,拠点2
-              4.  拠点1,場所,部屋1 ← 同じ名前
-              5.  拠点2,場所,部屋1 ← 同じ名前
-              6.  部屋1,撮影対象,無線アクセスポイント</pre>-->
-          </mat-tab>
-          <mat-tab label="エラー例2">
-            <code>改ページ設定を必ず1つか2つ設定する必要があります。</code>
-            <!--<pre>
-              1.  parent,type,name
-              2.  ,場所,拠点1
-              3.  拠点1,場所,1号館
-              4.  1,場所,1F
-              5.  1F,場所,A側
-              6.  A側,場所,部屋1
-              7.  部屋1,場所,デスクA ← 6階層目
-              8.  部屋1,撮影対象,無線アクセスポイント</pre>-->
-          </mat-tab>
-        </mat-tab-group>
       </mat-tab>
     </mat-tab-group>
 </mat-dialog-content>

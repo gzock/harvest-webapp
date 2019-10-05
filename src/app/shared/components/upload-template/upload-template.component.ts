@@ -101,10 +101,21 @@ export class UploadTemplateComponent implements OnInit {
          err => {
             this.isUploading = false;
             console.log("error: " + err);
+
             if(err.error.error) {
               this.errMsg = "エラー: " + err.error.error.message;
-              if(800 <= err.error.error.code && err.error.error.code <= 899) {
-                this.errorCode = err.error.error.code - 804;
+              switch(err.error.error.code) {
+                case 804:
+                  this.errMsg = "同じ名前のテンプレートをアップロードすることはできません。";
+                  break;
+                case 805:
+                  const requiredStr: string = err.error.error.message.split(":")[1];
+                  this.errMsg = `必要なプロパティ設定が足りません。エクセル内のどこかのセルに必ず"${requiredStr}"という文字列を入力しておく必要があります。`;
+                  break;
+                case 806:
+                  this.errMsg = "改ページが足りません。改ページは必ず1つか2つ設定してください。";
+                  break;
+
               }
             } else {
               this.errMsg = "エラー: タイムアウト";

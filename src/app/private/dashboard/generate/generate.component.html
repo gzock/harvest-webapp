@@ -240,8 +240,8 @@
           <div class="col-5 manage-templates">
             <h4>ユーザー</h4>
 
-            <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
-            <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+            <h5 *ngIf="userTemplates.length == 0 && isLoading">読み込み中です...</h5>
+            <h5 *ngIf="userTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
             <mat-expansion-panel *ngFor="let template of userTemplates">
               <mat-expansion-panel-header>

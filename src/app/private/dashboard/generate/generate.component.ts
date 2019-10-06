@@ -105,7 +105,6 @@ export class GenerateComponent implements OnInit, OnDestroy {
       secondCtrl: ['', Validators.required]
     });
 
-    //this.templates = [{"name": "basic_1.xlsx"}, {"name": "basic_2.xlsx"}, {"name": "pagebreaks.xlsx"}, {"name": "merged_pagebreaks.xlsx"}];
     this.onListTemplates();
     this.onListGeneratedFiles();
   }
@@ -192,20 +191,22 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onListTemplates() {
+    this.isLoading = true;
     const projectId = this.currentProject.project_id;
     this.templateService.list(projectId)
       .subscribe(
         (templates: AvailableTemplates) => {
-          console.log(templates);
           this.defaultTemplates = templates.default;
           this.userTemplates = templates.user;
           this.projectTemplates = templates.project;
           this.templates = [...this.defaultTemplates, ...this.userTemplates, ...this.projectTemplates]
           this.selectTemplate = this.templates[0];
+          this.isLoading = false;
         },
         err => {
            console.log("error: " + err);
            this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
+           this.isLoading = false;
         }
       );
   }
@@ -223,6 +224,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteTemplate(templateId: string) {
+    this.isLoading = true;
     const projectId = this.currentProject.project_id;
     this.templateService.delete(projectId, templateId)
       .subscribe(
@@ -230,10 +232,12 @@ export class GenerateComponent implements OnInit, OnDestroy {
           console.log(res);
           this.alert.openSuccessAlert("テンプレートの削除に成功しました。");
           this.onListTemplates();
+          this.isLoading = false;
         },
         err => {
            console.log("error: " + err);
            this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
+          this.isLoading = false;
         }
       );
   }

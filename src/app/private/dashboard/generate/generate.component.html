@@ -174,7 +174,7 @@
         </ng-template>
 
         <mat-list>
-          <h3 mat-subheader>過去1日分の履歴 (30秒毎に自動更新されます)</h3>
+          <h3 mat-subheader>過去1日分の履歴 (60秒毎に自動更新されます)</h3>
           <h5 *ngIf="generatedFiles.length == 0 && isLoading">読み込み中です...</h5>
           <h5 *ngIf="generatedFiles.length == 0 && !isLoading">履歴は存在しません。</h5>
           <mat-list-item *ngFor="let file of generatedFiles">

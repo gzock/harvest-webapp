@@ -158,13 +158,17 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.stepper.previous();
   }
 
-  public onReset() {
-    this.generatedFile = null;
+  public resetOrderProperty() {
     this.order.needs_include_hierarchy = false;
     this.order.needs_make_dir = true;
     this.order.needs_all_photos = false;
     this.order.needs_date = false;
     this.order.needs_print_settings = true;
+  }
+
+  public onReset() {
+    this.generatedFile = null;
+    this.resetOrderProperty();
     this.order.title = this.currentProject.name;
     this.stepper.reset();
   }

@@ -113,9 +113,13 @@ export class UploadTemplateComponent implements OnInit {
                   this.errMsg = `必要なプロパティ設定が足りません。エクセル内のどこかのセルに必ず"${requiredStr}"という文字列を入力しておく必要があります。`;
                   break;
                 case 806:
+                  const property: string = err.error.error.message.match(/^.*:\s(.*),\s.*$/)[1];
+                  const count: string = err.error.error.message.split(":")[2];
+                  this.errMsg = `各プロパティは1つだけ入力してください。"${property}"というプロパティが${count}個存在しています。`;
+                  break;
+                case 807:
                   this.errMsg = "改ページが足りません。改ページは必ず1つか2つ設定してください。";
                   break;
-
               }
             } else {
               this.errMsg = "エラー: タイムアウト";

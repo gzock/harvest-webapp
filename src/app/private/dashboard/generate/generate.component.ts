@@ -241,8 +241,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   public onListGeneratedFiles() {
     this.isLoading = true;
     let projectId = this.currentProject.project_id;
-    //this.subscriptions.push(timer(3000, 30000)
-    this.subscriptions.push(timer(3000, 300000)
+    this.subscriptions.push(timer(3000, 60000)
       .subscribe(
           () => {
             this.generateService.list(projectId)

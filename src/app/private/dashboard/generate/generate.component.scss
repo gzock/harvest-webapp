@@ -57,6 +57,19 @@ section {
   font-size: 28px;
 }
 
+.progress-spinner-wrapper {
+  margin: auto;
+}
+
+.loading-spinner {
+  width: 76px !important;
+  height: 76px !important;
+  ::ng-deep svg {
+    width: 76px !important;
+    height: 76px !important;
+  }
+  margin: 24px auto;
+}
 .progress-spinner {
   width: 76px !important;
   height: 76px !important;

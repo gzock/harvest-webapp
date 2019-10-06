@@ -175,7 +175,8 @@
 
         <mat-list>
           <h3 mat-subheader>過去1日分の履歴 (60秒毎に自動更新されます)</h3>
-          <h5 *ngIf="generatedFiles.length == 0 && isLoading">読み込み中です...</h5>
+          <mat-spinner class="loading-spinner" *ngIf="generatedFiles.length == 0 && isLoading"></mat-spinner>
+
           <h5 *ngIf="generatedFiles.length == 0 && !isLoading">履歴は存在しません。</h5>
           <mat-list-item *ngFor="let file of generatedFiles">
             <mat-icon mat-list-icon *ngIf="file.type === 'zip'">folder</mat-icon>
@@ -213,10 +214,13 @@
         </button>
 
         <div class="row manate-templates-wrapper">
-          <div class="col-5 manage-templates">
+          <div class="col-12">
+            <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
+          </div>
+
+          <div class="col-5 manage-templates" *ngIf="!isLoading">
             <h4>プロジェクト</h4>
 
-            <h5 *ngIf="projectTemplates.length == 0 && isLoading">読み込み中です...</h5>
             <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
             <mat-expansion-panel *ngFor="let template of projectTemplates">
@@ -237,10 +241,9 @@
             </mat-expansion-panel>
           </div>
 
-          <div class="col-5 manage-templates">
+          <div class="col-5 manage-templates" *ngIf="!isLoading">
             <h4>ユーザー</h4>
 
-            <h5 *ngIf="userTemplates.length == 0 && isLoading">読み込み中です...</h5>
             <h5 *ngIf="userTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
 
             <mat-expansion-panel *ngFor="let template of userTemplates">

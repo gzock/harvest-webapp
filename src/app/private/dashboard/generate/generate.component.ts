@@ -89,6 +89,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
             this.currentProject = project;
             this.permissions = this.projectsService.getCurrentPermissions();
             this.order.title = project.name;
+            this.onListTemplates();
           }
         },
         error => {

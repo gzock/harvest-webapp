@@ -89,7 +89,7 @@
           <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>テンプレートの割り当て先を選択</ng-template>
             <form [formGroup]="firstFormGroup">
-              <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (click)="onNextStep()" formControlName="firstCtrl" required>
+              <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (change)="onNextStep()" formControlName="firstCtrl" required>
                 <mat-radio-button class="select-template-radio" [value]="'project'" [disabled]="projectTemplatesCount >= 5">プロジェクト</mat-radio-button>
                 <mat-radio-button class="select-template-radio" [value]="'user'" [disabled]="userTemplatesCount >= 5">ユーザー</mat-radio-button>
               </mat-radio-group>

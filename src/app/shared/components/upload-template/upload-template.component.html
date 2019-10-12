@@ -99,9 +99,6 @@
           <mat-step [stepControl]="secondFormGroup">
             <ng-template matStepLabel>名前・説明を入力</ng-template>
             
-            <p *ngIf="!newTemplate.template_type" class="text-danger">
-              エラー: 割り当て先が選択されていません
-            </p>
             <div class="step-2-settings">
               <section class="example-section">
                 <form [formGroup]="secondFormGroup">
@@ -131,10 +128,6 @@
           <mat-step [optional]="true">
             <ng-template matStepLabel>プロパティ設定</ng-template>
             
-            <p *ngIf="!newTemplate.template_type" class="text-danger">
-              エラー: 割り当て先が選択されていません
-            </p>
-                
             <div class="step-3-settings">
               <section class="example-section">
                 <mat-checkbox class="example-margin" [(ngModel)]="newTemplate.property_title">
@@ -191,5 +184,4 @@
 
 <mat-dialog-actions align="sent">
   <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
-  <!--<button mat-button mat-raised-button color="warn" (click)="onAccept()">削除する</button>-->
 </mat-dialog-actions>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatVerticalStepper } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -55,6 +55,8 @@ export class UploadTemplateComponent implements OnInit {
       thumb: ""
     }
   ];
+  public firstFormGroup: FormGroup;
+  public secondFormGroup: FormGroup;
 
   @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
 
@@ -63,13 +65,21 @@ export class UploadTemplateComponent implements OnInit {
     public dialogRef: MatDialogRef<UploadTemplateComponent>,
     public templateService: TemplateService,
     private alert: AlertService,
-    private lightbox: Lightbox
+    private lightbox: Lightbox,
+    private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     this.projectId = this.data.projectId;
     this.projectTemplatesCount = this.data.projectTemplatesCount;
     this.userTemplatesCount = this.data.userTemplatesCount;
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required],
+      thirdCtrl: ['', Validators.required]
+    });
   }
 
   public onAccept() {

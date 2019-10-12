@@ -86,16 +86,17 @@
         </ng-template>
     
         <mat-vertical-stepper [linear]="true" #stepper>
-          <mat-step [completed]="true">
+          <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>テンプレートの割り当て先を選択</ng-template>
-
-            <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (click)="onNextStep()">
-              <mat-radio-button class="select-template-radio" [value]="'project'" [disabled]="projectTemplatesCount >= 5">プロジェクト</mat-radio-button>
-              <mat-radio-button class="select-template-radio" [value]="'user'" [disabled]="userTemplatesCount >= 5">ユーザー</mat-radio-button>
-            </mat-radio-group>
+            <form [formGroup]="firstFormGroup">
+              <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (click)="onNextStep()" formControlName="firstCtrl" required>
+                <mat-radio-button class="select-template-radio" [value]="'project'" [disabled]="projectTemplatesCount >= 5">プロジェクト</mat-radio-button>
+                <mat-radio-button class="select-template-radio" [value]="'user'" [disabled]="userTemplatesCount >= 5">ユーザー</mat-radio-button>
+              </mat-radio-group>
+            </form>
           </mat-step>
 
-          <mat-step>
+          <mat-step [stepControl]="secondFormGroup">
             <ng-template matStepLabel>名前・説明を入力</ng-template>
             
             <p *ngIf="!newTemplate.template_type" class="text-danger">
@@ -103,16 +104,20 @@
             </p>
             <div class="step-2-settings">
               <section class="example-section">
-                <mat-form-field>
-                  <input matInput placeholder="テンプレートの名前を入力" [(ngModel)]="newTemplate.name" required>
-                </mat-form-field>
+                <form [formGroup]="secondFormGroup">
+                  <mat-form-field>
+                    <input matInput placeholder="テンプレートの名前を入力" [(ngModel)]="newTemplate.name" formControlName="secondCtrl" required>
+                  </mat-form-field>
+                </form>
               </section>
 
               <section class="example-section">
-                <mat-form-field>
-                  <input matInput maxlength="30" placeholder="説明・備考・メモ" [(ngModel)]="newTemplate.description" required>
-                  <mat-hint>ご自由に入力ください(30文字以内)</mat-hint>
-                </mat-form-field>
+                <form [formGroup]="secondFormGroup">
+                  <mat-form-field>
+                    <input matInput maxlength="30" placeholder="説明・備考・メモ" [(ngModel)]="newTemplate.description" formControlName="thirdCtrl"required>
+                    <mat-hint>ご自由に入力ください(30文字以内)</mat-hint>
+                  </mat-form-field>
+                </form>
               </section>
             </div>
 

@@ -158,14 +158,6 @@ export class UploadTemplateComponent implements OnInit {
     this.stepper.next();
   }
 
-  public onPreviousStep() {
-    this.stepper.previous();
-  }
-
-  public onResetStep() {
-    this.stepper.reset();
-  }
-
   public openExplanationImages(index: number) {
     this.lightbox.open(this.explanationImages, index);
   }

@@ -48,11 +48,6 @@ export class UploadTemplateComponent implements OnInit {
       src: "/assets/explanation-images/explanation-image-2.png",
       caption: "",
       thumb: ""
-    },
-    {
-      src: "/assets/explanation-images/explanation-image-3.png",
-      caption: "",
-      thumb: ""
     }
   ];
   public firstFormGroup: FormGroup;
@@ -116,19 +111,25 @@ export class UploadTemplateComponent implements OnInit {
               this.errMsg = "エラー: " + err.error.error.message;
               switch(err.error.error.code) {
                 case 804:
-                  this.errMsg = "同じ名前のテンプレートをアップロードすることはできません。";
+                  this.errMsg = `同じ名前のテンプレートをアップロードすることはできません。`;
                   break;
                 case 805:
                   const requiredStr: string = err.error.error.message.split(":")[1];
                   this.errMsg = `必要なプロパティ設定が足りません。エクセル内のどこかのセルに必ず"${requiredStr}"という文字列を入力しておく必要があります。`;
                   break;
                 case 806:
+                  this.errMsg = `設定されている改ページの数が多いです。改ページは"0"あるいは"1"つに設定してください。`;
+                  break;
+                case 807:
+                  this.errMsg = `印刷エリアが設定されていません。`;
+                  break;
+                case 808:
                   const property: string = err.error.error.message.match(/^.*:\s(.*),\s.*$/)[1];
                   const count: string = err.error.error.message.split(":")[2];
                   this.errMsg = `各プロパティは1つだけ入力してください。"${property}"というプロパティが${count}個存在しています。`;
                   break;
-                case 807:
-                  this.errMsg = "改ページが足りません。改ページは必ず1つか2つ設定してください。";
+                case 809:
+                  this.errMsg = `指定されたプロパティが印刷エリアまたは改ページ内に存在しません。`;
                   break;
               }
             } else {

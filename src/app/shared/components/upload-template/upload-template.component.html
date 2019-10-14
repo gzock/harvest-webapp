@@ -20,16 +20,19 @@
             	<li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
             		<ul>
             			<li>Office 2010以降のExcelのみサポートします。</li>
-            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしません</li>
+            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしていません。</li>
             		</ul>
             	</li>
-            	<li>下記の参考画像のように改ページに必ず1つあるいは2つの"改ページ"を設定してください
+            	<li>下記の参考画像のように必ず印刷エリアを設定してください。その印刷エリア内のセルが自動的にコピーされます。
             		<ul>
-            			<li>自動的にその改ページまでの行をコピーします</li>
             			<li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
             			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
+            		</ul>
+            	</li>
+            	<li>"タイトル"などシート内に1つだけ存在すれば良い箇所については、その行を除く位置に改ページを1つだけ設定してください。
+            		<ul>
+            			<li>その改ページから印刷エリアの終端までのセルをコピーします。</li>
             			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(2)">参考画像3</li>
             		</ul>
             	</li>
             	<li>下記の文字列をセル内文字列として入力してください

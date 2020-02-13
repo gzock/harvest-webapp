@@ -113,9 +113,9 @@
                   edit
                 </mat-icon>
               </button>
-              <button mat-stroked-button class="action-button" [disabled]="true">
+              <button mat-stroked-button class="action-button" (click)="openDeleteUserDialog()" [disabled]="!selectedUser">
                 <mat-icon class="material-icons md-dark" color="accent"
-                    matTooltip="ユーザーを削除する(まだ使用できません)" 
+                    matTooltip="ユーザーを削除する" 
                     [matTooltipPosition]="'above'"
                 >
                   delete_forever
@@ -134,6 +134,7 @@
                 <mat-radio-button 
                   class="" 
                   value="{{ element.user_id }}" 
+                  (change)="onSelectUser(element)"
                 >
                 </mat-radio-button>
               </td>

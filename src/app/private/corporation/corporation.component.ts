@@ -11,6 +11,7 @@ import { CorporationService } from './../../shared/services/corporation/corporat
 import { AlertService } from './../../shared/services/alert/alert.service';
 
 import { CreateUserComponent } from './../../shared/components/create-user/create-user.component';
+import { DeleteUserComponent } from './../../shared/components/delete-user/delete-user.component';
 
 import { UserData } from './../dashboard/user/user-data';
 import { CorporationData } from './corporation-data';
@@ -32,6 +33,7 @@ export class CorporationComponent implements OnInit {
   public displayedColumns: string[] = ['user_id', 'preferred_username', 'email', 'created_at'];
   public filterValue: string;
   public isLoading: boolean = false;
+  public selectedUser: UserData;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -89,6 +91,18 @@ export class CorporationComponent implements OnInit {
     });
   }
 
+  openDeleteUserDialog() {
+    const dialogRef = this.dialog.open(DeleteUserComponent, { data: { targetUserName: this.selectedUser.preferred_username} });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        console.log(this.selectedUser);
+        this.onDeleteUser()
+        this.getCorporationData();
+      }
+    });
+  }
+
   public onChangePassword(oldPassword: string, newPassword: string) {
     this.auth.changePassword(oldPassword, newPassword)
       .subscribe(
@@ -110,6 +124,19 @@ export class CorporationComponent implements OnInit {
 
   public onCreateUser(username: string, kana_username: string, email: string, password: string) {
     this.corp.createUser(username, kana_username, email, password)
+      .subscribe(
+        res => {
+          console.log(res)
+        }
+      );
+  }
+
+  public onSelectUser(userData: UserData) {
+    this.selectedUser = userData;
+  }
+
+  private onDeleteUser(username: string) {
+    this.corp.deleteUser(username)
       .subscribe(
         res => {
           console.log(res)

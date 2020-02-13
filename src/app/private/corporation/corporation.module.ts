@@ -35,13 +35,15 @@ import { AuthInterceptor } from './../../shared/services/auth/auth.interceptor';
 import { AlertService } from './../../shared/services/alert/alert.service';
 
 import { CreateUserComponent } from './../../shared/components/create-user/create-user.component';
+import { DeleteUserComponent } from './../../shared/components/delete-user/delete-user.component';
 
 import { CorporationComponent } from './corporation.component';
 
 @NgModule({
   declarations: [
     CorporationComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    DeleteUserComponent
   ],
   imports: [
     CommonModule,
@@ -91,7 +93,8 @@ import { CorporationComponent } from './corporation.component';
   exports: [
   ],
   entryComponents: [
-    CreateUserComponent
+    CreateUserComponent,
+    DeleteUserComponent
   ]
 })
 export class CorporationModule { }

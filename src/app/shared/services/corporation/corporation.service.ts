@@ -30,4 +30,8 @@ export class CorporationService {
     return this.http.post(this.corporationUrl + "/users", body);
   }
 
+  public deleteUser(userName: string): Observable<any> {
+    return this.http.delete(this.corporationUrl + "/users/" + userName);
+  }
+
 }

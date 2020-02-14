@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ targetUserName }} ユーザー削除の確認</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-card>
+    <p class="small text-danger">
+      本当に"{{ targetUserName }}"というユーザーを削除しますか？<br>
+      削除してしまうと、二度と元に戻すことはできません。<br>
+      このユーザーが所持していたプロジェクトや写真のデータは全て削除されます。<br>
+      これらのデータについても、いかなる理由があったとしても復旧させることはできません。<br>
+      本当に削除する場合は、確認のために以下のフォームに対象ユーザーの氏名を入力し、"ユーザーを削除"を実行して下さい。
+    </p>
+  </mat-card>
+  <form class="confirm-form" #formCheck="ngForm">
+    <mat-form-field class="delete-user-form">
+      <input type="text" matInput name="delete-user-confirm" placeholder="氏名を入力(姓名の間にスペースを入力してください)" [(ngModel)]="tmp" pattern="^{{ targetUserName }}$" required>
+    </mat-form-field>
+  </form>
+  <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onAccept()" [disabled]="formCheck.invalid">ユーザーを削除</button>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="action-button" mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
+</mat-dialog-actions>

@@ -92,12 +92,12 @@ export class CorporationComponent implements OnInit {
   }
 
   openDeleteUserDialog() {
-    const dialogRef = this.dialog.open(DeleteUserComponent, { data: { targetUserName: this.selectedUser.preferred_username} });
+    const dialogRef = this.dialog.open(DeleteUserComponent, { data: { targetUserName: this.selectedUser.preferred_username } });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         console.log(this.selectedUser);
-        this.onDeleteUser()
+        this.onDeleteUser(this.selectedUser.user_id)
         this.getCorporationData();
       }
     });

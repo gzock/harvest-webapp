@@ -15,7 +15,7 @@
       <input type="text" matInput name="delete-user-confirm" placeholder="氏名を入力(姓名の間にスペースを入力してください)" [(ngModel)]="tmp" pattern="^{{ targetUserName }}$" required>
     </mat-form-field>
   </form>
-  <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteUser()" [disabled]="formCheck.invalid">ユーザーを削除</button>
+  <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteUser()" [disabled]="formCheck.invalid || isProgress">ユーザーを削除</button>
   <p class="text-danger small" *ngIf="errMsg">
     {{ errMsg }}
   </p>

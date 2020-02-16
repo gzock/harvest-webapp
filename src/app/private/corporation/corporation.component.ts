@@ -92,12 +92,10 @@ export class CorporationComponent implements OnInit {
   }
 
   openDeleteUserDialog() {
-    const dialogRef = this.dialog.open(DeleteUserComponent, { data: { targetUserName: this.selectedUser.preferred_username } });
+    const dialogRef = this.dialog.open(DeleteUserComponent, { data: { targetUser: this.selectedUser } });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log(this.selectedUser);
-        this.onDeleteUser(this.selectedUser.user_id)
         this.getCorporationData();
       }
     });
@@ -133,15 +131,6 @@ export class CorporationComponent implements OnInit {
 
   public onSelectUser(userData: UserData) {
     this.selectedUser = userData;
-  }
-
-  private onDeleteUser(username: string) {
-    this.corp.deleteUser(username)
-      .subscribe(
-        res => {
-          console.log(res)
-        }
-      );
   }
 
   private openSuccessAlert(msg) {

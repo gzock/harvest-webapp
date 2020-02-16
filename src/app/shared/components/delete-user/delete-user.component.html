@@ -1,5 +1,6 @@
 <h2 mat-dialog-title>{{ targetUserName }} ユーザー削除の確認</h2>
 <mat-dialog-content class="mat-typography">
+  <mat-spinner class="progress-spinner" *ngIf="isProgress"></mat-spinner>
   <mat-card>
     <p class="small text-danger">
       本当に"{{ targetUserName }}"というユーザーを削除しますか？<br>
@@ -14,7 +15,10 @@
       <input type="text" matInput name="delete-user-confirm" placeholder="氏名を入力(姓名の間にスペースを入力してください)" [(ngModel)]="tmp" pattern="^{{ targetUserName }}$" required>
     </mat-form-field>
   </form>
-  <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onAccept()" [disabled]="formCheck.invalid">ユーザーを削除</button>
+  <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteUser()" [disabled]="formCheck.invalid">ユーザーを削除</button>
+  <p class="text-danger small" *ngIf="errMsg">
+    {{ errMsg }}
+  </p>
 </mat-dialog-content>
 
 <mat-dialog-actions>

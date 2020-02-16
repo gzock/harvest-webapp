@@ -1,5 +1,5 @@
 export interface UserData {
-  uesr_id?: string;
+  user_id?: string;
   sub?: string;
   email: string;
   preferred_username: string;

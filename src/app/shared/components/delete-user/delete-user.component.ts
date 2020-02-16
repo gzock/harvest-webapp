@@ -14,6 +14,7 @@ import { CorporationService } from './../../services/corporation/corporation.ser
 export class DeleteUserComponent implements OnInit {
   public errMsg: string;
   public code: string;
+  public checkFormValue: string;
   public targetUser: UserData;
   public targetUserName: string;
   public isProgress: boolean = false;

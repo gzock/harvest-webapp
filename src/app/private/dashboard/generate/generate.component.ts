@@ -56,6 +56,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "needs_all_photos": false,
     "needs_date": false,
     "needs_print_settings": true,
+    "needs_sort": false,
     "force_download": false,
     "char_enc": "shift_jis"
   };
@@ -164,6 +165,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.order.needs_all_photos = false;
     this.order.needs_date = false;
     this.order.needs_print_settings = true;
+    this.order.needs_sort = false;
   }
 
   public onReset() {

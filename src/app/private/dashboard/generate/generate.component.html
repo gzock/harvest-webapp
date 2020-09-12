@@ -126,6 +126,11 @@
                   ファイル名に撮影日時を付与(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>
+              <section class="example-section">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_sort">
+                  写真の撮影日時順でソートする (デフォルト: 撮影対象の作成日時順)
+                </mat-checkbox>
+              </section>
             </div>
 
             <div>

@@ -8,6 +8,7 @@ export interface Order {
   needs_all_photos: boolean;
   needs_date: boolean;
   needs_print_settings: boolean;
+  needs_sort: boolean;
   force_download: boolean;
   char_enc: string;
 }

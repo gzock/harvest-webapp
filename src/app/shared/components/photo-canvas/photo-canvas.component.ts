@@ -56,7 +56,7 @@ export class PhotoCanvasComponent implements AfterViewInit {
   getDataUrl(blobImage: Blob, options: Object): Promise<any> {
     return new Promise((resolve) => {
       loadImage(blobImage, (canvas) => {
-        resolve(canvas.toDataURL("image/jpeg",0.83));
+        resolve(canvas.toDataURL("image/jpeg",0.85));
       }, options);
     });
   }

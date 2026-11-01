@@ -665,6 +665,7 @@
     },
     "/corporation/billing": {
       "get": {
+        "description": "Legacy alias for GET /corporation. Returns the complete corporation document including billing.",
         "operationId": "get_corporation_billing",
         "parameters": [],
         "responses": {
@@ -759,10 +760,15 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
               }
             },
-            "description": "Legacy JSON result; service-specific response shape is retained."
+            "description": "Members of the authenticated corporation, preserving the legacy array response."
           },
           "400": {
             "content": {
@@ -1010,6 +1016,7 @@
         "summary": "corporation users"
       },
       "get": {
+        "description": "Legacy alias for GET /corporation/users. The user_id path parameter does not filter the result.",
         "operationId": "get_corporation_users_user_id",
         "parameters": [
           {
@@ -1025,10 +1032,15 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
               }
             },
-            "description": "Legacy JSON result; service-specific response shape is retained."
+            "description": "Members of the authenticated corporation, preserving the legacy array response."
           },
           "400": {
             "content": {
@@ -1059,21 +1071,6 @@
               }
             },
             "description": "Denied by resource or role authorization"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Employee not found in this corporation"
           },
           "409": {
             "content": {

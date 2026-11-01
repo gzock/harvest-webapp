@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy,Component,OnInit } from '@angular/core';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit,signal } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GuestPermissions } from '../../services/projects/action-permissions/permissions/guest-permissions';
@@ -6,7 +7,7 @@ import { GuestPermissions } from '../../services/projects/action-permissions/per
 
 import { Project } from '../../../private/dashboard/projects/project';
 import { AlertService } from './../../../shared/services/alert/alert.service';
-import { AuthService } from './../../../shared/services/auth/auth.service';
+import { AuthService,SessionUser } from './../../../shared/services/auth/auth.service';
 import { Permissions } from './../../services/projects/action-permissions/permissions/permissions';
 import { ProjectsService } from './../../services/projects/projects.service';
 import { ProjectJoinUser } from './project-join-user';
@@ -18,7 +19,8 @@ import { ProjectJoinUser } from './project-join-user';
   templateUrl: './setting-project.component.html',
   styleUrls: ['./setting-project.component.scss']
 })
-export class SettingProjectComponent implements OnInit {
+export class SettingProjectComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new ReplaySubject<void>(1);
   tmp = '';
   public projects: Project[] = [];
   public joinCode: string = '';
@@ -27,7 +29,7 @@ export class SettingProjectComponent implements OnInit {
   public rejectedUsers: ProjectJoinUser[] = [];
   public currentProject: Project | null = null;
   public isLoading: boolean = true;
-  public myUserData: any;
+  public readonly myUserData = signal<SessionUser | null>(null);
   public updateProject: Project = {} as Project;
   public permissions: Permissions = new GuestPermissions();
 
@@ -44,7 +46,8 @@ export class SettingProjectComponent implements OnInit {
     this.updateProject =  JSON.parse(JSON.stringify(this.currentProject));
     this.permissions = this.projectsService.getCurrentPermissions();
     this.projectsService.listUsers(this.currentProject.project_id)
-      .subscribe(
+      .pipe(takeUntil(this.destroy$))
+     .subscribe(
         (users: ProjectJoinUser[]) => {
           this.joinedUsers = users.filter( user => user.status === "active" );
           this.requestedUsers = users.filter( user => user.status === "request" );
@@ -52,21 +55,30 @@ export class SettingProjectComponent implements OnInit {
           this.isLoading = false;
         },
         _err => {
+          this.isLoading = false;
           this.openErrorAlert("ユーザー情報の取得");
         }
       );
     this.authService.getData()
-      .subscribe(
+      .pipe(takeUntil(this.destroy$))
+     .subscribe(
         userData => {
-          this.myUserData = userData;
-        }
+          this.myUserData.set(userData);
+        },
+        () => this.openErrorAlert('ログインユーザー情報の取得')
       )
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public onUpdateRole(userId: string, role: string) {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.updateRole(this.currentProject.project_id, userId, role)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("ロールの変更に成功しました。");
@@ -84,6 +96,7 @@ export class SettingProjectComponent implements OnInit {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.acceptUser(this.currentProject.project_id, userId)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("指定したユーザーの参加を許可しました。");
@@ -101,6 +114,7 @@ export class SettingProjectComponent implements OnInit {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.rejectUser(this.currentProject.project_id, userId)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("指定したユーザーの参加を拒否しました。");
@@ -118,6 +132,7 @@ export class SettingProjectComponent implements OnInit {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.deleteUser(this.currentProject.project_id, userId)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("指定したユーザーを削除しました。");
@@ -161,6 +176,7 @@ export class SettingProjectComponent implements OnInit {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.update(this.currentProject.project_id, project)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("プロジェクトの設定を変更しました。");
@@ -178,6 +194,7 @@ export class SettingProjectComponent implements OnInit {
     if (!this.currentProject) return;
     this.isLoading = true;
     this.projectsService.delete(this.currentProject.project_id)
+     .pipe(takeUntil(this.destroy$))
      .subscribe(
        _res => {
          this.openSuccessAlert("プロジェクトを削除しました。");

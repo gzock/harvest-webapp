@@ -1,3 +1,5 @@
+import { TestBed } from '@angular/core/testing';
+import { DashboardModule } from '../dashboard.module';
 import { FormBuilder } from '@angular/forms';
 import { BehaviorSubject,Subject,defer,of,throwError } from 'rxjs';
 import { afterEach,beforeEach,describe,expect,it,vi } from 'vitest';
@@ -14,6 +16,7 @@ describe('Generation project scope', () => {
   let templatesB: Subject<AvailableTemplates>;
   let generate: ReturnType<typeof vi.fn>;
   beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [DashboardModule] });
     project = new BehaviorSubject<Project | null>({ project_id: 'a', name: 'First', role: 'owner' } as Project);
     templatesA = new Subject();
     templatesB = new Subject();
@@ -57,6 +60,23 @@ describe('Generation project scope', () => {
     component.onGenerate(component.order);
     expect(generate).toHaveBeenCalledOnce();
     expect(attempts).toBe(2);
+  });
+
+  it('cancels a pending download URL when the selected project changes', () => {
+    const download = new Subject();
+    Object.assign(component.generateService, { generateDownloadUrl: () => download });
+    component.onDownload('report');
+    expect(download.observed).toBe(true);
+    project.next({ project_id: 'b', name: 'Second', role: 'owner' } as Project);
+    expect(download.observed).toBe(false);
+  });
+  it('cancels a template deletion when its view is destroyed', () => {
+    const deletion = new Subject();
+    Object.assign(component.templateService, { delete: () => deletion });
+    component.onDeleteTemplate('custom-template');
+    expect(deletion.observed).toBe(true);
+    component.ngOnDestroy();
+    expect(deletion.observed).toBe(false);
   });
 
 });

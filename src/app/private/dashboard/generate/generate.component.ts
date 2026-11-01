@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy,Component,OnDestroy,OnInit,ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
-import { Observable,Subscription,timer } from "rxjs";
+import { Observable,Subject,Subscription,takeUntil,timer } from "rxjs";
 import { GuestPermissions } from '../../../shared/services/projects/action-permissions/permissions/guest-permissions';
 import { formatJapanDate } from '../../../shared/utils/date';
 
@@ -30,6 +30,7 @@ import { TemplateConfig } from './template-config';
 })
 export class GenerateComponent implements OnInit, OnDestroy {
   public currentProject: Project | null = null;
+  private readonly scopeEnded = new Subject<void>();
   private generationRequest?: Subscription;
   private generationOperation?: { key: string; request: Observable<GenerationJob> };
   public generationStatus = '';
@@ -93,6 +94,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.projectsService.currentProjectSubject
       .subscribe(
         project => {
+          this.scopeEnded.next();
           this.generationRequest?.unsubscribe();
           this.generationOperation = undefined;
           this.isProgress = false;
@@ -134,6 +136,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.scopeEnded.next();
+    this.scopeEnded.complete();
     this.generationRequest?.unsubscribe();
     this.templatesRequest?.unsubscribe();
     this.historyRequest?.unsubscribe();
@@ -230,7 +234,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.scopeEnded)).subscribe(result => {
       if(result) {
         this.onListTemplates()
       }
@@ -271,6 +275,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const projectId = this.currentProject.project_id;
     this.templateService.delete(projectId, templateId)
+      .pipe(takeUntil(this.scopeEnded))
       .subscribe(
         _res => {
 
@@ -317,6 +322,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const projectId = this.currentProject.project_id;
     this.generateService.generateDownloadUrl(projectId, generatedFileId)
+      .pipe(takeUntil(this.scopeEnded))
       .subscribe(
          (res: Generated) => {
            if(res.download_url) {

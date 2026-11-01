@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
   newPassword = '';
   isSaveEmail = true;
   isDisplayPassword = false;
-  formType = 'password';
   isLoading = false;
   requiresNewPassword = false;
 
@@ -54,9 +53,6 @@ export class LoginComponent implements OnInit {
         ? 'パスワードを変更できませんでした。要件を確認して再度お試しください。'
         : 'ログインに失敗しました。メールアドレスとパスワードをご確認ください。',
     });
-  }
-  onSwitchDisplayPassword(): void {
-    this.formType = this.isDisplayPassword ? 'password' : 'text';
   }
   private navigateAfterSignIn(): void {
     this.authService.isCorporationUser().subscribe(corporation => {

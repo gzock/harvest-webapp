@@ -62,7 +62,7 @@
                   <mat-select 
                     [(value)]="user.role" placeholder="権限" 
                     (selectionChange)="onUpdateRole(user.user_id, user.role)" 
-                    [disabled]="user.user_id === myUserData.username || isLoading"
+                    [disabled]="!myUserData() || user.user_id === myUserData()?.username || isLoading"
                   >
                     <mat-option value="admin">管理者</mat-option>
                     <mat-option value="worker">ワーカー</mat-option>

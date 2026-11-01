@@ -1,3 +1,6 @@
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { AuthService } from '../../shared/services/auth/auth.service';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { beforeEach,describe,expect,it,vi } from 'vitest';
@@ -24,4 +27,24 @@ describe('Login navigation', () => {
     component.onLoggedIn('e', 'p');
     expect(component.requiresNewPassword).toBe(true); expect(router.navigate).not.toHaveBeenCalled();
   });
+  it('shows and hides the password with the rendered Material checkbox', async () => {
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection(), provideRouter([]),
+      { provide: AuthService, useValue: { isAuthenticated: () => of(false) } }] });
+    const fixture = TestBed.createComponent(LoginComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const checkbox = fixture.nativeElement.querySelector('.option-display-password input') as HTMLInputElement;
+    const password = fixture.nativeElement.querySelector('#password') as HTMLInputElement;
+    expect(password.type).toBe('password');
+    checkbox.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(checkbox.checked).toBe(true);
+    expect(password.type).toBe('text');
+    checkbox.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(password.type).toBe('password');
+  });
+
 });

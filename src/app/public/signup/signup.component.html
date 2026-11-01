@@ -12,7 +12,7 @@
         <mat-card-content>
           <form #formCheck="ngForm">
             <section class="example-section">
-              <label>アカウントの種類:　</label>
+              <span>アカウントの種類:　</span>
               <mat-radio-group name="input-user-type" [(ngModel)]="info.user_type" required>
                 <mat-radio-button value="personal">個人　</mat-radio-button>
                 <mat-radio-button value="corporate" disabled>法人　</mat-radio-button>
@@ -20,7 +20,7 @@
               </mat-radio-group>
             </section>
             <section class="example-section">
-              <label>プラン:　</label>
+              <span>プラン:　</span>
               <mat-radio-group name="input-pricing-plan" [(ngModel)]="info.pricing_plan" required>
                 <mat-radio-button value="standard">スタンダード　</mat-radio-button>
                 <mat-radio-button value="guest" disabled>フリー　</mat-radio-button>
@@ -55,7 +55,7 @@
                 <mat-hint>英小文字/英大文字/数字それぞれ1文字を含む8文字以上</mat-hint>
               </mat-form-field>
               <mat-form-field>
-                <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword" pattern="^{{ info.password }}$" required>
+                <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword"  required>
               </mat-form-field>
             </section>
           </form>
@@ -65,7 +65,7 @@
         </mat-card-content>
 
         <mat-card-actions>
-          <button mat-stroked-button color="primary" (click)="onSignup(info)" [disabled]="formCheck.invalid">登録</button>
+          <button mat-stroked-button color="primary" (click)="onSignup(info)" [disabled]="formCheck.invalid || retypePassword !== info.password">登録</button>
         </mat-card-actions>
       </mat-card>
     </div>

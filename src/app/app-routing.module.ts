@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule,Routes } from '@angular/router';
 
 import { AuthGuard } from './shared/guards/auth/auth.guard';
 import { CorporationAuthGuard } from './shared/guards/auth/corporation-auth.guard';
@@ -7,21 +7,19 @@ import { CorporationAuthGuard } from './shared/guards/auth/corporation-auth.guar
 const routes: Routes = [
   {
       path: 'dashboard',
-      loadChildren: './private/dashboard/dashboard.module#DashboardModule',
+      loadChildren: () => import('./private/dashboard/dashboard.module').then(m => m.DashboardModule),
       canActivate: [AuthGuard]
   },
   {
       path: 'corporation',
-      loadChildren: './private/corporation/corporation.module#CorporationModule',
+      loadChildren: () => import('./private/corporation/corporation.module').then(m => m.CorporationModule),
       canActivate: [CorporationAuthGuard]
   },
-  { path: '', loadChildren: './public/login/login.module#LoginModule' },
-  { path: 'login', loadChildren: './public/login/login.module#LoginModule' },
-  { path: 'signup', loadChildren: './public/signup/signup.module#SignupModule' }
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', loadChildren: () => import('./public/login/login.module').then(m => m.LoginModule) },
+  { path: 'signup', loadChildren: () => import('./public/signup/signup.module').then(m => m.SignupModule) },
+  { path: '**', redirectTo: 'login' }
 
-  //{ path: 'signup', loadChildren: './public/signup/signup.module#SignupModule' },
-  //{ path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
-  //{ path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({

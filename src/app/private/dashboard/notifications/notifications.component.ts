@@ -1,33 +1,35 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
-import { filter, map, tap, catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit } from '@angular/core';
+import { ReplaySubject,Subscription } from "rxjs";
+import { switchMap,takeUntil } from "rxjs/operators";
+import { formatJapanDate } from '../../../shared/utils/date';
 
-import { AuthService } from './../../../shared/services/auth/auth.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { AuthService } from './../../../shared/services/auth/auth.service';
 import { NotificationsService } from './../../../shared/services/notifications/notifications.service';
 
 import { Notification } from './notification';
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new ReplaySubject<void>(1);
   public notifications: Notification[] = [] as Notification[];
-  private notificationsSubscription: Subscription;
+  private notificationsSubscription?: Subscription;
   public selection = new SelectionModel<Notification>(true, []);
 
   displayedColumns: string[] = ["select", "created_at", "message"];
-  dataSource: MatTableDataSource<Notification>;
+  dataSource = new MatTableDataSource<Notification>([]);
 
-  //@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  //@ViewChild(MatSort, {static: true}) sort: MatSort;
+  //@ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+  //@ViewChild(MatSort, {static: true}) sort!: MatSort;
 
   constructor(
     private auth: AuthService,
@@ -40,21 +42,23 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.notificationsSubscription = this.notificationsService.notificationsSubject
       .subscribe(
         (notifications: Notification[]) => {
-          if(notifications instanceof Array && notifications.length) {
+          if(notifications instanceof Array) {
             this.notifications = notifications;
             this.dataSource = new MatTableDataSource(this.notifications);
             //this.dataSource.paginator = this.paginator;
             //this.dataSource.sort = this.sort;
           }
         },
-        err => {
-          console.log("error: " + err);
+        _err => {
+
           this.openErrorAlert("プロジェクト一覧の取得");
         }
       );
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.notificationsSubscription) {
       this.notificationsSubscription.unsubscribe();
     }
@@ -70,27 +74,21 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   public onReadNotifications(notifications: Notification[]) {
     this.notificationsService.reads(notifications.map(item => item.notification_id))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
-        response => {
-          console.log(response);
+        _response => {
+
         },
-        err => {
-          console.log(err);
+        _err => {
+
         }
       );
   }
 
   public onDeleteNotifications(notifications: Notification[]) {
-  //TODO: 何とかobservable.mergeでdeleteをまとめてsubscribeできないか
-    this.notificationsService.deletes(notifications.map(item => item.notification_id));
-    //  .subscribe(
-    //    response => {
-    //      console.log(response);
-    //    },
-    //    err => {
-    //      console.log(err);
-    //    }
-    //  );
+    this.notificationsService.deletes(notifications.map(item => item.notification_id))
+      .pipe(switchMap(() => this.notificationsService.list()), takeUntil(this.destroy$))
+      .subscribe({ next: () => this.selection.clear(), error: () => this.openErrorAlert('通知の削除') });
   }
 
   public isAllSelected() {
@@ -101,9 +99,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+    if (this.isAllSelected()) this.selection.clear();
+    else this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -114,20 +111,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.notification_id}`;
   }
 
-  private openSuccessAlert(msg) {
+  private openSuccessAlert(msg: string) {
     this.alert.openSuccessAlert(msg);
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alert.openErrorAlert(msg + "に失敗しました。内容をご確認の上、再度お試しください。");
   }
 
   public formatDate(date: string) {
-    if(date) {
-      let _date: Date = new Date(date);
-      _date.setTime(_date.getTime() + 1000*60*60*9);
-      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
-    }
+    return formatJapanDate(date, true);
   }
 
 }

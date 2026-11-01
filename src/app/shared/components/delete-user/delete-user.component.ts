@@ -1,22 +1,23 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ChangeDetectionStrategy,Component,Inject } from '@angular/core';
+import { MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
 
 import { UserData } from './../../../private/dashboard/user/user-data';
 import { AlertService } from './../../services/alert/alert.service';
 import { CorporationService } from './../../services/corporation/corporation.service';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-delete-user',
   templateUrl: './delete-user.component.html',
   styleUrls: ['./delete-user.component.scss']
 })
-export class DeleteUserComponent implements OnInit {
-  public errMsg: string;
-  public code: string;
-  public checkFormValue: string;
+export class DeleteUserComponent {
+  public errMsg: string = '';
+  public code: string = '';
+  public checkFormValue: string = '';
   public targetUser: UserData;
-  public targetUserName: string;
+  public targetUserName: string = '';
   public isProgress: boolean = false;
 
   constructor(
@@ -29,22 +30,21 @@ export class DeleteUserComponent implements OnInit {
     this.targetUserName = this.targetUser.preferred_username;
   }
 
-  ngOnInit() {
-  }
 
   public onDeleteUser() {
+    if (!this.targetUser.user_id) return;
     this.errMsg = "";
     this.isProgress = true;
 
     this.corp.deleteUser(this.targetUser.user_id)
       .subscribe(
-        result => {
-          console.log(result)
+        _result => {
+
           this.openSuccessAlert("ユーザーの削除に成功しました。");
           this.dialogRef.close(true);
         },
         error => {
-          console.log(error);
+
           this.errMsg = error.message;
           this.openErrorAlert("ユーザーの削除に失敗しました。");
           this.isProgress = false;
@@ -52,11 +52,11 @@ export class DeleteUserComponent implements OnInit {
       );
   }
 
-  private openSuccessAlert(msg) {
+  private openSuccessAlert(msg: string) {
     this.alertService.openSuccessAlert(msg);
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alertService.openErrorAlert(msg);
   }
 

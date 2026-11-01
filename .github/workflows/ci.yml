@@ -1,0 +1,48 @@
+name: Web quality
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run api:check
+      - run: node --test scripts/deploy.test.mjs
+      - run: npm run test:ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Browser failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-results
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+      - name: Production build
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-build-${{ github.sha }}
+          path: dist/harvest-webapp/
+          retention-days: 7

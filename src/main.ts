@@ -1,18 +1,14 @@
-import 'hammerjs';
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import { platformBrowser } from '@angular/platform-browser';
 import { AppModule } from './app/app.module';
+import { loadRuntimeConfig } from './app/core/config/runtime-config';
 import { environment } from './environments/environment';
 
-if (environment.production) {
-  enableProdMode();
+async function bootstrap(): Promise<void> {
+  await loadRuntimeConfig();
+  if (environment.production) enableProdMode();
+  await platformBrowser().bootstrapModule(AppModule);
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .then(() => {
-    if ('serviceWorker' in navigator && environment.production) {
-      navigator.serviceWorker.register('/ngsw-worker.js');
-    }
-  })
-  .catch(err => console.error(err));
+void bootstrap().catch(() => {
+  document.body.textContent = 'アプリケーションを起動できませんでした。通信と公開設定を確認して再読み込みしてください。';
+});

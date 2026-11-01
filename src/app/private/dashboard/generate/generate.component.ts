@@ -1,45 +1,52 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, merge, throwError, timer, Subject, Subscription, TimeoutError } from "rxjs";
-import { timeout, filter, map, concatMap, tap, catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit,ViewChild } from '@angular/core';
+import { FormBuilder,FormGroup,Validators } from '@angular/forms';
+import { Observable,Subscription,timer } from "rxjs";
+import { GuestPermissions } from '../../../shared/services/projects/action-permissions/permissions/guest-permissions';
+import { formatJapanDate } from '../../../shared/utils/date';
 
-import { MatVerticalStepper } from '@angular/material';
-import { MatDialog } from '@angular/material';
-import { Lightbox } from 'ngx-lightbox';
+import { MatDialog } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
+import { ImageViewerService } from '../../../shared/components/image-viewer/image-viewer.component';
 
-import { Project } from './../projects/project';
-import { ProjectsService } from './../../../shared/services/projects/projects.service';
-import { GenerateService } from './../../../shared/services/generate/generate.service';
-import { TemplateService } from './../../../shared/services/template/template.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { GenerateService,GenerationJob } from './../../../shared/services/generate/generate.service';
+import { ProjectsService } from './../../../shared/services/projects/projects.service';
+import { TemplateService } from './../../../shared/services/template/template.service';
+import { Project } from './../projects/project';
 
-import { Order } from './order';
-import { Template } from './template';
-import { TemplateConfig } from './template-config';
+import { UploadTemplateComponent } from './../../../shared/components/upload-template/upload-template.component';
+import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 import { AvailableTemplates } from './available-templates';
 import { Generated } from './generated';
-import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
-import { CautionComponent } from './../../../shared/components/caution/caution.component';
-import { UploadTemplateComponent } from './../../../shared/components/upload-template/upload-template.component';
+import { Order } from './order';
+import { TemplateConfig } from './template-config';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-generate',
   templateUrl: './generate.component.html',
   styleUrls: ['./generate.component.scss']
 })
 export class GenerateComponent implements OnInit, OnDestroy {
-  public currentProject: Project;
+  public currentProject: Project | null = null;
+  private generationRequest?: Subscription;
+  private generationOperation?: { key: string; request: Observable<GenerationJob> };
+  public generationStatus = '';
+  public templatesLoading = false;
+  private templatesRequest?: Subscription;
+  private historyRequest?: Subscription;
   private subscriptions: Subscription[] = [];
-  public generatedFile: Generated;
+  public generatedFile: Generated | null = null;
   public isProgress: boolean = false;
   public isLoading: boolean = false;
 
   public isLinear = false;
-  public firstFormGroup: FormGroup;
-  public secondFormGroup: FormGroup;
-  public generateType: string;
+  public firstFormGroup!: FormGroup;
+  public secondFormGroup!: FormGroup;
+  public generateType: string = '';
   public checked: any;
-  public permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = new GuestPermissions();
   public defaultTemplates: TemplateConfig[] = [] as TemplateConfig[];
   public userTemplates: TemplateConfig[] = [] as TemplateConfig[];
   public projectTemplates: TemplateConfig[] = [] as TemplateConfig[];
@@ -61,7 +68,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     "char_enc": "shift_jis"
   };
   public selectTemplate: TemplateConfig = {} as TemplateConfig;
-  public templates: TemplateConfig[];
+  public templates: TemplateConfig[] = [];
   private explanationImages = [
     {
       src: "/assets/explanation-images/explanation-image-0.png",
@@ -70,7 +77,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
     }
   ]
 
-  @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
+  @ViewChild(MatStepper, { static: false }) stepper!: MatStepper;
 
   constructor(
     public projectsService: ProjectsService,
@@ -79,13 +86,30 @@ export class GenerateComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private _formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private lightbox: Lightbox
+    private lightbox: ImageViewerService
   ) { }
 
   ngOnInit() {
     this.subscriptions.push(this.projectsService.currentProjectSubject
       .subscribe(
         project => {
+          this.generationRequest?.unsubscribe();
+          this.generationOperation = undefined;
+          this.isProgress = false;
+          this.generationStatus = '';
+          this.templatesRequest?.unsubscribe();
+          this.historyRequest?.unsubscribe();
+          this.currentProject = project;
+          this.generatedFiles = [];
+          this.generatedFile = null;
+          this.templates = [];
+          this.selectTemplate = {} as TemplateConfig;
+          this.order.template_id = 'basic_1.xlsx';
+          this.templatesLoading = false;
+          this.defaultTemplates = [];
+          this.userTemplates = [];
+          this.projectTemplates = [];
+          this.permissions = this.projectsService.getCurrentPermissions();
           if(project) {
             this.currentProject = project;
             this.permissions = this.projectsService.getCurrentPermissions();
@@ -93,8 +117,8 @@ export class GenerateComponent implements OnInit, OnDestroy {
             this.onListTemplates();
           }
         },
-        error => {
-          console.log(error);
+        _error => {
+
         }
       )
     )
@@ -106,51 +130,63 @@ export class GenerateComponent implements OnInit, OnDestroy {
       secondCtrl: ['', Validators.required]
     });
 
-    this.onListTemplates();
     this.onListGeneratedFiles();
   }
 
   ngOnDestroy() {
+    this.generationRequest?.unsubscribe();
+    this.templatesRequest?.unsubscribe();
+    this.historyRequest?.unsubscribe();
     for(const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
   }
 
   public onGenerate(order: Order) {
-    let projectId = this.currentProject.project_id;
+    if (!this.currentProject || this.isProgress || this.templatesLoading || !this.order.type ||
+      (this.order.type === 'excel' && !this.selectTemplate.template_id)) return;
+    const projectId = this.currentProject.project_id;
     this.isProgress = true;
-    this.order.template_id = this.selectTemplate.template_id
-
-    this.generateService.generate(projectId, order)
-      .pipe(
-        timeout(28000),
-        catchError(error => throwError(error))
-      )
-      .subscribe(
-         (response: Generated) => {
-           this.isProgress = false;
-           this.generatedFile = response;
-         },
-         err => {
-           if(err instanceof TimeoutError) {
-             this.onProcessingTooLongCaution();
-           } else {
-             this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
-           }
-           this.isProgress = false;
-           console.log("error: " + err);
-         }
-      );
+    this.generatedFile = null;
+    this.generationStatus = '受付中';
+    this.order.template_id = this.selectTemplate?.template_id || this.order.template_id;
+    const requestOrder = { ...order, template_id: this.order.template_id };
+    const operationKey = JSON.stringify([projectId, requestOrder]);
+    if (this.generationOperation?.key !== operationKey) {
+      this.generationOperation = { key: operationKey, request: this.generateService.generate(projectId, requestOrder) };
+    }
+    this.generationRequest = this.generationOperation.request.subscribe({
+      next: job => {
+        this.generationStatus = job.status === 'queued' ? '処理待ち' : '生成中';
+        if (job.status === 'succeeded') {
+          this.generatedFile = job.result || null;
+          this.isProgress = false;
+          this.generationStatus = '完了';
+          if (!job.result?.download_url) this.alert.openSuccessAlert('生成が完了しました。履歴からダウンロードしてください。');
+        } else if (job.status === 'failed') {
+          this.generationOperation = undefined;
+          this.isProgress = false;
+          this.generationStatus = '生成失敗';
+          this.alert.openErrorAlert('生成に失敗しました。設定を確認して再度お試しください。');
+        }
+      },
+      error: () => {
+        this.isProgress = false;
+        this.generationStatus = '状態の確認に失敗';
+        this.alert.openErrorAlert('生成状態を確認できません。処理が完了している場合は履歴からダウンロードできます。');
+      },
+    });
   }
 
   public onSetGenerateType(type: string) {
+    if (!this.currentProject) return;
     this.order.title = this.currentProject.name;
     this.order.type = type;
     this.onNext();
   }
 
   public onNext() {
-    this.stepper.selected.completed = true;
+    if (this.stepper.selected) this.stepper.selected.completed = true;
     //this.stepper.selected.editable = false;
     this.stepper.next();
   }
@@ -169,6 +205,10 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onReset() {
+    this.generationRequest?.unsubscribe();
+    this.generationOperation = undefined;
+    this.isProgress = false;
+    if (!this.currentProject) return;
     this.generatedFile = null;
     this.resetOrderProperty();
     this.order.title = this.currentProject.name;
@@ -176,6 +216,7 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   openUploadTemplateDialog() {
+    if (!this.currentProject) return;
     const dialogRef = this.dialog.open(
       UploadTemplateComponent, 
       { 
@@ -197,51 +238,49 @@ export class GenerateComponent implements OnInit, OnDestroy {
   }
 
   public onListTemplates() {
+    if (!this.currentProject) return;
+    this.templatesRequest?.unsubscribe();
+    this.templatesLoading = true;
     this.isLoading = true;
     const projectId = this.currentProject.project_id;
-    this.templateService.list(projectId)
+    this.templatesRequest = this.templateService.list(projectId)
       .subscribe(
         (templates: AvailableTemplates) => {
           this.defaultTemplates = templates.default;
           this.userTemplates = templates.user;
           this.projectTemplates = templates.project;
           this.templates = [...this.defaultTemplates, ...this.userTemplates, ...this.projectTemplates]
-          this.selectTemplate = this.templates[0];
+          this.selectTemplate = this.templates[0] || {} as TemplateConfig;
+          this.templatesLoading = false;
           this.isLoading = false;
         },
-        err => {
-           console.log("error: " + err);
+        _err => {
+
+           this.templatesLoading = false;
            this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
            this.isLoading = false;
         }
       );
   }
 
-  private onInputExcelTemplate(file): Observable<any> {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
 
-    return Observable.create(observer => {
-      reader.onload = data => {
-        observer.next(reader.result.toString());
-      }
-      reader.onerror = error => observer.error(error);
-    });
-  }
 
-  public onDeleteTemplate(templateId: string) {
+  public onDeleteTemplate(templateId: string | undefined) {
+    if (!templateId) return;
+    if (!this.currentProject) return;
     this.isLoading = true;
     const projectId = this.currentProject.project_id;
     this.templateService.delete(projectId, templateId)
       .subscribe(
-        res => {
-          console.log(res);
+        _res => {
+
           this.alert.openSuccessAlert("テンプレートの削除に成功しました。");
           this.onListTemplates();
           this.isLoading = false;
         },
-        err => {
-           console.log("error: " + err);
+        _err => {
+
+           this.templatesLoading = false;
            this.alert.openErrorAlert("テンプレート一覧の取得に失敗しました。");
           this.isLoading = false;
         }
@@ -252,17 +291,19 @@ export class GenerateComponent implements OnInit, OnDestroy {
     this.subscriptions.push(timer(3000, 60000)
       .subscribe(
           () => {
+            if (!this.currentProject) return;
+            this.historyRequest?.unsubscribe();
             this.isLoading = true;
-            let projectId = this.currentProject.project_id;
-            this.generateService.list(projectId)
+            const projectId = this.currentProject.project_id;
+            this.historyRequest = this.generateService.list(projectId)
               .subscribe(
                  res => {
                    this.generatedFiles = res;
                    this.isLoading = false;
                  },
-                 err => {
+                 _err => {
                    this.isLoading = false;
-                   console.log("error: " + err);
+
                    this.alert.openErrorAlert("履歴の取得に失敗。原因不明のエラーが発生しました。");
                  }
               )
@@ -271,43 +312,36 @@ export class GenerateComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onDownload(generatedFileId) {
+  public onDownload(generatedFileId: string) {
+    if (!this.currentProject) return;
     this.isLoading = true;
-    let projectId = this.currentProject.project_id;
+    const projectId = this.currentProject.project_id;
     this.generateService.generateDownloadUrl(projectId, generatedFileId)
       .subscribe(
          (res: Generated) => {
            if(res.download_url) {
-             let a = document.createElement('a');
+             const a = document.createElement('a');
              document.body.appendChild(a);
              a.setAttribute('style', 'display: none');
              a.href = res.download_url;
              a.setAttribute('download', '');
              a.click();
+             a.remove();
            }
           this.isLoading = false;
          },
-         err => {
+         _err => {
           this.isLoading = false;
-          console.log("error: " + err);
+
           this.alert.openErrorAlert("生成失敗。原因不明のエラーが発生しました。");
          }
       );
   }
 
-  private onProcessingTooLongCaution() {
-    this.dialog.open(
-      CautionComponent, 
-      { data: { message: "現在、生成処理を実行していますが、時間がかかっています。数分後、履歴からダウンロードしてください。" } }
-    );
-  }
+
 
   public formatDate(date: string) {
-    if(date) {
-      let _date: Date = new Date(date);
-      _date.setTime(_date.getTime() + 1000 * 60 * 60 * 9);
-      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
-    }
+    return formatJapanDate(date, true);
   }
 
   public openExplanationImages(index: number) {

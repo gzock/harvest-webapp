@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ChangeDetectionStrategy,Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-confirm-signup',
   templateUrl: './confirm-signup.component.html',
   styleUrls: ['./confirm-signup.component.scss']
 })
-export class ConfirmSignupComponent implements OnInit {
-  public errMsg: string;
-  public code: string;
+export class ConfirmSignupComponent {
+  public errMsg: string = '';
+  public code: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmSignupComponent>
   ) { }
 
-  ngOnInit() {
-  }
 
   public onConfirm(code: string) {
     this.dialogRef.close(code);

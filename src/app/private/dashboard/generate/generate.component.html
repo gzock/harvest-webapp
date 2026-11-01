@@ -6,7 +6,7 @@
     </p>
 
     <mat-tab-group mat-align-tabs="center" class="col-12 row text-center" *ngIf="currentProject">
-      <mat-tab *ngIf="permissions.generate?.execute">
+      <mat-tab *ngIf="permissions.generate.execute">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
           生成とダウンロード
@@ -103,26 +103,26 @@
 
               <section class="example-section">
                 <mat-form-field>
-                  <input matInput placeholder="タイトル" [(ngModel)]="order.title" [disabled]="selectTemplate.property_title === 'False'">
+                  <input matInput placeholder="タイトル" [(ngModel)]="order.title" [disabled]="!selectTemplate.property_title">
                   <mat-hint>エクセルに差し込まれるタイトルを指定できます (デフォルト: プロジェクト名)</mat-hint>
                 </mat-form-field>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_print_settings" [disabled]="selectTemplate.property_title === 'False'">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_print_settings" [disabled]="!selectTemplate.property_title">
                   印刷時にヘッダーとしてタイトルが表示されるようにする
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="selectTemplate.property_hierarchy === 'False'">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_include_hierarchy" [disabled]="!selectTemplate.property_hierarchy">
                   場所の階層構造を含める(テンプレートでの"{{ '{' }}hierarchy{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>
 
               <section class="example-section">
                 <!--<mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="order.template !== 'basic_2.xlsx'">-->
-                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="selectTemplate.property_date === 'False'">
+                <mat-checkbox class="example-margin" [(ngModel)]="order.needs_date" [disabled]="!selectTemplate.property_date">
                   ファイル名に撮影日時を付与(テンプレートでの"{{ '{' }}date{{ '}' }}"変数指定も必要です)
                 </mat-checkbox>
               </section>
@@ -142,25 +142,12 @@
           <mat-step>
             <ng-template matStepLabel>出力</ng-template>
             <div>
-              <button mat-raised-button class="row step-3-execute">
-                <p *ngIf="!generatedFile && !isProgress" (click)="onGenerate(order)">
-                  {{ order.type === 'zip' ? "ZIP" : "EXCEL"  }}生成を開始<br>
-                  <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'zip'">create_new_folder</mat-icon>
-                  <mat-icon class="material-icons md-dark" color="accent" *ngIf="order.type === 'excel'">grid_on</mat-icon>
-                </p>
-                <p *ngIf="!generatedFile && isProgress" class="col-12">
-                  生成中…<br>
-                  <mat-icon class="material-icons md-dark" color="accent">
-                    <mat-spinner class="progress-spinner"></mat-spinner>
-                  </mat-icon>
-                </p>
-                <p *ngIf="generatedFile" matTooltip="ダウンロードは3分間のみ有効です" [matTooltipPosition]="'above'">
-                  <a mat-raseid-button download href="{{ generatedFile.download_url }}" class="button step-3-execute">
-                    ダウンロード<br>
-                    <mat-icon class="material-icons md-dark" color="accent">cloud_download</mat-icon>
-                  </a>
-                </p>
+              <button mat-raised-button class="step-3-execute" *ngIf="!generatedFile && !isProgress" (click)="onGenerate(order)" [disabled]="templatesLoading || !order.type || (order.type === 'excel' && !selectTemplate.template_id)">
+                {{ order.type === 'zip' ? 'ZIP' : 'EXCEL' }}生成を開始
+                <mat-icon>cloud_download</mat-icon>
               </button>
+              <p *ngIf="isProgress" role="status">{{ generationStatus }}…<mat-spinner diameter="32"></mat-spinner></p>
+              <a *ngIf="generatedFile" mat-raised-button [href]="generatedFile.download_url" download>ダウンロード</a>
             </div>
 
             <div>
@@ -172,23 +159,23 @@
         </mat-vertical-stepper>
 
       </mat-tab>
-      <mat-tab *ngIf="permissions.generate?.manage">
+      <mat-tab *ngIf="permissions.generate.manage">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">archive</mat-icon>
           履歴
         </ng-template>
 
         <mat-list>
-          <h3 mat-subheader>過去1日分の履歴 (60秒毎に自動更新されます)</h3>
-          <mat-spinner class="loading-spinner" *ngIf="generatedFiles.length == 0 && isLoading"></mat-spinner>
+          <h3 matSubheader>過去1日分の履歴 (60秒毎に自動更新されます)</h3>
+          <mat-spinner class="loading-spinner" *ngIf="generatedFiles.length === 0 && isLoading"></mat-spinner>
 
-          <h5 *ngIf="generatedFiles.length == 0 && !isLoading">履歴は存在しません。</h5>
+          <h5 *ngIf="generatedFiles.length === 0 && !isLoading">履歴は存在しません。</h5>
           <mat-list-item *ngFor="let file of generatedFiles">
-            <mat-icon mat-list-icon *ngIf="file.type === 'zip'">folder</mat-icon>
-            <mat-icon mat-list-icon *ngIf="file.type === 'excel'">grid_on</mat-icon>
+            <mat-icon matListItemIcon *ngIf="file.type === 'zip'">folder</mat-icon>
+            <mat-icon matListItemIcon *ngIf="file.type === 'excel'">grid_on</mat-icon>
 
-            <h4 mat-line>{{ file.name }}</h4>
-            <p mat-line> {{ formatDate(file.created_at) }} </p>
+            <h4 matListItemLine>{{ file.name }}</h4>
+            <p matListItemLine> {{ formatDate(file.created_at) }} </p>
             <button mat-icon-button (click)="onReset(); onDownload(file.generated_file_id)" [disabled]="isLoading">
               <mat-icon>cloud_download</mat-icon>
             </button>
@@ -197,7 +184,7 @@
         </mat-list>
       </mat-tab>
 
-      <mat-tab *ngIf="permissions.generate?.manage">
+      <mat-tab *ngIf="permissions.generate.manage">
         <ng-template mat-tab-label>
           <mat-icon class="material-icons md-dark" color="accent">create_new_folder</mat-icon>
           テンプレート管理
@@ -226,7 +213,7 @@
           <div class="col-5 manage-templates" *ngIf="!isLoading">
             <h4>プロジェクト</h4>
 
-            <h5 *ngIf="projectTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+            <h5 *ngIf="projectTemplates.length === 0 && !isLoading">テンプレートは存在しません。</h5>
 
             <mat-expansion-panel *ngFor="let template of projectTemplates">
               <mat-expansion-panel-header>
@@ -238,9 +225,9 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
             
-              <mat-checkbox [checked]="template.property_title === 'True'" disabled>タイトル</mat-checkbox>
-              <mat-checkbox [checked]="template.property_hierarchy === 'True'" disabled>場所の階層構造</mat-checkbox>
-              <mat-checkbox [checked]="template.property_date === 'True'" disabled>撮影日時</mat-checkbox>
+              <mat-checkbox [checked]="template.property_title" disabled>タイトル</mat-checkbox>
+              <mat-checkbox [checked]="template.property_hierarchy" disabled>場所の階層構造</mat-checkbox>
+              <mat-checkbox [checked]="template.property_date" disabled>撮影日時</mat-checkbox>
 
               <button mat-raised-button class="btn-block" color="warn" (click)="onDeleteTemplate(template.template_id)">削除</button>
             </mat-expansion-panel>
@@ -249,7 +236,7 @@
           <div class="col-5 manage-templates" *ngIf="!isLoading">
             <h4>ユーザー</h4>
 
-            <h5 *ngIf="userTemplates.length == 0 && !isLoading">テンプレートは存在しません。</h5>
+            <h5 *ngIf="userTemplates.length === 0 && !isLoading">テンプレートは存在しません。</h5>
 
             <mat-expansion-panel *ngFor="let template of userTemplates">
               <mat-expansion-panel-header>
@@ -261,9 +248,9 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
             
-              <mat-checkbox [checked]="template.property_title === 'True'" disabled>タイトル</mat-checkbox>
-              <mat-checkbox [checked]="template.property_hierarchy === 'True'" disabled>場所の階層構造</mat-checkbox>
-              <mat-checkbox [checked]="template.property_date === 'True'" disabled>撮影日時</mat-checkbox>
+              <mat-checkbox [checked]="template.property_title" disabled>タイトル</mat-checkbox>
+              <mat-checkbox [checked]="template.property_hierarchy" disabled>場所の階層構造</mat-checkbox>
+              <mat-checkbox [checked]="template.property_date" disabled>撮影日時</mat-checkbox>
 
               <button mat-raised-button class="btn-block" color="warn" (click)="onDeleteTemplate(template.template_id)">削除</button>
             </mat-expansion-panel>

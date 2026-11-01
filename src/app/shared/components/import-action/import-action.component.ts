@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { ChangeDetectionStrategy,Component,OnDestroy } from '@angular/core';
+import { finalize,ReplaySubject,switchMap,takeUntil } from 'rxjs';
+import { readDataUrl } from '../../utils/file';
 
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialogRef } from '@angular/material/dialog';
 
-import { Observable, throwError } from "rxjs";
-import { tap, catchError } from "rxjs/operators";
 
-import { ProjectsService } from './../../services/projects/projects.service';
 import { AlertService } from './../../services/alert/alert.service';
+import { ProjectsService } from './../../services/projects/projects.service';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-import-action',
   templateUrl: './import-action.component.html',
   styleUrls: ['./import-action.component.scss']
 })
-export class ImportActionComponent implements OnInit {
-  public errMsg: string;
-  public code: string;
-  private selectedFile: any;
-  public fileSize: number;
+export class ImportActionComponent implements OnDestroy {
+  private readonly destroy$ = new ReplaySubject<void>(1);
+  public errMsg: string = '';
+  public code: string = '';
+  public fileSize: number = 0;
   public isImporting: boolean = false;
   public errorCode: number = 0;
 
@@ -29,61 +29,37 @@ export class ImportActionComponent implements OnInit {
     private alert: AlertService
   ) { }
 
-  ngOnInit() {
-  }
 
   public onAccept() {
     this.dialogRef.close(true);
   }
 
-  public onFileSelected(event) {
-    if(event.target.files) {
-      this.onInputCsv(event.target.files[0])
-        .subscribe(
-          data => {
-            this.isImporting = true;
-            let csv = data.split(",")[1]
-            this.onImportExecute(csv);
-          }
-        );
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private onImportExecute(csv) {
-    this.errMsg = "";
-    this.projectsService.import(csv)
-      .subscribe(
-         response => {
-            this.isImporting = false;
-            this.alert.openSuccessAlert("インポートに成功しました。");
-            this.dialogRef.close(true);
-         },
-         err => {
-            this.isImporting = false;
-            console.log("error: " + err);
-            if(err.error.error) {
-              this.errMsg = "エラー: " + err.error.error.message;
-              if(700 <= err.error.error.code && err.error.error.code <= 799) {
-                this.errorCode = err.error.error.code - 701;
-              }
-            } else {
-              this.errMsg = "エラー: タイムアウト";
-            }
-            this.alert.openErrorAlert("インポートに失敗しました。CSVファイルの内容をご確認ください。");
-         }
-      )
-  }
-
-  private onInputCsv(file): Observable<any> {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    return Observable.create(observer => {
-      reader.onload = data => {
-        observer.next(reader.result.toString());
-      }
-      reader.onerror = error => observer.error(error);
+  public onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length || this.isImporting) return;
+    this.isImporting = true;
+    this.errMsg = '';
+    this.errorCode = 0;
+    readDataUrl(input.files[0]).pipe(
+      switchMap(data => this.projectsService.import(data.split(',')[1])),
+      takeUntil(this.destroy$),
+      finalize(() => { this.isImporting = false; }),
+    ).subscribe({
+      next: () => {
+        this.alert.openSuccessAlert('インポートに成功しました。');
+        this.dialogRef.close(true);
+      },
+      error: error => {
+        const detail = error?.error?.error;
+        this.errMsg = typeof detail?.message === 'string' ? detail.message : 'ファイルを読み込めないか、通信に失敗しました。再度お試しください。';
+        if (typeof detail?.code === 'number' && detail.code >= 701 && detail.code <= 799) this.errorCode = detail.code - 701;
+        this.alert.openErrorAlert('インポートに失敗しました。CSVファイルの内容をご確認ください。');
+      },
     });
   }
-
 }

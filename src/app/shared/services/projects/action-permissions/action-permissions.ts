@@ -1,13 +1,13 @@
 import { Permissions } from './permissions/permissions';
 
-import { OwnerPermissions } from './permissions/owner-permissions';
 import { AdminPermissions } from './permissions/admin-permissions';
-import { WorkerPermissions } from './permissions/worker-permissions';
-import { ReporterPermissions } from './permissions/reporter-permissions';
 import { GuestPermissions } from './permissions/guest-permissions';
+import { OwnerPermissions } from './permissions/owner-permissions';
+import { ReporterPermissions } from './permissions/reporter-permissions';
+import { WorkerPermissions } from './permissions/worker-permissions';
 
 export class ActionPermissions {
-  private role: string;
+  private role: string = '';
 
   constructor(role?: string) {
     if(role) this.setRole(role);

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-7">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="フィルタ">
+        <input matInput (input)="applyFilter($any($event.target).value)" placeholder="フィルタ">
       </mat-form-field>
     </div>
     
@@ -32,8 +32,8 @@
       <button mat-raised-button color="accent" (click)="openSettingProjectDialog()" 
           matTooltip="選択したプロジェクトを編集" 
           [matTooltipPosition]="'above'" 
-          [disabled]="isLoading || projects.length == 0"
-          *ngIf="permissions.project?.update || permissions.user?.update"
+          [disabled]="isLoading || projects.length === 0"
+          *ngIf="permissions.project.update || permissions.user.update"
       >
         設定
       </button>
@@ -51,7 +51,7 @@
             class="" 
             value="{{ element.project_id }}" 
             (change)="onSelectProject(element)" 
-            [checked]="element.project_id === currentProject.project_id"
+            [checked]="element.project_id === currentProject?.project_id"
           >
           </mat-radio-button>
         </td>

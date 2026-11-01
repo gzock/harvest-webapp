@@ -8,8 +8,8 @@ export interface Target {
       before: string;
       after: string;
     }
-    before: [string];
-    after: [string];
+    before: string[];
+    after: string[];
   };
   created_at?: string;
   updated_at?: string;

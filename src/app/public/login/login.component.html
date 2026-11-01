@@ -16,7 +16,8 @@
                           <input type="{{ formType }}" [(ngModel)]="password" name="password" class="form-control input-underline" id="password" placeholder="パスワード">
                       </div>
                   </div>
-                  <button class="btn btn-block btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
+                  <div *ngIf="requiresNewPassword"><label for="new-password">新しいパスワード</label><input id="new-password" type="password" name="newPassword" [(ngModel)]="newPassword" autocomplete="new-password" class="form-control" required></div>
+                  <button [disabled]="isLoading || (requiresNewPassword && !newPassword)" class="btn btn-block btn-outline-success submit-btn" (click)="onLoggedIn(email, password)"> ログイン </button>
               </form>
 
               <section class="option-save-email small">

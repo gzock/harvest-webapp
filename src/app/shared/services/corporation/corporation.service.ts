@@ -1,9 +1,8 @@
-import { environment } from '../../../../environments/environment';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
-import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
-import { map, mergeMap, tap, catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'

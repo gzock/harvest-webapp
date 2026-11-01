@@ -2,6 +2,9 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "cli": {
+    "analytics": false
+  },
   "projects": {
     "harvest-webapp": {
       "root": "",
@@ -10,17 +13,19 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/harvest-webapp",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -28,13 +33,13 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.css",
-              "./node_modules/ngx-lightbox/lightbox.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.scss",
               "src/theme/harvest-theme.scss"
             ],
-            "scripts": []
+            "allowedCommonJsDependencies": [
+              "blueimp-load-image"
+            ]
           },
           "configurations": {
             "production": {
@@ -47,101 +52,59 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20kb",
+                  "maximumError": "40kb"
                 }
               ],
-              "serviceWorker": true
+              "serviceWorker": "ngsw-config.json"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            },
+            "testing": {
+              "optimization": false,
+              "sourceMap": true,
+              "polyfills": []
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "harvest-webapp:build"
-          },
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "harvest-webapp:build:production"
+              "buildTarget": "harvest-webapp:build:production"
+            },
+            "development": {
+              "buildTarget": "harvest-webapp:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "harvest-webapp:build"
-          }
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "harvest-webapp-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "harvest-webapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "harvest-webapp:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "runner": "vitest",
+            "buildTarget": "harvest-webapp:build:testing",
+            "isolate": true
           }
         }
       }
     }
-  },
-  "defaultProject": "harvest-webapp"
+  }
 }

@@ -1,0 +1,9 @@
+{
+  "sourceRepository": "harvest-serverless-api",
+  "sourcePath": "contracts/openapi.json",
+  "sourceCommit": "66d7d182867eeff2279ecf658128a1039d44b6d1",
+  "sourceWorkingTreeDirty": true,
+  "schemaSha256": "a6c64c3df4d19e5b1759ec5eaa30d0a4bd31c4aaa7c116141c38e58eb83832d4",
+  "generator": "openapi-typescript@7.13.0",
+  "generatorTypeScript": "5.9.3"
+}

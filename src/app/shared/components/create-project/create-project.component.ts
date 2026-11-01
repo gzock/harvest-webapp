@@ -1,28 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { ChangeDetectionStrategy,Component } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { Project } from '../../../private/dashboard/projects/project';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss']
 })
-export class CreateProjectComponent implements OnInit {
-  public errMsg: string;
+export class CreateProjectComponent {
+  public errMsg: string = '';
   public newProject: Project = {} as Project;
 
   constructor(
     public dialogRef: MatDialogRef<CreateProjectComponent>
   ) { }
 
-  ngOnInit() {
-  }
 
   public onCreateProject(newProject: Project) {
     this.errMsg = "";
-    console.log("event fired create project.")
+
     if(newProject.name && newProject.start_on && newProject.complete_on) {
       if(newProject.start_on < newProject.complete_on) {
         this.dialogRef.close(newProject);
@@ -35,6 +35,7 @@ export class CreateProjectComponent implements OnInit {
   }
 
   public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    if (!event.value) return;
     switch(type) {
       case "start":
         this.newProject.start_on = event.value.toISOString();

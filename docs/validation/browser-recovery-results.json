@@ -1,0 +1,53 @@
+{
+  "validatedAt": "2026-11-01T14:57:11.777453+00:00",
+  "sourceRoot": "/workspace/recovered/integration/harvest-webapp",
+  "historicalResultReused": false,
+  "node": "24.19.0",
+  "npm": "11.9.0",
+  "playwright": "1.64.1",
+  "chromium": "154.0.8037.57",
+  "browserPath": "/usr/bin/chromium",
+  "browserDownloaded": false,
+  "deployTests": {
+    "command": "node --test scripts/deploy.test.mjs",
+    "passed": 5,
+    "failed": 0,
+    "durationMs": 1535.727144
+  },
+  "initialE2e": {
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e",
+    "passed": 9,
+    "failed": 1,
+    "failure": "Toolbar guest-to-owner second select click occurred before prior Material select overlay finished detaching. Owner-to-guest permission assertions had passed.",
+    "evidence": "initial-failure/trace.zip"
+  },
+  "newChange": {
+    "path": "e2e/harvest.spec.ts",
+    "description": "Await absence of listbox including hidden nodes before reopening the project select; no sleep, retry, timeout increase, assertion removal, or production-source change.",
+    "patch": "e2e-animation-synchronization.patch",
+    "historicalRecoveredCopyUnchanged": true
+  },
+  "focusedAfterFix": {
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e -- --grep 'toolbar project' --repeat-each=3",
+    "passed": 3,
+    "failed": 0,
+    "durationSeconds": 17.5
+  },
+  "finalE2e": {
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e",
+    "passed": 10,
+    "failed": 0,
+    "durationSeconds": 44.3,
+    "includes390pxMobileUpload": true,
+    "includesUploadCompleteRetry": true,
+    "includesGenerationJobPolling": true
+  },
+  "originalRepositoryFilesChanged": false,
+  "awsAccess": false,
+  "liveBackendAccess": false,
+  "limits": [
+    "Browser API/Cognito are mocked and external traffic blocked.",
+    "Service workers are blocked and the dev server is used; production PWA update/offline behavior is not verified.",
+    "Dependency lock was regenerated during integration; these measurements verify that candidate, not byte identity with the historical lock."
+  ]
+}

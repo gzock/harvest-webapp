@@ -1,0 +1,11 @@
+{
+  "name": "@harvest/api-codegen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./index.mjs",
+  "dependencies": {
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3"
+  }
+}

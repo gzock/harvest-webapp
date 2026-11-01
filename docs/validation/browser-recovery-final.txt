@@ -1,0 +1,30 @@
+[WebServer] (node:8232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 2 workers
+
+(node:8303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › e2e/harvest.spec.ts:71:5 › unauthenticated private routes redirect to login and expose signup (3.9s)
+  ✓   2 [chromium] › e2e/harvest.spec.ts:81:5 › invalid credentials show an error without opening private pages (3.7s)
+  ✓   4 [chromium] › e2e/harvest.spec.ts:114:5 › an empty project list remains usable without exposing project actions (4.6s)
+  ✓   3 [chromium] › e2e/harvest.spec.ts:90:5 › authenticated projects can be filtered and selection controls permitted actions (10.4s)
+  ✓   5 [chromium] › e2e/harvest.spec.ts:138:7 › JPEG is resized and uploaded through an authorized reservation and unsigned S3 form (201, retry=false, mobile=false) (9.3s)
+  ✓   6 [chromium] › e2e/harvest.spec.ts:138:7 › JPEG is resized and uploaded through an authorized reservation and unsigned S3 form (200, retry=false, mobile=false) (7.8s)
+  ✓   7 [chromium] › e2e/harvest.spec.ts:138:7 › JPEG is resized and uploaded through an authorized reservation and unsigned S3 form (200, retry=true, mobile=false) (6.3s)
+  ✓   8 [chromium] › e2e/harvest.spec.ts:138:7 › JPEG is resized and uploaded through an authorized reservation and unsigned S3 form (200, retry=false, mobile=true) (7.1s)
+  ✓   9 [chromium] › e2e/harvest.spec.ts:240:5 › Excel settings create a durable job and show its download after polling succeeds (7.7s)
+  ✓  10 [chromium] › e2e/harvest.spec.ts:288:5 › toolbar project switching updates work and navigation permissions immediately (3.7s)
+
+  10 passed (44.3s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

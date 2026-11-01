@@ -4,14 +4,14 @@
       <h4> 選択対象: {{ selectedName }} </h4>
     </div>
     
-      <mat-tab-group mat-align-tabs="center" class="col-12 row text-center">
+      <mat-tab-group mat-align-tabs="center" class="col-12 text-center">
         <mat-tab *ngIf="permissions.work.create && isPlace">
           <ng-template mat-tab-label>
             <button mat-raised-button class="mat-elevation-z6">
               <mat-icon class="material-icons md-dark" color="accent">add</mat-icon>
             </button>
           </ng-template>
-          <div class="col-12 row add">
+          <div class="row g-2 add">
             <div class="col-6 col-md-3">
               <mat-form-field class="add-action-type">
                 <mat-select placeholder="タイプ" [(ngModel)]="new.type">
@@ -31,7 +31,7 @@
                 作成
               </button>
             </div>
-            <div class="col-6 col-md-9 caution" *ngIf="new.type === 'place' && this.placesService.placeHistory.length == 6">
+            <div class="col-6 col-md-9 caution" *ngIf="new.type === 'place' && this.placesService.placeHistory.length === 6">
               <p class="text-danger">
                 注意: "場所"をこれ以上作成できません。最大5階層までです。
               </p>
@@ -45,7 +45,7 @@
               <mat-icon class="material-icons md-dark" color="accent">edit</mat-icon>
             </button>
           </ng-template>
-          <div class="col-12 row update-action-name-container">
+          <div class="row g-2 update-action-name-container">
             <div class="col-12 col-md-9">
               <mat-form-field class="update-action-name">
                 <input matInput [(ngModel)]="new.name" placeholder="新しい名前を入力">
@@ -85,30 +85,30 @@
             </button>
           </ng-template>
       
-          <div class="col-12 row shot">
+          <div class="row g-2 shot">
             <div class="col-12 col-md-4">
               <mat-form-field class="shot-action-type">
-                <mat-select placeholder="タイプ" [(ngModel)]="photo.type" required>
+                <mat-select placeholder="タイプ" [(ngModel)]="photo.type" [disabled]="isUploading" required>
                   <mat-option value="before">施工前</mat-option>
                   <mat-option value="after">施工後</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
-              <input type="file" id="camera-input" capture="camera" accept="image/*" (click)="takenPhoto=''" (change)="onFileSelected($event)" />
+              <input type="file" id="camera-input" capture="environment" accept="image/jpeg" [disabled]="isUploading" (change)="onFileSelected($event)" />
               <label for="camera-input" class="btn-block mat-raised-button mat-elevation-z6 mat-basic shot-action-submit">
                 <mat-icon class="material-icons md-dark" color="accent">photo_camera</mat-icon>
                 撮影
               </label>
             </div>
             <div class="col-6 col-md-4" *ngIf="selectedTarget['photos'][photo.type].length < 5">
-              <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!takenPhoto || isUploading">
+              <button mat-raised-button class="btn-block mat-elevation-z6 shot-action-upload" (click)="onUpload()" [disabled]="!compressedPhoto || isUploading">
                 <mat-icon class="material-icons md-dark" color="accent" *ngIf="!isUploading">cloud_upload</mat-icon>
                 <mat-icon *ngIf="isUploading"><mat-spinner class="uploading-spinner"></mat-spinner></mat-icon>
                 アップロード
               </button>
             </div>
-            <div class="col-12 col-md-8 caution" *ngIf="selectedTarget['photos'][photo.type].length == 5">
+            <div class="col-12 col-md-8 caution" *ngIf="selectedTarget['photos'][photo.type].length === 5">
               <p class="text-danger">
                 5枚以上、写真をアップロードすることはできません。
               </p>
@@ -126,7 +126,7 @@
             </button>
           </ng-template>
 
-          <div class="col-12 row shot">
+          <div class="row g-2 shot">
             <div class="col-12 text-center photo-canvas">
               <mat-spinner class="loading-spinner" *ngIf="!neededPhoto"></mat-spinner>
               <app-photo-canvas *ngIf="neededPhoto" [photoSrc]="neededPhoto" [output]=false ></app-photo-canvas>
@@ -135,7 +135,7 @@
             <div class="col-6">
               <button mat-stroked-button color="accent" 
                   matBadge="{{ selectedTarget.photos.before.length }}" matBadgePosition="before" matBadgeColor="accent" 
-                  [disabled]="!selectedTarget.photos.before.length && selectedPhotoType != 'before'"
+                  [disabled]="!selectedTarget.photos.before.length && selectedPhotoType !== 'before'"
                   class="btn-block" (click)="selectedPhotoType = 'before'; onGetPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "before"}'>
                 施工前
@@ -144,7 +144,7 @@
             <div class="col-6">
               <button mat-stroked-button color="accent" 
                   matBadge="{{ selectedTarget.photos.after.length }}" matBadgePosition="before" matBadgeColor="accent" 
-                  [disabled]="!selectedTarget.photos.after.length && selectedPhotoType != 'after'"
+                  [disabled]="!selectedTarget.photos.after.length && selectedPhotoType !== 'after'"
                   class="btn-block" (click)="selectedPhotoType = 'after'; onGetPhoto(selectedPhotoType, photoIndex)"
                   [ngClass]='{"mat-elevation-z6": selectedPhotoType === "after"}'>
                 施工後

@@ -25,7 +25,7 @@
         </div>
         <div class="col-6 col-md-5">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="filterValue" placeholder="フィルタ">
+            <input matInput (input)="applyFilter($any($event.target).value)" [(ngModel)]="filterValue" placeholder="フィルタ">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
@@ -56,14 +56,14 @@
       <mat-divider *ngIf="placesService.placeHistory.length > 1"></mat-divider>
 
       <div class="col-12 display-breadcrumb" *ngIf="placesService.placeHistory.length > 1" #breadcrumb [scrollLeft]="breadcrumb.scrollWidth">
-        <mat-chip-list class="">
+        <mat-chip-set class="">
           <mat-chip class="" *ngFor="let placeName of placeHierarchy; let i = index" 
-            [selected]="i == placeHierarchy.length - 1 ? 'true' : 'false'"
-            [color]="i == placeHierarchy.length - 1 ? 'primary' : ''"
+            [highlighted]="i === placeHierarchy.length - 1"
+            [color]="i === placeHierarchy.length - 1 ? 'primary' : ''"
           >
             {{ placeName }}
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-set>
       </div>
 
     </mat-card>
@@ -72,7 +72,7 @@
       <mat-spinner class=""></mat-spinner>
     </div>
 
-    <mat-card class="mat-elevation-z4 col-12 init-action" *ngIf="permissions.work?.create && (!places.length && !targets.length) && !isLoading">
+    <mat-card class="mat-elevation-z4 col-12 init-action" *ngIf="permissions.work.create && (!places.length && !targets.length) && !isLoading">
       <mat-card-header>
         <mat-card-title>この階層には何も存在しません。</mat-card-title>
         <mat-card-subtitle>何か追加しますか？</mat-card-subtitle>
@@ -87,7 +87,7 @@
 
         <mat-divider></mat-divider>
 
-        <button mat-stroked-button color="primary" (click)="openImportActionDialog()" *ngIf="!this.isMobile && placesService.placeHistory.length == 1">
+        <button mat-stroked-button color="primary" (click)="openImportActionDialog()" *ngIf="!this.isMobile && placesService.placeHistory.length === 1">
           <h3>インポート</h3>
         </button>
       </mat-card-content>

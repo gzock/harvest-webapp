@@ -1,40 +1,43 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
-import { filter, map, tap, catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit,ViewChild } from '@angular/core';
+import { Subscription } from "rxjs";
+import { GuestPermissions } from '../../../shared/services/projects/action-permissions/permissions/guest-permissions';
+import { formatJapanDate } from '../../../shared/utils/date';
 
 import { Platform } from '@angular/cdk/platform';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { CreateProjectComponent } from './../../../shared/components/create-project/create-project.component';
-import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
 import { JoinProjectComponent } from './../../../shared/components/join-project/join-project.component';
+import { SettingProjectComponent } from './../../../shared/components/setting-project/setting-project.component';
 
-import { Project } from './project';
-import { ProjectsService } from './../../../shared/services/projects/projects.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
 import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
+import { ProjectsService } from './../../../shared/services/projects/projects.service';
+import { Project } from './project';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   public projects: Project[] = [];
-  public currentProject: Project;
+  public currentProject: Project | null = null;
   public displayedColumns: string[] = ['project_id', 'name', 'start_on', 'complete_on'];
-  public dataSource: MatTableDataSource<Project>;
-  public filterStatus: string;
-  private joinedProjectsSubscription: Subscription;
-  private currentProjectSubscription: Subscription;
+  public dataSource = new MatTableDataSource<Project>([]);
+  public filterStatus: string = '';
+  private joinedProjectsSubscription?: Subscription;
+  private currentProjectSubscription?: Subscription;
   public isMobile: boolean = false;
   public isLoading: boolean = false;
-  public permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = new GuestPermissions();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
   constructor(
     private platform: Platform,
@@ -65,13 +68,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
           } else if(projects instanceof Array && projects.length == 0) {
             this.isLoading = false;
             this.projects = [] as Project[];
-            this.dataSource = null;
-            this.currentProject = {} as Project;
-            this.permissions = {} as Permissions;
+            this.dataSource = new MatTableDataSource<Project>([]);
+            this.currentProject = null;
+            this.permissions = new GuestPermissions();
           }
         },
-        err => {
-          console.log("error: " + err);
+        _err => {
+
           this.openErrorAlert("プロジェクト一覧の取得");
           this.isLoading = false;
         }
@@ -79,12 +82,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
         project => {
-          if(project) {
-            this.currentProject = project;
-          }
+          this.currentProject = project;
+          this.permissions = this.projectsService.getCurrentPermissions();
         },
-        err => {
-          console.log("error: " + err);
+        _err => {
+
         }
       );
 
@@ -115,17 +117,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   public onCreateProject(project: Project) {
     this.isLoading = true;
     this.projectsService.create(project)
-      .pipe(
-         catchError(error => throwError(error))
-      )
       .subscribe(
-         response => {
+         _response => {
             this.projectsService.list().subscribe();
             this.openSuccessAlert("プロジェクトの作成");
             this.isLoading = false;
          },
-         err => {
-           console.log("error: " + err);
+         _err => {
+
            this.openErrorAlert("プロジェクトの作成");
             this.isLoading = false;
          }
@@ -136,7 +135,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CreateProjectComponent, { disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
-      //console.log("Dialog result: " + JSON.stringify(result));
       if(result) {
         this.onCreateProject(result);
       }
@@ -146,7 +144,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(SettingProjectComponent, { disableClose: true, width: "550px" });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+
       if(result) {
         this.projectsService.list().subscribe();
       }
@@ -156,24 +154,21 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   openJoinProjectDialog() {
     const dialogRef = this.dialog.open(JoinProjectComponent, { disableClose: true });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe(_result => {
+
     });
   }
 
-  private openSuccessAlert(msg) {
+  private openSuccessAlert(msg: string) {
     this.alert.openSuccessAlert(msg + "に成功しました。");
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
   public formatDate(date: string) {
-    if(date) {
-      let _date: Date = new Date(date);
-      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate();
-    }
+    return formatJapanDate(date, false);
   }
 
 }

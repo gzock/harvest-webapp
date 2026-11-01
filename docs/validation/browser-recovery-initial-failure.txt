@@ -1,0 +1,43 @@
+  ✘  10 [chromium] › e2e/harvest.spec.ts:288:5 › toolbar project switching updates work and navigation permissions immediately (30.2s)
+
+
+  1) [chromium] › e2e/harvest.spec.ts:288:5 › toolbar project switching updates work and navigation permissions immediately 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('option', { name: '青空工事', exact: true })
+
+
+      297 |   await expect(page.getByRole('button', { name: '撮影対象を追加', exact: true })).toHaveCount(0);
+      298 |   await page.locator('mat-select[placeholder="プロジェクトを選択"]').click();
+    > 299 |   await page.getByRole('option', { name: '青空工事', exact: true }).click();
+          |                                                                 ^
+      300 |   await expect(page.getByRole('link', { name: /GENERATE/ })).toBeVisible();
+      301 |   await expect(page.getByRole('button', { name: '撮影対象を追加', exact: true })).toBeVisible();
+      302 |   await page.screenshot({ path: testInfo.outputPath('work-owner.png'), fullPage: true });
+        at /workspace/recovered/integration/harvest-webapp/e2e/harvest.spec.ts:299:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/harvest-toolbar-project-sw-f7805-ion-permissions-immediately-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/harvest-toolbar-project-sw-f7805-ion-permissions-immediately-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/harvest-toolbar-project-sw-f7805-ion-permissions-immediately-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/harvest-toolbar-project-sw-f7805-ion-permissions-immediately-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/harvest.spec.ts:288:5 › toolbar project switching updates work and navigation permissions immediately 
+  9 passed (1.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

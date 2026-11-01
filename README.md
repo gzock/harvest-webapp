@@ -76,6 +76,10 @@ S3の複数object更新はatomicではなく、manifestとindexの更新間やCD
 
 Angular本体・CLI・build・Materialを互換性のある組合せで更新し、lockfileを同じPRに含めます。TypeScript/NodeはAngularの対応範囲に合わせます。更新後は上記の検証をすべて実行してください。`npm audit fix --force`による一括の破壊的更新は避け、機能ごとに互換性を確認します。
 
+2026-11-01時点では、[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)への対応として、ESLint系が使うminimatch 10だけを11.0.3へ限定overrideしています。依存元の指定するmajor範囲を超えるため、ESLint全件・型検査・API型生成の互換性を確認しています。依存元が対応版を採用したらoverrideを外してください。
+
+`npm audit`には開発時のAPI型生成経路（openapi-typescript → Redocly → minimatch 5）にmoderateが3件残っています。high/criticalは0件です。minimatch 5を11へ直接置換すると呼出しAPIが変わり、Redocly 2への強制更新もgeneratorの内部importと互換性がありません。上流の対応を待ち、生成対象は管理下のAPI snapshotに限定します。ブラウザへ配布するアプリの依存経路には含まれません。
+
 ## API契約の更新
 
 APIスキーマの変更時は隣接APIリポジトリを使って`npm run api:sync`でsnapshot/provenanceを更新し、`npm run api:generate`で型を生成します。`npm run api:check`は保存されたsnapshotと生成物の一致を検証し、APIリポジトリがなくてもCIで実行できます。生成ツール用TypeScriptは`tools/api-codegen`へ分離し、アプリ側のTypeScriptと独立して管理しています。

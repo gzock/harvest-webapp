@@ -52,3 +52,6 @@ Thumbs.db
 
 # Environment-specific public configuration is supplied at deployment.
 /src/assets/runtime-config.json
+
+# Also ignore a symlink to the isolated dependency directory.
+/node_modules

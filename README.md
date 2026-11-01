@@ -4,6 +4,8 @@
 
 工事プロジェクト・撮影対象・写真・Excel帳票を扱うAngularアプリです。APIは隣接する`harvest-serverless-api`で管理します。
 
+最新の差分レビュー・修正・再検証結果は [2026-11-01の自己レビュー](docs/self-review-2026-11-01.md) を参照してください。
+
 更新後の構成・検証結果・残課題は [モダン化の実装状況](docs/modernization/implementation-status.md) を参照してください。[初回調査・設計](docs/modernization/README.md) は更新前のコードを基準とする履歴資料です。
 
 ## 開発環境
@@ -71,6 +73,8 @@ Playwrightは開発サーバーを自動起動します。失敗時のtraceと�
 `--artifact DIRECTORY`で保存済み成果物を指定できます。配布前にngsw manifestの全hashと成果物の一致を検査します。`--config FILE`は配布先の公開設定JSONを指定し、APIはHTTPSを必須とします。設定ファイルはno-storeで配布し、service workerのキャッシュから除外します。hash付きassetを先に配布し、service-worker manifest、indexの順に更新します。旧assetは削除しません。CloudFrontの`/*`を無効化し、deep link経由のHTMLとquery付き設定も更新対象に含めます。rollbackは保持した以前の成果物と互換な設定を同じ手順で再配布します。
 
 S3の複数object更新はatomicではなく、manifestとindexの更新間やCDN無効化中には一時的な不一致があり得ます。CloudFrontの最小TTLは0とし、SPAのdeep linkをindexへ送る設定、旧PWAからの更新・offline再開・rollbackはstagingで確認してください。旧hash付きassetの保持だけで旧API契約やブラウザ対応まで保証されるものではありません。
+
+hashのない画像などの可変assetは毎回コピーします。同サイズで古いmtimeを持つrollback成果物も確実に戻し、ngswのhashと配布内容がずれることを防ぎます。APIの旧`ServerlessRestApi`/`Prod`から現行`HarvestApi`/環境名stageへの変更はURL互換を保証しないため、API側の`docs/review-cutover-2026-11-01.md`に従い、新APIを確認してからruntime config/custom domain mappingを切り替えます。
 
 ## 依存更新
 

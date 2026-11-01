@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync, utimesSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,10 +23,26 @@ function fixture(t) {
   writeFileSync(join(artifact, 'ngsw.json'), JSON.stringify({ index: '/index.html', hashTable: { '/index.html': hash } }));
   const validConfig = { apiBaseUrl: 'https://api.example.invalid/v1', auth: { userPoolId: 'ap-northeast-1_Test', userPoolClientId: 'test123' } };
   writeFileSync(config, JSON.stringify(validConfig));
-  writeFileSync(join(bin, 'aws'), '#!/usr/bin/env node\nrequire("node:fs").appendFileSync(process.env.DEPLOY_TEST_LOG, JSON.stringify(process.argv.slice(2)) + "\\n");\nprocess.exit(Number(process.env.DEPLOY_TEST_EXIT || 0));\n', { mode: 0o755 });
+  writeFileSync(join(bin, 'aws'), `#!/usr/bin/env node
+const fs = require('node:fs');
+const path = require('node:path');
+const args = process.argv.slice(2);
+fs.appendFileSync(process.env.DEPLOY_TEST_LOG, JSON.stringify(args) + '\\n');
+// Model the documented s3 sync same-size/mtime decision for a mutable asset.
+// The first hashed-assets sync has --include and does not select this file.
+if (process.env.DEPLOY_TEST_REMOTE && args[0] === 's3' && !args.includes('--include') &&
+    (args[1] === 'sync' || (args[1] === 'cp' && args.includes('--recursive')))) {
+  const source = path.join(args[2], 'assets/logo.svg');
+  const target = process.env.DEPLOY_TEST_REMOTE;
+  const local = fs.statSync(source);
+  const remote = fs.statSync(target);
+  if (args[1] === 'cp' || local.size !== remote.size || local.mtimeMs > remote.mtimeMs) fs.copyFileSync(source, target);
+}
+process.exit(Number(process.env.DEPLOY_TEST_EXIT || 0));
+`, { mode: 0o755 });
   const run = (extra = [], env = {}) => spawnSync('bash', [deploy, '--bucket', 'example-artifacts', '--distribution-id', 'EXAMPLE123', '--artifact', artifact, '--config', config, ...extra], { encoding: 'utf8', env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, DEPLOY_TEST_LOG: log, ...env } });
   const calls = () => existsSync(log) ? readFileSync(log, 'utf8').trim().split('\n').map(line => JSON.parse(line)) : [];
-  return { artifact, config, validConfig, run, calls };
+  return { root, artifact, config, validConfig, run, calls };
 }
 
 test('dry run does not invoke AWS', t => {
@@ -79,4 +95,21 @@ test('failed AWS command stops deployment and returns its exit status', t => {
   const f = fixture(t);
   assert.equal(f.run(['--execute'], { DEPLOY_TEST_EXIT: '17' }).status, 17);
   assert.equal(f.calls().length, 1);
+});
+
+test('rollback replaces same-size mutable assets even when the artifact mtime is older', t => {
+  const f = fixture(t);
+  mkdirSync(join(f.artifact, 'assets'));
+  const asset = join(f.artifact, 'assets/logo.svg');
+  const remote = join(f.root, 'remote-logo.svg');
+  writeFileSync(asset, '<svg>old</svg>');
+  writeFileSync(remote, '<svg>new</svg>');
+  utimesSync(asset, new Date('2020-01-01'), new Date('2020-01-01'));
+  const manifestFile = join(f.artifact, 'ngsw.json');
+  const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
+  manifest.hashTable['/assets/logo.svg'] = createHash('sha1').update(readFileSync(asset)).digest('hex');
+  writeFileSync(manifestFile, JSON.stringify(manifest));
+  const result = f.run(['--execute'], { DEPLOY_TEST_REMOTE: remote });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(readFileSync(remote, 'utf8'), '<svg>old</svg>');
 });

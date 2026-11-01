@@ -44,5 +44,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: web-build-${{ github.sha }}
+          if-no-files-found: error
           path: dist/harvest-webapp/
           retention-days: 7

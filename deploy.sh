@@ -84,7 +84,9 @@ destination="s3://$bucket"
 run aws s3 sync "$artifact/" "$destination/" \
   --exclude '*' --include '*-????????.js' --include '*-????????.css' --include 'media/*-????????.*' \
   --cache-control 'public,max-age=31536000,immutable'
-run aws s3 sync "$artifact/" "$destination/" \
+# Same-size mutable files with an older mtime must still replace the current
+# object on rollback. s3 sync would silently skip those files.
+run aws s3 cp "$artifact/" "$destination/" --recursive \
   --exclude '*-????????.js' --exclude '*-????????.css' --exclude 'media/*-????????.*' \
   --exclude 'index.html' --exclude 'ngsw.json' --exclude 'ngsw-worker.js' --exclude 'assets/runtime-config.json' \
   --exclude 'safety-worker.js' --exclude 'worker-basic.min.js' \

@@ -1,9 +1,9 @@
-import { Permissions } from './permissions';
+import { GenerateActions } from './../actions/generate-actions';
+import { PhotoActions } from './../actions/photo-actions';
 import { ProjectActions } from './../actions/project-actions';
 import { ProjectUserActions } from './../actions/project-user-actions';
 import { WorkActions } from './../actions/work-actions';
-import { PhotoActions } from './../actions/photo-actions';
-import { GenerateActions } from './../actions/generate-actions';
+import { Permissions } from './permissions';
 
 export class ReporterPermissions implements Permissions {
   public project: ProjectActions = {

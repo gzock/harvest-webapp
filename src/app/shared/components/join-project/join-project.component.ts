@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { ChangeDetectionStrategy,Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
-import { ProjectsService } from './../../services/projects/projects.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { ProjectsService } from './../../services/projects/projects.service';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-join-project',
   templateUrl: './join-project.component.html',
   styleUrls: ['./join-project.component.scss']
 })
-export class JoinProjectComponent implements OnInit {
-  public projectCode: string;
+export class JoinProjectComponent {
+  public projectCode: string = '';
   public isLoading: boolean = false;
-  public errMsg: string;
+  public errMsg: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<JoinProjectComponent>,
@@ -20,16 +22,14 @@ export class JoinProjectComponent implements OnInit {
     private alertService: AlertService
   ) { }
 
-  ngOnInit() {
-  }
 
-  public onJoinProjectRequest(projectCode) {
+  public onJoinProjectRequest(projectCode: string) {
     this.errMsg = "";
     this.isLoading = true;
     this.projectsService.joinProject(projectCode)
      .subscribe(
-       res => {
-         console.log(res);
+       _res => {
+
          this.alertService.openSuccessAlert("指定したプロジェクトへの参加希望を申請しました。");
          this.dialogRef.close();
        },

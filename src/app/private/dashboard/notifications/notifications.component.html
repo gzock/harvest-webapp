@@ -6,7 +6,7 @@
       
         <div class="col-12 col-md-8">
           <mat-form-field class="notification-filter-field">
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="フィルタ">
+            <input matInput (input)="applyFilter($any($event.target).value)" placeholder="フィルタ">
           </mat-form-field>
         </div>
       

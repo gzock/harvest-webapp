@@ -30,7 +30,7 @@
         <mat-hint>英小文字/英大文字/数字それぞれ1文字を含む8文字以上</mat-hint>
       </mat-form-field>
       <mat-form-field>
-        <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword" pattern="^{{ userData.password }}$" required>
+        <input type="password" matInput name="input-retype-password" placeholder="パスワード再入力" [(ngModel)]="retypePassword"  required>
       </mat-form-field>
     </section>
   </form>
@@ -40,5 +40,5 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-stroked-button color="primary" class="btn-block" (click)="onCreateUser(userData)" [disabled]="formCheck.invalid">作成</button>
+  <button mat-stroked-button color="primary" class="btn-block" (click)="onCreateUser(userData)" [disabled]="formCheck.invalid || retypePassword !== userData.password">作成</button>
 </div>

@@ -1,30 +1,31 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy,Component,Inject,OnDestroy,OnInit,ViewChild } from '@angular/core';
+import { FormBuilder,FormGroup,Validators } from '@angular/forms';
+import { readDataUrl } from '../../utils/file';
 
-import { MatVerticalStepper } from '@angular/material';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
 
-import { Lightbox } from 'ngx-lightbox';
+import { ImageViewerService } from '../image-viewer/image-viewer.component';
 
-import { Observable, throwError } from "rxjs";
-import { tap, catchError } from "rxjs/operators";
+import { ReplaySubject,finalize,switchMap,takeUntil } from "rxjs";
 
-import { TemplateService } from './../../services/template/template.service';
 import { TemplateConfig } from './../../../private/dashboard/generate/template-config';
 import { AlertService } from './../../services/alert/alert.service';
+import { TemplateService } from './../../services/template/template.service';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-upload-template',
   templateUrl: './upload-template.component.html',
   styleUrls: ['./upload-template.component.scss']
 })
-export class UploadTemplateComponent implements OnInit {
-  private projectId: string;
-  public errMsg: string;
-  public code: string;
-  private selectedFile: any;
-  public fileSize: number;
+export class UploadTemplateComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new ReplaySubject<void>(1);
+  private projectId: string = '';
+  public errMsg: string = '';
+  public code: string = '';
+  public fileSize: number = 0;
   public isUploading: boolean = false;
   public errorCode: number = 0;
   public newTemplate: TemplateConfig = {
@@ -50,17 +51,17 @@ export class UploadTemplateComponent implements OnInit {
       thumb: ""
     }
   ];
-  public firstFormGroup: FormGroup;
-  public secondFormGroup: FormGroup;
+  public firstFormGroup!: FormGroup;
+  public secondFormGroup!: FormGroup;
 
-  @ViewChild(MatVerticalStepper, { static: false }) stepper: MatVerticalStepper;
+  @ViewChild(MatStepper, { static: false }) stepper!: MatStepper;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<UploadTemplateComponent>,
     public templateService: TemplateService,
     private alert: AlertService,
-    private lightbox: Lightbox,
+    private lightbox: ImageViewerService,
     private _formBuilder: FormBuilder
   ) { }
 
@@ -81,79 +82,49 @@ export class UploadTemplateComponent implements OnInit {
     this.dialogRef.close(true);
   }
 
-  public onFileSelected(event) {
-    if(event.target.files) {
-      this.onUploadTemplate(event.target.files[0])
-        .subscribe(
-          data => {
-            this.newTemplate.template_data = data.split(",")[1]
-            this.onUploadExecute(this.newTemplate);
-          }
-        );
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private onUploadExecute(config: TemplateConfig) {
+  public onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length || !this.firstFormGroup.valid || !this.secondFormGroup.valid || this.isUploading) return;
+    const config = { ...this.newTemplate,
+      template_type: this.firstFormGroup.controls['firstCtrl'].value,
+      name: this.secondFormGroup.controls['secondCtrl'].value,
+      description: this.secondFormGroup.controls['thirdCtrl'].value,
+    };
     this.isUploading = true;
-    this.errMsg = "";
-    this.templateService.create(this.projectId, config)
-      .subscribe(
-         response => {
-            this.isUploading = false;
-            this.alert.openSuccessAlert("アップロードに成功しました。");
-            this.dialogRef.close(true);
-         },
-         err => {
-            this.isUploading = false;
-            console.log("error: " + err);
-
-            if(err.error.error) {
-              this.errMsg = "エラー: " + err.error.error.message;
-              switch(err.error.error.code) {
-                case 804:
-                  this.errMsg = `同じ名前のテンプレートをアップロードすることはできません。`;
-                  break;
-                case 805:
-                  const requiredStr: string = err.error.error.message.split(":")[1];
-                  this.errMsg = `必要なプロパティ設定が足りません。エクセル内のどこかのセルに必ず"${requiredStr}"という文字列を入力しておく必要があります。`;
-                  break;
-                case 806:
-                  this.errMsg = `設定されている改ページの数が多いです。改ページは"0"あるいは"1"つに設定してください。`;
-                  break;
-                case 807:
-                  this.errMsg = `印刷エリアが設定されていません。`;
-                  break;
-                case 808:
-                  const property: string = err.error.error.message.match(/^.*:\s(.*),\s.*$/)[1];
-                  const count: string = err.error.error.message.split(":")[2];
-                  this.errMsg = `各プロパティは1つだけ入力してください。"${property}"というプロパティが${count}個存在しています。`;
-                  break;
-                case 809:
-                  this.errMsg = `指定されたプロパティが印刷エリアまたは改ページ内に存在しません。`;
-                  break;
-              }
-            } else {
-              this.errMsg = "エラー: タイムアウト";
-            }
-            this.alert.openErrorAlert("アップロードに失敗しました。エクセルファイルの内容をご確認ください。");
-         }
-      )
-  }
-
-  private onUploadTemplate(file): Observable<any> {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    return Observable.create(observer => {
-      reader.onload = data => {
-        observer.next(reader.result.toString());
-      }
-      reader.onerror = error => observer.error(error);
+    this.errMsg = '';
+    readDataUrl(input.files[0]).pipe(
+      switchMap(data => this.templateService.create(this.projectId, { ...config, template_data: data.split(',')[1] })),
+      takeUntil(this.destroy$),
+      finalize(() => { this.isUploading = false; }),
+    ).subscribe({
+      next: () => {
+        this.alert.openSuccessAlert('アップロードに成功しました。');
+        this.dialogRef.close(true);
+      },
+      error: error => {
+        const detail = error?.error?.error;
+        const message = typeof detail?.message === 'string' ? detail.message : '';
+        const explanations: Record<number, string> = {
+          804: '同じ名前のテンプレートをアップロードすることはできません。',
+          805: '必要なプロパティが不足しています。テンプレートの設定とセルを確認してください。',
+          806: '設定されている改ページの数が多いです。改ページは0または1つに設定してください。',
+          807: '印刷エリアが設定されていません。',
+          808: '各プロパティは1つだけ入力してください。',
+          809: '指定されたプロパティが印刷エリアまたは改ページ内に存在しません。',
+        };
+        this.errMsg = explanations[detail?.code] || message || 'ファイルを読み込めないか、通信に失敗しました。再度お試しください。';
+        this.alert.openErrorAlert('アップロードに失敗しました。エクセルファイルの内容をご確認ください。');
+      },
     });
   }
 
   public onNextStep() {
-    this.stepper.selected.completed = true;
+    if (this.stepper.selected) this.stepper.selected.completed = true;
     //this.stepper.selected.editable = false;
     this.stepper.next();
   }

@@ -1,3 +1,4 @@
+<ng-container *ngIf="currentProject">
 <h3 mat-dialog-title>プロジェクト設定: {{ currentProject.name }}</h3>
 <mat-dialog-content class="mat-typography">
   <div class="container">
@@ -40,9 +41,9 @@
             <div class="display-project-code">
               {{ currentProject.project_code }}
             </div>
-            <mat-icon class="material-icons md-dark project-code-copy" (click)="onCopyClipboard(currentProject.project_code)">file_copy</mat-icon>
+            <button mat-icon-button aria-label="プロジェクトコードをコピー" (click)="onCopyClipboard(currentProject.project_code)"><mat-icon class="material-icons md-dark project-code-copy">file_copy</mat-icon></button>
         </mat-card>
-        <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading && joinedUsers.length == 0 }"></mat-divider>
+        <mat-divider [vertical]="true" [ngClass]="{ 'dummy-space': isLoading && joinedUsers.length === 0 }"></mat-divider>
     
         <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
 
@@ -61,7 +62,7 @@
                   <mat-select 
                     [(value)]="user.role" placeholder="権限" 
                     (selectionChange)="onUpdateRole(user.user_id, user.role)" 
-                    [disabled]="user.user_id === myUserData.username || isLoading"
+                    [disabled]="!myUserData() || user.user_id === myUserData()?.username || isLoading"
                   >
                     <mat-option value="admin">管理者</mat-option>
                     <mat-option value="worker">ワーカー</mat-option>
@@ -135,10 +136,10 @@
         </mat-card>
         <form #formCheck="ngForm">
           <mat-form-field class="project-delete-form">
-            <input type="text" matInput name="project-delete-confirm" placeholder="プロジェクト名を入力" [(ngModel)]="tmp" pattern="^{{ currentProject.name }}$" required>
+            <input type="text" matInput name="project-delete-confirm" placeholder="プロジェクト名を入力" [(ngModel)]="tmp"  required>
           </mat-form-field>
         </form>
-        <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteProject()" [disabled]="formCheck.invalid || isLoading">プロジェクトを削除</button>
+        <button mat-button mat-raised-button class="btn-block" color="warn" (click)="onDeleteProject()" [disabled]="formCheck.invalid || tmp !== currentProject.name || isLoading">プロジェクトを削除</button>
         <mat-spinner class="loading-spinner" *ngIf="isLoading"></mat-spinner>
       </mat-tab>
     </mat-tab-group>
@@ -150,3 +151,5 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>キャンセル</button>
 </mat-dialog-actions>
+
+</ng-container>

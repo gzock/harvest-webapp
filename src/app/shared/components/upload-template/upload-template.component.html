@@ -11,83 +11,83 @@
         <div class="col-12 description">
             <!--<li><a href="/assets/excel_template.csv" download>テンプレート</a>をお使いください。</li>-->
             <ul>
-            	<li>デフォルトテンプレートを下記のリンクからダウンロードすることができます。ご自身でテンプレートを作成する際の参考にしてください。
-            		<ul>
-            			<li><a href="/assets/templates/basic_1.xlsx">basic_1.xlsx</a></li>
-            			<li><a href="/assets/templates/basic_2.xlsx">basic_2.xlsx</a></li>
-            		</ul>
-            	</li>
-            	<li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
-            		<ul>
-            			<li>Office 2010以降のExcelのみサポートします。</li>
-            			<li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしていません。</li>
-            		</ul>
-            	</li>
-            	<li>下記の参考画像のように必ず印刷エリアを設定してください。その印刷エリア内のセルが自動的にコピーされます。
-            		<ul>
-            			<li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</li>
-            		</ul>
-            	</li>
-            	<li>"タイトル"などシート内に1つだけ存在すれば良い箇所については、その行を除く位置に改ページを1つだけ設定してください。
-            		<ul>
-            			<li>その改ページから印刷エリアの終端までのセルをコピーします。</li>
-            			<li class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</li>
-            		</ul>
-            	</li>
-            	<li>下表の文字列をセル内文字列として入力してください。
+              <li>デフォルトテンプレートを下記のリンクからダウンロードすることができます。ご自身でテンプレートを作成する際の参考にしてください。
+                <ul>
+                  <li><a href="/assets/templates/basic_1.xlsx">basic_1.xlsx</a></li>
+                  <li><a href="/assets/templates/basic_2.xlsx">basic_2.xlsx</a></li>
+                </ul>
+              </li>
+              <li>テンプレートは".xlsx"形式のエクセルファイルのみをサポートします。
+                <ul>
+                  <li>Office 2010以降のExcelのみサポートします。</li>
+                  <li>その他のOffice互換ソフトウェアで作成されたファイルについてはサポートしていません。</li>
+                </ul>
+              </li>
+              <li>下記の参考画像のように必ず印刷エリアを設定してください。その印刷エリア内のセルが自動的にコピーされます。
+                <ul>
+                  <li>例えば撮影写真が10枚あれば、10行分コピーされます。</li>
+                  <li><button type="button" mat-button class="display-explanation-image" (click)="openExplanationImages(0)">参考画像1</button></li>
+                </ul>
+              </li>
+              <li>"タイトル"などシート内に1つだけ存在すれば良い箇所については、その行を除く位置に改ページを1つだけ設定してください。
+                <ul>
+                  <li>その改ページから印刷エリアの終端までのセルをコピーします。</li>
+                  <li><button type="button" mat-button class="display-explanation-image" (click)="openExplanationImages(1)">参考画像2</button></li>
+                </ul>
+              </li>
+              <li>下表の文字列をセル内文字列として入力してください。
                 <ul>
                   <li>指定した文字列のセルに対して、自動的に対応する内容が置き換えられます。</li>
                   <li>例えば、{{ '{' }}name{{ '}' }}であれば撮影対象名が置き換えられますし、{{ '{' }}photo{{ '}' }}には撮影した写真が貼り付けられます。</li>
                   <li>必須の文字列については、必ずテンプレート内に含めてください。</li>
                 </ul>
               </li>
-            	<table class="table table-striped">
-              	<thead>
-              	  <tr>
-              	    <th scope="col">文字列</th>
-              	    <th scope="col">置き換わる内容</th>
-              	    <th scope="col">必須</th>
-              	  </tr>
-              	</thead>
-              	<tbody>
-              	  <tr>
-              	    <td>{{ '{' }}title {{ '}' }}</td>
-              	    <td>生成するときに指定する任意の文字列<br>(デフォルト: プロジェクト名)</td>
-              	    <td>x</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}name{{ '}' }}</td>
-              	    <td>場所名や撮影対象名</td>
-              	    <td>o</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}type{{ '}' }}</td>
-              	    <td>撮影した写真の施工前後の種別<br>(施工前あるいは施工後のどちらか)</td>
-              	    <td>o</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}photo{{ '}' }}</td>
-              	    <td>写真(セルサイズに自動的にリサイズされる)</td>
-              	    <td>o</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}hierarchy{{ '}' }}</td>
-              	    <td>場所の階層構造</td>
-              	    <td>x</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}date{{ '}' }}</td>
-              	    <td>写真の撮影日時</td>
-              	    <td>x</td>
-              	  </tr>
-              	  <tr>
-              	    <td>{{ '{' }}index{{ '}' }}</td>
-              	    <td>通し番号</td>
-              	    <td>x</td>
-              	  </tr>
-              	</tbody>
-            	</table>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">文字列</th>
+                    <th scope="col">置き換わる内容</th>
+                    <th scope="col">必須</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ '{' }}title {{ '}' }}</td>
+                    <td>生成するときに指定する任意の文字列<br>(デフォルト: プロジェクト名)</td>
+                    <td>x</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}name{{ '}' }}</td>
+                    <td>場所名や撮影対象名</td>
+                    <td>o</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}type{{ '}' }}</td>
+                    <td>撮影した写真の施工前後の種別<br>(施工前あるいは施工後のどちらか)</td>
+                    <td>o</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}photo{{ '}' }}</td>
+                    <td>写真(セルサイズに自動的にリサイズされる)</td>
+                    <td>o</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}hierarchy{{ '}' }}</td>
+                    <td>場所の階層構造</td>
+                    <td>x</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}date{{ '}' }}</td>
+                    <td>写真の撮影日時</td>
+                    <td>x</td>
+                  </tr>
+                  <tr>
+                    <td>{{ '{' }}index{{ '}' }}</td>
+                    <td>通し番号</td>
+                    <td>x</td>
+                  </tr>
+                </tbody>
+              </table>
             </ul>
         </div>
       </mat-tab>
@@ -102,7 +102,7 @@
           <mat-step [stepControl]="firstFormGroup">
             <ng-template matStepLabel>テンプレートの割り当て先を選択</ng-template>
             <form [formGroup]="firstFormGroup">
-              <mat-radio-group class="select-template-type" [(ngModel)]="newTemplate.template_type" (change)="onNextStep()" formControlName="firstCtrl" required>
+              <mat-radio-group class="select-template-type"  (change)="onNextStep()" formControlName="firstCtrl" required>
                 <mat-radio-button class="select-template-radio" [value]="'project'" [disabled]="projectTemplatesCount >= 5">プロジェクト</mat-radio-button>
                 <mat-radio-button class="select-template-radio" [value]="'user'" [disabled]="userTemplatesCount >= 5">ユーザー</mat-radio-button>
               </mat-radio-group>
@@ -116,7 +116,7 @@
               <section class="example-section">
                 <form [formGroup]="secondFormGroup">
                   <mat-form-field>
-                    <input matInput placeholder="テンプレートの名前を入力" [(ngModel)]="newTemplate.name" formControlName="secondCtrl" required>
+                    <input matInput placeholder="テンプレートの名前を入力"  formControlName="secondCtrl" required>
                   </mat-form-field>
                 </form>
               </section>
@@ -124,7 +124,7 @@
               <section class="example-section">
                 <form [formGroup]="secondFormGroup">
                   <mat-form-field>
-                    <input matInput maxlength="30" placeholder="説明・備考・メモ" [(ngModel)]="newTemplate.description" formControlName="thirdCtrl"required>
+                    <input matInput maxlength="30" placeholder="説明・備考・メモ"  formControlName="thirdCtrl"required>
                     <mat-hint>ご自由に入力ください(30文字以内)</mat-hint>
                   </mat-form-field>
                 </form>
@@ -133,7 +133,7 @@
 
             <div class="text-right">
               <button mat-button matStepperPrevious>戻る</button>
-              <button mat-button matStepperNext [disabled]="!newTemplate.name.length || !newTemplate.description.length">次へ</button>
+              <button mat-button matStepperNext [disabled]="secondFormGroup.invalid">次へ</button>
             </div>
 
           </mat-step>
@@ -194,6 +194,6 @@
     </mat-tab-group>
 </mat-dialog-content>
 
-<mat-dialog-actions align="sent">
+<mat-dialog-actions align="end">
   <button mat-button mat-dialog-close cdkFocusInitial>キャンセル</button>
 </mat-dialog-actions>

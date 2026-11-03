@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy,Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
-import { AuthService } from './../../shared/services/auth/auth.service';
-import { SignupInfo } from './signup-info';
 import { ConfirmSignupComponent } from './../../shared/components/confirm-signup/confirm-signup.component';
 import { AlertService } from './../../shared/services/alert/alert.service';
+import { AuthService } from './../../shared/services/auth/auth.service';
+import { SignupInfo } from './signup-info';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
-  public retypePassword: string;
+export class SignupComponent {
+  public retypePassword: string = '';
   public info: SignupInfo = {
     "user_type": "personal",
     "pricing_plan": "standard",
@@ -26,7 +28,7 @@ export class SignupComponent implements OnInit {
     "kanaLastName": "",
     "password": ""
   }
-  public errMsg: string;
+  public errMsg: string = '';
 
   constructor(
     public router: Router,
@@ -35,16 +37,14 @@ export class SignupComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  ngOnInit() {
-  }
 
   public onSignup(info: SignupInfo) {
     this.errMsg = "";
-    console.log(info);
-    let userName: string = info.lastName + " " + info.firstName;
-    let kanaUserName: string = info.kanaLastName + " " + info.kanaFirstName;
-    let now = new Date().toISOString()
-    let attr = {
+
+    const userName: string = info.lastName + " " + info.firstName;
+    const kanaUserName: string = info.kanaLastName + " " + info.kanaFirstName;
+    const now = new Date().toISOString()
+    const attr = {
       "email": info.email,
       "preferred_username": userName,
       "custom:kana_username": kanaUserName,
@@ -55,11 +55,11 @@ export class SignupComponent implements OnInit {
     }
     this.authService.signUp(info.email, info.password, attr)
       .subscribe(
-        result => {
+        _result => {
           this.openConfirmSignupDialog(info);
         },
         error => {
-          if(error.code === "UsernameExistsException") {
+          if((error.name || error.code) === "UsernameExistsException") {
             this.errMsg = "ご指定のメールアドレスは既に存在しています。他のメールアドレスを指定してください。";
           } else {
             this.errMsg = "登録に失敗しました。各内容を再度ご確認ください。"
@@ -71,7 +71,7 @@ export class SignupComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmSignupComponent, { disableClose: true});
 
     dialogRef.afterClosed().subscribe(code => {
-      console.log("Dialog result: " + JSON.stringify(code));
+
       if(code) {
         this.onConfirmSignup(info.email, code);
       }
@@ -81,30 +81,30 @@ export class SignupComponent implements OnInit {
   private onConfirmSignup(email:string, code: string) {
     this.authService.confirmSignUp(email, code)
       .subscribe(
-        result => {
+        _result => {
           this.openSuccessAlert("ユーザー登録に成功しました。ログインを行ってください。");
           this.router.navigate(['/login']);
         },
-        error => {
+        _error => {
           this.openErrorAlert("ユーザー登録に失敗しました。検証コードが間違っていないか再度ご確認ください。");
           this.openConfirmSignupDialog(this.info);
-          console.log(error);
+
         }
       );
   }
 
-  private openSuccessAlert(msg) {
+  private openSuccessAlert(msg: string) {
     this.alertService.openSuccessAlert(msg);
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alertService.openErrorAlert(msg);
   }
 
   // thanks for https://javascript.programmer-reference.com/js-check-zenkaku-katakana/
   public isZenKataKana(str: string){
     str = (str==null)?"":str;
-    if(str.match(/^[ァ-ヶー　]+$/)){
+    if(str.match(/^[ァ-ヶー\u3000]+$/)){
       return true;
     }else{
       return false;

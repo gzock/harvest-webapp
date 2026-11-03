@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule,Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
-import { ProjectsComponent } from './projects/projects.component';
-import { WorkComponent } from './work/work.component';
 import { GenerateComponent } from './generate/generate.component';
-import { UserComponent } from './user/user.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { UserComponent } from './user/user.component';
+import { WorkComponent } from './work/work.component';
 
 import { AuthGuard } from './../../shared/guards/auth/auth.guard';
 
@@ -14,6 +14,7 @@ const routes: Routes = [
     {
         path: '', component: DashboardComponent,
         children: [
+            { path: '', pathMatch: 'full', redirectTo: 'projects' },
             { 
               path: 'user', component: UserComponent,
               canActivate: [AuthGuard]

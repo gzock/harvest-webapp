@@ -1,3 +1,5 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
+<div *ngIf="updateReady" class="update-notice" role="status">
+  新しいバージョンを利用できます。作業が完了してから更新してください。
+  <button type="button" (click)="reloadForUpdate()">更新する</button>
+</div>
 <router-outlet></router-outlet>

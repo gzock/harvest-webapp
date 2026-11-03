@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 // thanks for https://qiita.com/daikiojm/items/2b4cc4c6a0e3735aad48
 
-import { MatPaginatorIntl } from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
+@Injectable()
 export class MatPaginatorIntlJa extends MatPaginatorIntl {
   itemsPerPageLabel = '表示件数';
   nextPageLabel = '次のページ';

@@ -1,75 +1,26 @@
-import { environment } from '../../../../environments/environment';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { Target } from '../../../private/dashboard/work/target';
 
-import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
-import { map, mergeMap, tap, catchError } from "rxjs/operators";
-
-import { Place } from "./../../../private/dashboard/work/place";
-import { Target } from "./../../../private/dashboard/work/target";
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class TargetsService {
-
-  private targetUrl = environment.base_url;  // URL to web api
-
-  private place: Place;
-  private currentTarget: Target;
-
-  //private userId: string = localStorage.getItem("_id");
-  private userId: string;
-  private projectId: string;
-  private placeId: string;
-  //public requestSubject = new Subject<NwConfRequest>();
-
-  constructor(private http: HttpClient) { }
-
-  public setUserId(userId) {
-    this.userId = userId;
+  private projectId = '';
+  constructor(private http: HttpClient) {}
+  setProjectId(projectId: string): void { this.projectId = projectId; }
+  private base(): string { return environment.base_url + '/projects/' + encodeURIComponent(this.projectId); }
+  show(targetId: string): Observable<Target> {
+    return this.http.get<Target>(this.base() + '/targets/' + encodeURIComponent(targetId));
   }
-
-  public setProjectId(projectId) {
-    this.projectId = projectId;
-    this.targetUrl = environment.base_url + "/projects/" + projectId + "/places";
+  create(name: string, placeId = ''): Observable<unknown> {
+    const path = placeId && placeId !== this.projectId ? '/places/' + encodeURIComponent(placeId) : '';
+    return this.http.post(this.base() + path + '/targets', { name });
   }
-
-  public setPlaceId(placeId) {
-    this.placeId = placeId;
-    //this.targetUrl = environment.base_url + "/projects/" + projectId + "/places";
+  update_name(targetId: string, name: string): Observable<unknown> {
+    return this.http.put(this.base() + '/targets/' + encodeURIComponent(targetId), { name });
   }
-
-  public select(target) {
-    this.currentTarget = target;
-    //console.log("current target: " + JSON.stringify(this.currentTarget));
-  }
-
-  public getCurrentTarget() {
-    return this.currentTarget;
-  }
-
-  public show(targetId): Observable<any> {
-    return this.http.get(this.targetUrl + this.placeId + "/targets/" + targetId);
-  }
-
-  public create(name, placeId = ""): Observable<any> {
-    if(placeId === this.projectId) placeId = ""
-    if(placeId) {
-      return this.http.post(this.targetUrl + "/" + placeId + "/targets", { "name": name,  });
-    } else {
-      let targetUrl = environment.base_url + "/projects/" + this.projectId + "/targets";
-      return this.http.post(targetUrl, { "name": name });
-    }
-  }
-
-  public update_name(targetId, name): Observable<any> {
-    let targetUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId;
-    return this.http.put(targetUrl, { "name": name });
-  }
-
-  public delete(targetId): Observable<any> {
-    let targetUrl = environment.base_url + "/projects/" + this.projectId + "/targets/" + targetId;
-    return this.http.delete(targetUrl, {});
+  delete(targetId: string): Observable<unknown> {
+    return this.http.delete(this.base() + '/targets/' + encodeURIComponent(targetId));
   }
 }

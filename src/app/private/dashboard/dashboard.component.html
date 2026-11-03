@@ -5,7 +5,7 @@
   <mat-sidenav #sidenav class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
+      [opened]="(isHandset$ | async) === false">
     <mat-toolbar>harvest</mat-toolbar>
     <mat-nav-list>
       <!--<a mat-list-item routerLink="">
@@ -20,7 +20,7 @@
         <i class="material-icons md-dark">photo_camera</i> 
         WORK
       </a>
-      <a mat-list-item routerLink="generate" (click)="sidenav.mode === 'over' && sidenav.toggle()" *ngIf="permissions.generate?.execute && !isMobile">
+      <a mat-list-item routerLink="generate" (click)="sidenav.mode === 'over' && sidenav.toggle()" *ngIf="permissions.generate.execute && !isMobile">
         <i class="material-icons md-dark">photo_album</i> 
         GENERATE
       </a>
@@ -51,7 +51,7 @@
 
       <span class="spacer"></span>
 
-      <mat-icon class="material-icons md-light" [matMenuTriggerFor]="notificationsSummary"
+      <mat-icon class="material-icons md-light" aria-hidden="false" aria-label="通知" [matMenuTriggerFor]="notificationsSummary"
           matBadge="{{ notifications.length || 0 }}" matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small">
         notifications
       </mat-icon>
@@ -67,7 +67,7 @@
           <!--</p>-->
         </div>
         <a mat-menu-item class="notification-link-button" *ngIf="notifications.length > 0" routerLink="notifications">全ての通知を確認する</a>
-        <button mat-menu-item *ngIf="notifications.length == 0">通知は存在しません</button>
+        <button mat-menu-item *ngIf="notifications.length === 0">通知は存在しません</button>
       </mat-menu>
 
       <mat-icon class="material-icons md-light" [matMenuTriggerFor]="menu">account_circle</mat-icon>

@@ -1,32 +1,37 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver,Breakpoints } from '@angular/cdk/layout';
 import { Platform } from '@angular/cdk/platform';
-import { Observable, of, merge, throwError, Subject, Subscription  } from "rxjs";
-import { filter, map, tap, catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable,ReplaySubject,Subscription,takeUntil } from 'rxjs';
+import { map } from "rxjs/operators";
+import { GuestPermissions } from '../../shared/services/projects/action-permissions/permissions/guest-permissions';
+import { formatJapanDate } from '../../shared/utils/date';
 
-import { Project } from './projects/project';
-import { ProjectsService } from './../../shared/services/projects/projects.service';
-import { AuthService } from './../../shared/services/auth/auth.service';
 import { AlertService } from './../../shared/services/alert/alert.service';
-import { Notification } from './notifications/notification';
+import { AuthService } from './../../shared/services/auth/auth.service';
 import { NotificationsService } from './../../shared/services/notifications/notifications.service';
 import { Permissions } from './../../shared/services/projects/action-permissions/permissions/permissions';
+import { ProjectsService } from './../../shared/services/projects/projects.service';
+import { Notification } from './notifications/notification';
+import { Project } from './projects/project';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  public projects: Project[];
+  private readonly destroy$ = new ReplaySubject<void>(1);
+  public projects: Project[] = [];
   public notifications: Notification[] = [] as Notification[];
-  private currentProject: Project;
-  public currentProjectName: string;
-  private currentProjectSubscription: Subscription;
-  private joinedProjectsSubscription: Subscription;
+  private currentProject: Project | null = null;
+  public currentProjectName: string = '';
+  private currentProjectSubscription?: Subscription;
+  private joinedProjectsSubscription?: Subscription;
   public isMobile: boolean = false;
-  public permissions: Permissions = {} as Permissions;
+  public permissions: Permissions = new GuestPermissions();
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -44,6 +49,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.notificationsService.notificationsSubject.pipe(takeUntil(this.destroy$)).subscribe(items => {
+      this.notifications = items;
+    });
     if(this.platform.ANDROID || this.platform.IOS) {
       this.isMobile = true;
     }
@@ -53,14 +61,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.projectsService.list()
         .pipe(
-           catchError(error => throwError(error))
+           takeUntil(this.destroy$)
         )
         .subscribe(
            (response: Project[]) => {
               this.projects = response;
            },
-           err => {
-             console.log("error: " + err);
+           _err => {
+
              this.openErrorAlert("プロジェクト一覧の取得");
            }
         );
@@ -69,8 +77,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           projects => {
             this.projects = projects;
           },
-          err => {
-            console.log("error: " + err);
+          _err => {
+
             this.openErrorAlert("プロジェクト一覧の取得");
           }
         );
@@ -78,23 +86,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .subscribe(
           project => {
             this.currentProject = project;
-            this.currentProjectName = project.name;
+            this.currentProjectName = project?.name || '';
             this.permissions = this.projectsService.getCurrentPermissions();
           },
-          error => {
-            console.log(error);
+          _error => {
+
           }
         );
       this.notificationsService.list()
         .pipe(
-           catchError(error => throwError(error))
+           takeUntil(this.destroy$)
         )
         .subscribe(
            (response: Notification[]) => {
               this.notifications = response;
            },
-           err => {
-             console.log("error: " + err);
+           _err => {
+
              this.openErrorAlert("通知一覧の取得");
            }
         );
@@ -102,6 +110,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.currentProjectSubscription) {
       this.currentProjectSubscription.unsubscribe();
     }
@@ -118,16 +128,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.authService.signOut();
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
   public formatDate(date: string) {
-    if(date) {
-      let _date: Date = new Date(date);
-      _date.setTime(_date.getTime() + 1000*60*60*9);
-      return _date.getFullYear() + "/" + (_date.getMonth() + 1) + "/" + _date.getDate() + " " + _date.getHours() + ":" + _date.getMinutes();
-    }
+    return formatJapanDate(date, true);
   }
 
 }

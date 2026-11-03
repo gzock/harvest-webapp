@@ -1,0 +1,29 @@
+{
+  "validated_at": "2026-11-01T15:33:56.010596+00:00",
+  "source_root": "/workspace/harvest-webapp",
+  "e2e": {
+    "passed": 10,
+    "failed": 0,
+    "duration_seconds": 57.5,
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e"
+  },
+  "deploy_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "regression_against_prior_sync_reproduced": true,
+  "api_mocked": true,
+  "service_workers_blocked": true,
+  "aws_access": false,
+  "browser": "Chromium 154.0.8037.57",
+  "playwright": "1.64.1",
+  "node": "24.19.0",
+  "sha256": {
+    "e2e/harvest.spec.ts": "b4ef50e7c5ea05596c25b5f26368829fef75a9bc16f367df8e642416e7fa3640",
+    "playwright.config.ts": "396100d2d5d9ba3f2093a62faed613c3a798770c77c714a3641b2c6c444398f8",
+    "deploy.sh": "d4685c7d930b74a049a73bc8ad4065fc8c5275101aeade4775dfb50f037adb34",
+    "scripts/deploy.test.mjs": "f93514fcf585b991d9e31ed245371eccd65167a6026412d4492297ab3222e573",
+    "package-lock.json": "ddfb610c92fb70e346265a1c77026306701a7583af178d7afea11edb292558f6",
+    "dist/harvest-webapp/browser/ngsw.json": "9da49067d4e0399689defab427d47cd52ab081b749cd4207447ec6e93c0ac634"
+  }
+}

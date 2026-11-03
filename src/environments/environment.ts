@@ -1,25 +1,9 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
+/** Public defaults only. Deployments provide /assets/runtime-config.json. */
 export const environment = {
   production: false,
   base_url: 'http://127.0.0.1:3000',
-  amplify: {
-    Auth: {
-      identityPoolId: 'ap-northeast-1:095a14d1-bf15-428b-93ae-277005597f31',
-      region: 'ap-northeast-1',
-      userPoolId: 'ap-northeast-1_KrEPljcrG',
-      userPoolWebClientId: '6vcq9s389isspnijcb8f5met3q',
-    }
-  }
+  amplify: { Auth: {
+    userPoolId: 'ap-northeast-1_LOCAL',
+    userPoolWebClientId: 'localclient',
+  } },
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

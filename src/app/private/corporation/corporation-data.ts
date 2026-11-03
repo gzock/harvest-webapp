@@ -1,7 +1,7 @@
 import { UserData } from './../dashboard/user/user-data';
 
 export interface CorporationData {
-  users: [ UserData ];
+  users: UserData[];
   billing: {
     billed_on: string;
     closed_on: string;

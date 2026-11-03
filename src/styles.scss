@@ -1,5 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
+@import '@fontsource/roboto/latin-400.css';
+@import '@fontsource/roboto/latin-500.css';
+@import '@fontsource/material-icons/400.css';
+html, body { min-height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+.btn-block { display: block; width: 100%; }
+.update-notice { padding: 12px 20px; background: #edf6e8; color: #1b4116; }
+.update-notice button { margin-inline-start: 1rem; }
+/* Preserve the existing layouts while Material components use their supported theme. */
+.mat-mdc-form-field { width: 100%; }
+.mat-mdc-dialog-content { max-height: 75vh; }
+.mat-mdc-button, .mat-mdc-raised-button { white-space: normal; }
+
+.material-icons { font-family: 'Material Icons'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; display: inline-block; white-space: nowrap; font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }

@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy,Component,OnInit } from '@angular/core';
 
-import { AuthService } from './../../../shared/services/auth/auth.service';
 import { AlertService } from './../../../shared/services/alert/alert.service';
+import { AuthService } from './../../../shared/services/auth/auth.service';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  public oldPassword: string;
-  public newPassword: string;
-  public email: string;
-  public username: string;
-  public accountType: string;
-  public billing: string;
+  public oldPassword: string = '';
+  public newPassword: string = '';
+  public email: string = '';
+  public username: string = '';
+  public accountType: string = '';
+  public billing: string = '';
 
   constructor(
     private auth: AuthService,
@@ -42,24 +44,24 @@ export class UserComponent implements OnInit {
         loggedIn => {
           if(loggedIn) {
             this.openSuccessAlert("パスワードの変更が完了しました。");
-            console.log("password change success.")
+
           } else {
             this.openErrorAlert("パスワードの変更");
-            console.log(loggedIn);
+
           }
         },
-        error => {
+        _error => {
           this.openErrorAlert("パスワードの変更");
-          console.log(error);
+
         }
       );
   }
 
-  private openSuccessAlert(msg) {
+  private openSuccessAlert(msg: string) {
     this.alert.openSuccessAlert(msg);
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alert.openErrorAlert(msg + "に失敗しました。内容をご確認の上、再度お試しください。");
   }
 

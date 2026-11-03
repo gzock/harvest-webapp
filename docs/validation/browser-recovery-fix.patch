@@ -1,0 +1,11 @@
+--- historical/e2e/harvest.spec.ts
++++ integration/e2e/harvest.spec.ts
+@@ -295,6 +295,8 @@
+   await expect(page.locator('mat-select[placeholder="プロジェクトを選択"]')).toContainText('緑の改修');
+   await expect(page.getByRole('link', { name: /GENERATE/ })).toHaveCount(0);
+   await expect(page.getByRole('button', { name: '撮影対象を追加', exact: true })).toHaveCount(0);
++  // Wait for Material's closing animation to detach the previous overlay.
++  await expect(page.getByRole('listbox', { includeHidden: true })).toHaveCount(0);
+   await page.locator('mat-select[placeholder="プロジェクトを選択"]').click();
+   await page.getByRole('option', { name: '青空工事', exact: true }).click();
+   await expect(page.getByRole('link', { name: /GENERATE/ })).toBeVisible();

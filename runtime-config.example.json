@@ -1,0 +1,7 @@
+{
+  "apiBaseUrl": "https://api.example.com/v1",
+  "auth": {
+    "userPoolId": "ap-northeast-1_REPLACE",
+    "userPoolClientId": "replaceclientid"
+  }
+}

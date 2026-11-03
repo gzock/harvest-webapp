@@ -1,73 +1,31 @@
-import { environment } from '../../../../environments/environment';
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { Place } from '../../../private/dashboard/work/place';
+import { Target } from '../../../private/dashboard/work/target';
 
-import { Observable, of, merge, concat, throwError, Subject, Subscription, BehaviorSubject, AsyncSubject } from "rxjs";
-import { map, mergeMap, tap, catchError } from "rxjs/operators";
-
-import { Place } from "./../../../private/dashboard/work/place";
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PlacesService {
-
-  private placeUrl = environment.base_url;  // URL to web api
-
-  private place: Place;
-  public placeHistory: Place[] = [];
-
-  //private userId: string = localStorage.getItem("_id");
-  private userId: string;
-  private projectId: string;
-  //public requestSubject = new Subject<NwConfRequest>();
-
-  constructor(private http: HttpClient) { }
-
-  public setUserId(userId) {
-    this.userId = userId;
+  private projectId = '';
+  private place!: Place;
+  placeHistory: Place[] = [];
+  constructor(private http: HttpClient) {}
+  setProjectId(projectId: string): void { this.projectId = projectId; }
+  private base(): string { return environment.base_url + '/projects/' + encodeURIComponent(this.projectId) + '/places'; }
+  select(place: Place): void { this.place = place; }
+  getCurrentPlace(): Place { return this.place; }
+  list(placeId: string): Observable<{ places: Place[]; targets: Target[] }> {
+    return this.http.get<{ places: Place[]; targets: Target[] }>(this.base() + '/' + encodeURIComponent(placeId) + '/children');
   }
-
-  public setProjectId(projectId) {
-    this.projectId = projectId;
-    this.placeUrl = environment.base_url + "/projects/" + projectId + "/places";
+  create(name: string, placeId = ''): Observable<unknown> {
+    const path = placeId && placeId !== this.projectId ? '/' + encodeURIComponent(placeId) : '';
+    return this.http.post(this.base() + path, { name });
   }
-
-  public select(place) {
-    this.place = place;
-    //console.log("current place: " + JSON.stringify(this.place));
+  update_name(placeId: string, name: string): Observable<unknown> {
+    return this.http.put(this.base() + '/' + encodeURIComponent(placeId), { name });
   }
-
-  public getCurrentPlace() {
-    return this.place;
-  }
-
-  public list(placeId = ""): Observable<any> {
-    if(placeId) {
-      return this.http.get(this.placeUrl + "/" + placeId + "/children");
-    } else {
-      return this.http.get(this.placeUrl);
-    }
-  }
-
-  public show(placeId): Observable<any> {
-    return this.http.get(this.placeUrl + "/" + placeId);
-  }
-
-  public create(name, placeId = ""): Observable<any> {
-    if(placeId === this.projectId) placeId = ""
-    if(placeId) {
-      return this.http.post(this.placeUrl + "/" + placeId, { "name": name,  });
-    } else {
-      return this.http.post(this.placeUrl, { "name": name,  });
-    }
-  }
-
-  public update_name(placeId, name): Observable<any> {
-    return this.http.put(this.placeUrl + "/" + placeId, { "name": name });
-  }
-
-  public delete(placeId): Observable<any> {
-    return this.http.delete(this.placeUrl + "/" + placeId, {});
+  delete(placeId: string): Observable<unknown> {
+    return this.http.delete(this.base() + '/' + encodeURIComponent(placeId));
   }
 }

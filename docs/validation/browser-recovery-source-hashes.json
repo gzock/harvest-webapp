@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-11-01T14:56:39.525548+00:00",
+  "sourceRoot": "/workspace/recovered/integration/harvest-webapp",
+  "files": {
+    "e2e/harvest.spec.ts": "b4ef50e7c5ea05596c25b5f26368829fef75a9bc16f367df8e642416e7fa3640",
+    "playwright.config.ts": "396100d2d5d9ba3f2093a62faed613c3a798770c77c714a3641b2c6c444398f8",
+    "scripts/deploy.test.mjs": "0052e6cce895b19fcd876c2258e4e23a633ac857d42c2c14ef07c7e8cb1ee5fd",
+    "deploy.sh": "56ab53dde16709b40615fcdaa280612fbf67624fb77bf29d1c0d572ea5101476",
+    "package.json": "cfc882a1c7d0a133296ea744182083178e7f7dccb8ff3178de2c80a322a3dc7f",
+    "package-lock.json": "dc2633aaeeccd8b78d9929685ff8dd8241fc6f538833c620a3ea523e5d1e37b3"
+  }
+}

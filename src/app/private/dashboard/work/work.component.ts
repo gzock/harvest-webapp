@@ -1,44 +1,49 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, of, merge, throwError, Subject, BehaviorSubject, Subscription  } from "rxjs";
-import { filter, map, tap, catchError } from "rxjs/operators";
+import { ChangeDetectionStrategy,Component,OnDestroy,OnInit } from '@angular/core';
+import { ReplaySubject,Subscription } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { GuestPermissions } from '../../../shared/services/projects/action-permissions/permissions/guest-permissions';
 
-import { MatTableDataSource } from '@angular/material';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
-import { MatDialog } from '@angular/material';
 import { Platform } from '@angular/cdk/platform';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 
-import { TargetActionsComponent } from './../../../shared/components/target-actions/target-actions.component';
 import { ImportActionComponent } from './../../../shared/components/import-action/import-action.component';
+import { TargetActionsComponent } from './../../../shared/components/target-actions/target-actions.component';
 
+import { AlertService } from './../../../shared/services/alert/alert.service';
+import { PhotosService } from './../../../shared/services/photos/photos.service';
+import { PlacesService } from './../../../shared/services/places/places.service';
+import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
+import { ProjectsService } from './../../../shared/services/projects/projects.service';
+import { TargetsService } from './../../../shared/services/targets/targets.service';
 import { Project } from './../projects/project';
 import { Place } from './place';
 import { Target } from './target';
-import { PlacesService } from './../../../shared/services/places/places.service';
-import { TargetsService } from './../../../shared/services/targets/targets.service';
-import { ProjectsService } from './../../../shared/services/projects/projects.service';
-import { PhotosService } from './../../../shared/services/photos/photos.service';
-import { AlertService } from './../../../shared/services/alert/alert.service';
-import { Permissions } from './../../../shared/services/projects/action-permissions/permissions/permissions';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-work',
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.scss']
 })
 export class WorkComponent implements OnInit, OnDestroy {
 
-  public currentProject: Project;
-  public currentProjectSubscription: Subscription;
+  private readonly destroy$ = new ReplaySubject<void>(1);
+  private placesRequest?: Subscription;
+  public currentProject: Project | null = null;
+  public currentProjectSubscription?: Subscription;
   public places: Place[] = [];
   public targets: Target[] = [];
   public isMobile: boolean = false;
   public isLoading: boolean = false;
   public filterDatasource: string = "place";
-  public filterValue: string;
+  public filterValue: string = '';
 
-  public placeDataSource: MatTableDataSource<Place>;
-  public targetDataSource:MatTableDataSource<Target>;
-  public permissions: Permissions = {} as Permissions;
+  public placeDataSource = new MatTableDataSource<Place>([]);
+  public targetDataSource = new MatTableDataSource<Target>([]);
+  public permissions: Permissions = new GuestPermissions();
   public placeHierarchy: any = [];
 
   constructor(
@@ -60,13 +65,20 @@ export class WorkComponent implements OnInit, OnDestroy {
     this.currentProjectSubscription = this.projectsService.currentProjectSubject
       .subscribe(
         project => {
+          this.placesRequest?.unsubscribe();
+          this.currentProject = project;
+          this.places = [];
+          this.targets = [];
+          this.placeDataSource = new MatTableDataSource<Place>([]);
+          this.targetDataSource = new MatTableDataSource<Target>([]);
+          this.permissions = this.projectsService.getCurrentPermissions();
           if(project) {
             this.currentProject = project;
-            this.placesService.setProjectId(this.currentProject.project_id);
+            if (this.currentProject) this.placesService.setProjectId(this.currentProject.project_id);
             this.targetsService.setProjectId(this.currentProject.project_id);
             this.photosService.setProjectId(this.currentProject.project_id);
 
-            let place = {
+            const place = {
               project_id: this.currentProject.project_id,
               place_id: this.currentProject.project_id,
               name: this.currentProject.name,
@@ -86,26 +98,28 @@ export class WorkComponent implements OnInit, OnDestroy {
             this.placesService.placeHistory = [];
             this.placesService.placeHistory.push(place);
             this.getPlaces(this.currentProject.project_id);
-            this.targetsService.setPlaceId(place.place_id);
             this.permissions = this.projectsService.getCurrentPermissions();
           }
         },
-        error => {
-          console.log(error);
+        _error => {
+
         }
       );
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.bottomSheet.dismiss();
+    this.placesRequest?.unsubscribe();
     if (this.currentProjectSubscription) {
       this.currentProjectSubscription.unsubscribe();
     }
   }
 
-  openBottomSheet(selected, defaultType = 'place'): void {
-    this.targetsService.select(selected);
+  openBottomSheet(selected: Place | Target, defaultType = 'place'): void {
     const actionRef = this.bottomSheet.open(TargetActionsComponent, { data: { selected: selected , defaultType: defaultType } });
-    actionRef.afterDismissed().subscribe(result => {
+    actionRef.afterDismissed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if(result) {
         this.getPlaces(this.placesService.getCurrentPlace().place_id);
       }
@@ -115,12 +129,11 @@ export class WorkComponent implements OnInit, OnDestroy {
   displayedPlaceColumns: string[] = ['name', 'photos.required', 'photos.results.before', 'photos.results.after'];
   displayedTargetColumns: string[] = ['name', 'before', 'after'];
 
-  public getPlaces(placeId) {
+  public getPlaces(placeId: string) {
+    if (!this.currentProject) return;
+    this.placesRequest?.unsubscribe();
     this.isLoading = true;
-    this.placesService.list(placeId)
-      .pipe(
-         catchError(error => throwError(error))
-      )
+    this.placesRequest = this.placesService.list(placeId)
       .subscribe(
          response => {
            this.isLoading = false;
@@ -130,44 +143,41 @@ export class WorkComponent implements OnInit, OnDestroy {
            this.targetDataSource = new MatTableDataSource(this.targets);
            
            this.currentProject = this.projectsService.getCurrentProject();
-           this.placesService.setProjectId(this.currentProject.project_id);
+           if (this.currentProject) this.placesService.setProjectId(this.currentProject.project_id);
            this.getPlaceHierarchy();
          },
-         err => {
+         _err => {
            this.isLoading = false;
-           console.log("error: " + err);
+
            this.openErrorAlert("場所の取得");
          }
       );
   }
 
-  public forwardPlace(place) {
+  public forwardPlace(place: Place) {
     this.placesService.select(place);
     this.placesService.placeHistory.push(place);
     this.getPlaces(place.place_id);
-    this.targetsService.setPlaceId(place.place_id);
   }
 
   public backwardPlace() {
     this.placesService.placeHistory.pop();
-    let place = this.placesService.placeHistory[this.placesService.placeHistory.length - 1]
+    const place = this.placesService.placeHistory[this.placesService.placeHistory.length - 1]
     this.placesService.select(place);
     this.getPlaces(place.place_id);
-    this.targetsService.setPlaceId(place.place_id);
   }
 
   public goHome() {
     this.placesService.placeHistory = [this.placesService.placeHistory[0]];
-    let place = this.placesService.placeHistory[0];
+    const place = this.placesService.placeHistory[0];
     this.placesService.select(place);
     this.getPlaces(place.place_id);
-    this.targetsService.setPlaceId(place.place_id);
   }
   public refresh() {
     this.getPlaces(this.placesService.getCurrentPlace().place_id);
   }
 
-  private openErrorAlert(msg) {
+  private openErrorAlert(msg: string) {
     this.alert.openErrorAlert(msg + "に失敗しました。再度、お試しください。");
   }
 
@@ -178,7 +188,7 @@ export class WorkComponent implements OnInit, OnDestroy {
   openImportActionDialog() {
     const dialogRef = this.dialog.open(ImportActionComponent, { disableClose: true, width: '600px' });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if(result) {
         this.refresh();
       }
@@ -204,8 +214,8 @@ export class WorkComponent implements OnInit, OnDestroy {
   }
 
   public getPlaceHierarchy() {
-    let places = [];
-    for(let place of this.placesService.placeHistory) {
+    const places = [];
+    for(const place of this.placesService.placeHistory) {
       places.push(place.name);
     }
     places.shift();
